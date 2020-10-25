@@ -69,8 +69,7 @@ int main() {
     }
 
     // Get current path as an absolute, since unrealpak can't use relative paths
-    filesystem::path paklist = "./bin/randomizeboss.txt";
-    string absolutepath = filesystem::absolute(paklist).string();
+    string absolutepath = filesystem::absolute("./bin/randomizeboss.txt").string();
 
     // try to prevent buffer overflows by erroring out if the path size is too big
     if (absolutepath.size() > 900) {
@@ -82,7 +81,7 @@ int main() {
     // try-catch statement for the execution, again to prevent buffer overflows
     try{
         char command[1024];
-        sprintf_s(command, ".\\bin\\UnrealPak.exe ..\\RandomizedBosses_P.pak -Create=%s -compress", absolutepath.c_str());
+        sprintf_s(command, " .\\bin\\UnrealPak.exe \"..\\RandomizedBosses_P.pak\" -Create=\"%s\" -compress", absolutepath.c_str());
         system(command);
     }
     catch (const std::exception& e) {
