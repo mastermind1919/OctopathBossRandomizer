@@ -32,11 +32,11 @@ int main() {
     // for trueChaos: "WANRING: WANRING: True chaos is potentially the most difficult mode. You may fight multiple very hard bosses, or none at all. This option is for Octopath veterans who want a truly random session. Do you want to continue randomizing?"
 
     // Check for pak exe in bin folder, return error if not found
-    if (filesystem::exists("bin/UnrealPak.exe") == true) {
+    if (filesystem::exists("./v4/2/3/UnrealPak.exe") == true) {
         cout << "Found Unreal pak tool" << endl;
     }
     else {
-        cout << "Unreal pak tool not found, did you place the executable under bin?" << endl << "Exiting" << endl;
+        cout << "Unreal pak tool not found, did you place the executable as per the readme?" << endl << "Exiting" << endl;
         system("pause");
         return -1;
     }
@@ -69,7 +69,7 @@ int main() {
     }
 
     // Get current path as an absolute, since unrealpak can't use relative paths
-    string absolutepath = filesystem::absolute("./bin/randomizeboss.txt").string();
+    string absolutepath = filesystem::absolute("./randomizeboss.txt").string();
 
     // try to prevent buffer overflows by erroring out if the path size is too big
     if (absolutepath.size() > 900) {
@@ -81,7 +81,7 @@ int main() {
     // try-catch statement for the execution, again to prevent buffer overflows
     try{
         char command[1024];
-        sprintf_s(command, " .\\bin\\UnrealPak.exe \"..\\RandomizedBosses_P.pak\" -Create=\"%s\" -compress", absolutepath.c_str());
+        sprintf_s(command, " .\\v4\\2\\3\\UnrealPak.exe \"..\\..\\..\\RandomizedBosses_P.pak\" -Create=\"%s\" -compress", absolutepath.c_str());
         system(command);
     }
     catch (const std::exception& e) {
