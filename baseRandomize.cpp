@@ -7,7 +7,7 @@ random_device dev;
 mt19937 rng(dev());
 
 // function for no option base randomization
-vectorvector baseRandomize() {
+vectorvector baseRandomize(bool randomizeShrineBosses, bool randomizeGateBosses) {
 	// Since we are only randomizing the bosses among themselves, create a vector with 4 indexes to hold the boss integers
 	// note: vector starts from 0, so chapter 1 is 0, chapter 2 is 1, etc...
 	vectorvector chapterbosses(7);
@@ -54,14 +54,51 @@ vectorvector baseRandomize() {
 		// push onto vector the varible that is generated
 		chapterbosses[3].push_back(ranboss);
 	}
-	// Just return the others in order
+	// Randomize the others based on the command options
+
 	// Shrine bosses
-	for (int i = 0; i < 4; i++) {
-		chapterbosses[4].push_back(i + 33);
+	if (randomizeShrineBosses == true) {
+		for (int i = 0; i < 4; i++) {
+			bool match;
+			int ranboss;
+			do {
+				match = false;
+				uniform_int_distribution<mt19937::result_type> bosses(33, 36);
+				ranboss = bosses(rng);
+				if (!chapterbosses[4].empty() && !std::none_of(chapterbosses[4].begin(), chapterbosses[4].end(), compare(ranboss))) {
+					match = true;
+				}
+			} while (match == true);
+			chapterbosses[4].push_back(ranboss);
+		}
 	}
+	else {
+		for (int i = 0; i < 4; i++) {
+			chapterbosses[4].push_back(i + 33);
+		}
+	}
+
 	// Gate Bosses
-	for (int i = 0; i < 8; i++) {
-		chapterbosses[5].push_back(i + 37);
+	if (randomizeGateBosses == true) {
+		for (int i = 0; i < 8; i++) {
+			bool match;
+			int ranboss;
+			do {
+				match = false;
+				uniform_int_distribution<mt19937::result_type> bosses(37, 44);
+				ranboss = bosses(rng);
+				if (!chapterbosses[5].empty() && !std::none_of(chapterbosses[5].begin(), chapterbosses[5].end(), compare(ranboss))) {
+					match = true;
+				}
+			} while (match == true);
+			chapterbosses[5].push_back(ranboss);
+		}
+	}
+
+	else{
+		for (int i = 0; i < 8; i++) {
+			chapterbosses[5].push_back(i + 37);
+		}
 	}
 	// Galdera
 	for (int i = 0; i < 2; i++) {

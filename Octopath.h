@@ -26,6 +26,7 @@ struct compare {
 };
 
 // Function definitions for cross file functions
-vectorvector baseRandomize();
+vectorvector baseRandomize(bool randomizeShrineBosses, bool randomizeGateBosses);
 int randomToFile(vectorvector input);
 void spoiler(deque<int> input);
+vector<bool> configParser(string input);

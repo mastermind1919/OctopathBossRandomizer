@@ -65,7 +65,7 @@ int randomToFile(vectorvector inputVector) {
     files[5] = "SC_MS_SHA_0007A0"; // Primrose Chapter 1 Boss
     files[6] = "SC_MS_THE_000600"; // Cyrus Chapter 1 Boss
     files[7] = "SC_MS_ULR_0006B0"; // Ophilia Chapter 1 Boss
-    files[8] = "SC_MS_ALI_0107A0"; // Tressa Chapter 2 Boss, possible duplicate of SC_MS_ALI_010700?
+    files[8] = "SC_MS_ALI_010700"; // Tressa Chapter 2 Boss
     files[9] = "SC_MS_BAL_010600"; // Alfyn Chapter 2 Boss
     files[10] = "SC_MS_GIL_010800"; // Therion Chapter 2 Boss
     files[11] = "SC_MS_MAR_010500"; // H'annit Chapter 2 Boss
@@ -88,7 +88,7 @@ int randomToFile(vectorvector inputVector) {
     files[28] = "SC_MS_RUD_030600"; // Olberic Chapter 4 Boss
     files[29] = "SC_MS_SHA_0306B0"; // Primrose Chapter 4 Boss Phase 1
     files[30] = "SC_MS_SHA_0307B0"; // Primrose Chapter 4 Boss Phase 2
-    files[31] = "SC_MS_THE_030500"; // Cyrus Chapter 4 Boss
+    files[31] = "SC_MS_THE_030400"; // Cyrus Chapter 4 Boss
     files[32] = "SC_MS_ULR_0306B0"; // Ophilia Chapter 4 Boss
     files[33] = "SC_OB_RID_3j0010"; // Winnehild
     files[34] = "SC_OB_FOD_3j0010"; // Dreisang 
