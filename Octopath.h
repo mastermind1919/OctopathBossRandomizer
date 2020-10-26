@@ -8,6 +8,7 @@
 #include <vector>
 #include <deque>
 
+
 using namespace std;
 
 // Double vector, a matrix essentially
@@ -26,7 +27,8 @@ struct compare {
 };
 
 // Function definitions for cross file functions
-vectorvector baseRandomize(bool randomizeShrineBosses, bool randomizeGateBosses);
+vectorvector baseRandomize(mt19937 rng, bool randomizeShrineBosses, bool randomizeGateBosses);
+vectorvector trueChaos(mt19937 rng);
 int randomToFile(vectorvector input);
 void spoiler(deque<int> input);
 vector<bool> configParser(string input);

@@ -10,11 +10,14 @@ typedef std::vector<int> intvector;
 
 
 int main() {
-    // Config options
     
-    
+    //Setup Random Number Generator
+    random_device dev;
+    mt19937 rng(dev());
 
+    // Config options
     vector<bool> configs = configParser("Config.cfg");
+
     // Todo, Prompt for conformation on enabling includeGaldera and trueChaos
     // for includeGaldera: "WARNING: Galdera is extremely difficult any point in the main story progression. This option is for Octopath veterans who can take anything on with ease. Do you want to continue randomizing?"
     // for trueChaos: "WANRING: WANRING: True chaos is potentially the most difficult mode. You may fight multiple very hard bosses, or none at all. This option is for Octopath veterans who want a truly random session. Do you want to continue randomizing?"
@@ -47,7 +50,14 @@ int main() {
     // the Actual Randomization occures in seperate files
     
     // For testing purposes, ignores all options currently
-    vectorvector randomizedLists = baseRandomize(configs[2], configs[4]);
+    // True Chaos superseeds all options
+    vectorvector randomizedLists;
+    if (configs[8] == true) {
+        randomizedLists = trueChaos(rng);
+    }
+    else {
+        randomizedLists = baseRandomize(rng, configs[2], configs[4]);
+    }
     // Write the randomized bosses to a file
     int returnCheck = randomToFile(randomizedLists);
     // check if the randomization was successfull
