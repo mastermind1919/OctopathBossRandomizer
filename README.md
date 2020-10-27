@@ -5,8 +5,8 @@ Boss Randomizer for Octopath Traveler (Steam)
 This is a work in progress for a boss randomizer in Octopath Traveler
 
 ### Features
-Currently this randomizer only randomizes among similar tier chapter bosses and configurable randomizers for the shrine bosses and Gate of Finis Bosses.
-Setting other options do nothing.
+Currently this randomizer only randomizes among similar tier chapter bosses, shrine bosses, and Gate of Finis bosses. 
+Also allows for including the shrine bosses, Gate of Finis bosses, and Galdera with chapter 4 story bosses.
 
 ### Future Plans
 
