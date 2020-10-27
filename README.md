@@ -21,5 +21,5 @@ This will produce a file called "RandomizedBosses_P.pak". Place this file in the
 ```
 C:\Program Files (x86)\Steam\Steamapps\Common\OCTOPATH TRAVELER\Octopath_Traveler\Content\Paks
 ```
-Don't forget to check out [MarvinXLII's](github.com/MarvinXLII/OctopathTravelerJobRandomizer)
+Don't forget to check out [MarvinXLII's](https://github.com/MarvinXLII/OctopathTravelerJobRandomizer)
 Skill/Job randomizer while you're at it! It should be compatable!
