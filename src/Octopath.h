@@ -27,8 +27,8 @@ struct compare {
 };
 
 // Function definitions for cross file functions
-vectorvector baseRandomize(mt19937 rng, bool randomizeShrineBosses, bool randomizeGateBosses);
-vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera);
+vectorvector baseRandomize(mt19937 rng, bool randomizeShrineBosses, bool randomizeGateBosses, bool includeDuplicate);
+vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate);
 vectorvector mixRandomize(mt19937 rng, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate);
 vectorvector trueRandom(mt19937 rng);
 int randomToFile(vectorvector input);

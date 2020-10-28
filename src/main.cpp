@@ -59,11 +59,11 @@ int main() {
     }
     // Next check for the include options
     else if (configs[3] == true || configs[5] == true || configs[6] == true) {
-        randomizedLists = includeRandomize(rng, configs[2], configs[3], configs[4], configs[5], configs[6]);
+        randomizedLists = includeRandomize(rng, configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
     }
     // last choice options, base options
     else {
-        randomizedLists = baseRandomize(rng, configs[2], configs[4]);
+        randomizedLists = baseRandomize(rng, configs[2], configs[4], configs[7]);
     }
     // Write the randomized bosses to a file
     int returnCheck = randomToFile(randomizedLists);
