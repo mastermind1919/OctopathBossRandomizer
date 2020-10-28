@@ -55,7 +55,7 @@ int main() {
     if (configs[8] == true) {
         randomizedLists = trueChaos(rng);
     }
-    if (configs[3] == true || configs[5] == true || configs[6] == true) {
+    else if (configs[3] == true || configs[5] == true || configs[6] == true) {
         randomizedLists = includeRandomize(rng, configs[2], configs[3], configs[4], configs[5], configs[6]);
     }
     else {
