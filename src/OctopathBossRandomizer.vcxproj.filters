@@ -30,10 +30,13 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trueChaos.cpp">
+    <ClCompile Include="includeRandomize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="includeRandomize.cpp">
+    <ClCompile Include="mixRandomize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trueRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

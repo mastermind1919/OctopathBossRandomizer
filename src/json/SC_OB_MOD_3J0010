@@ -10,6 +10,7 @@
 ,"8":{"cmd":73,"target":15142,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["0"]}
 ,"9":{"cmd":10000,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
 ,"10":{"cmd":10,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["1000"]}
-,"11":{"cmd":600,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["EVM_BOS_Ext_Job_003","SC_OB_MOD_3J0020","0","1"]}
-,"12":{"cmd":10000,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
+,"11":{"cmd":900,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["bgm_bat_upboss","0","0"]}
+,"12":{"cmd":600,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["EVM_BOS_Ext_Job_003","SC_OB_MOD_3J0020","0","1"]}
+,"13":{"cmd":10000,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
 }

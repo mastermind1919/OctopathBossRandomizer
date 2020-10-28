@@ -2,7 +2,7 @@
 
 // True Chaos option, no bars randomization
 
-vectorvector trueChaos(mt19937 rng) {
+vectorvector trueRandom(mt19937 rng) {
 	// Have no check on the randomization
 	vectorvector chapterbosses(7);
 	int ranboss;

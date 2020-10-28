@@ -11,7 +11,7 @@ vector<bool> configParser(string input) {
         includeGateBosses,
         includeGaldera,
         enableDuplicate,
-        trueChaos
+        trueRandom
     };
 
     // Map for strings to enum values for switch statement
@@ -24,7 +24,7 @@ vector<bool> configParser(string input) {
         {"includeGateBosses", parameters::includeGateBosses},
         {"includeGaldera", parameters::includeGaldera},
         {"enableDuplicate", parameters::enableDuplicate},
-        {"trueChaos", parameters::trueChaos}
+        {"trueRandom", parameters::trueRandom}
     };
 
     bool mixChapter24Bosses = false; // Randomize with no regard to the difference between the chapter 2-4 bosses. Should be simple enough to conquor.
@@ -35,7 +35,7 @@ vector<bool> configParser(string input) {
     bool includeGateBosses = false; // Gate bosses are harder, most sturdy versions of the chapter 4 bosses. Turn on with caution.
     bool includeGaldera = false; // Warning, Galdera is very difficult at even the point in which chapter 4 bosses are fought. Enable with EXTREME caution.
     bool enableDuplicate = false; // Full randomize. Randomizes the bosses with no regard to one per story (You can fight the same boss multiple times in multiple chapters)
-    bool trueChaos = false; // True chaos. Enables enableDuplicate and includeGaldera and randomizes with no regard to your sanity. Be prepared for a fight and multiple Galderas
+    bool trueRandom = false; // True Random. Enables enableDuplicate and includeGaldera and randomizes with no regard to your sanity. Be prepared for a fight and multiple Galderas
 
 
     // Config File Parser
@@ -126,12 +126,12 @@ vector<bool> configParser(string input) {
                     enableDuplicate = false;
                 }
                 break;
-            case parameters::trueChaos:
+            case parameters::trueRandom:
                 if (variableValue.find("true") != string::npos) {
-                    trueChaos = true;
+                    trueRandom = true;
                 }
                 else {
-                    trueChaos = false;
+                    trueRandom = false;
                 }
                 break;
             default:
@@ -141,6 +141,6 @@ vector<bool> configParser(string input) {
         }
     }
     configFile.close();
-    vector<bool> output = { mixChapter24Bosses, mixChapter14Bosses, randomizeShrineBosses, includeShrineBosses, randomizeGateBosses, includeGateBosses, includeGaldera, enableDuplicate, trueChaos };
+    vector<bool> output = { mixChapter24Bosses, mixChapter14Bosses, randomizeShrineBosses, includeShrineBosses, randomizeGateBosses, includeGateBosses, includeGaldera, enableDuplicate, trueRandom };
     return output;
 }

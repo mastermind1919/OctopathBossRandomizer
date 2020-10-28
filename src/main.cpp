@@ -11,7 +11,7 @@ typedef std::vector<int> intvector;
 
 int main() {
     
-    //Setup Random Number Generator
+    // Setup Random Number Generator
     random_device dev;
     mt19937 rng(dev());
 
@@ -31,7 +31,6 @@ int main() {
         system("pause");
         return -1;
     }
-    
 
     // Print out the options to the command line as a user-level validation
     // Uses a ternary operator for compact code
@@ -43,21 +42,26 @@ int main() {
     configs[5] == true ? cout << "Gate Bosses in Story Progression is ENABLED" << endl : cout << "Gate Bosses in Story Progression is DISABLED" << endl;
     configs[6] == true ? cout << "Galdera Randomization is ENABLED" << endl : cout << "Galdera Randomization is DISABLED" << endl;
     configs[7] == true ? cout << "Duplicates are ENABLED" << endl : cout << "Duplicates are DISABLED" << endl;
-    configs[8] == true ? cout << "True Chaos is ENABLED" << endl : cout << "True Chaos is DISABLED" << endl;
+    configs[8] == true ? cout << "True Random is ENABLED" << endl : cout << "True Random is DISABLED" << endl;
 
     // With all the setup, now start the main randomizing loop
     // Check which options are enabled, and choose an algorithm based on them
     // the Actual Randomization occures in seperate files
     
-    // For testing purposes, ignores all options currently
     // True Chaos superseeds all options
     vectorvector randomizedLists;
     if (configs[8] == true) {
-        randomizedLists = trueChaos(rng);
+        randomizedLists = trueRandom(rng);
     }
+    // Next check for mix chapter options
+    else if (configs[0] == true || configs[1] == true) {
+        randomizedLists = mixRandomize(rng, configs[0], configs[1], configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
+    }
+    // Next check for the include options
     else if (configs[3] == true || configs[5] == true || configs[6] == true) {
         randomizedLists = includeRandomize(rng, configs[2], configs[3], configs[4], configs[5], configs[6]);
     }
+    // last choice options, base options
     else {
         randomizedLists = baseRandomize(rng, configs[2], configs[4]);
     }

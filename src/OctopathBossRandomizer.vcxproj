@@ -151,8 +151,9 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="includeRandomize.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mixRandomize.cpp" />
     <ClCompile Include="randomToFile.cpp" />
-    <ClCompile Include="trueChaos.cpp" />
+    <ClCompile Include="trueRandom.cpp" />
     <ClCompile Include="spoiler.cpp" />
   </ItemGroup>
   <ItemGroup>

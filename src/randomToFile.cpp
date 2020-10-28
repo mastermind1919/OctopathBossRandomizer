@@ -104,11 +104,26 @@ int randomToFile(vectorvector inputVector) {
     files[44] = "SS_EX4_0137B8"; // Alfyn's Gate Boss
     files[45] = "SS_EX4_0137F0"; // Galdera Phase 1
     files[46] = "SS_EX4_0137F1"; // Galdera Phase 2
+
+    // Extra files
+    map<int, filesystem::path> extraFiles;
+    extraFiles[0] = "SC_OB_RID_3j0020"; // Warmaster job get
+    extraFiles[1] = "SC_OB_FOD_3j0020"; // Sorceror job get
+    extraFiles[2] = "SC_OB_MOD_3j0020"; // Runelord job get
+    extraFiles[3] = "SC_OB_PLD_3j0020"; // Starseer job get
     
     // Check if files exist
     bool errorCheck = true;
-    for (int i = 0; i < 47; i++) {
+    for (int i = 0; i < files.size(); i++) {
         filesystem::path check = ".\\json\\" + files[i].string();
+        if (filesystem::exists(check) == false) {
+            cout << "Could not find file " << check.string() << endl;
+            errorCheck = false;
+        }
+    }
+    // also check extra files
+    for (int i = 0; i < extraFiles.size(); i++) {
+        filesystem::path check = ".\\json\\" + extraFiles[i].string();
         if (filesystem::exists(check) == false) {
             cout << "Could not find file " << check.string() << endl;
             errorCheck = false;
@@ -158,6 +173,13 @@ int randomToFile(vectorvector inputVector) {
                 }
                 out << line << '\n';
             }
+        }
+        // copy the files straight for the extra files
+        for (unsigned int i = 0; i < extraFiles.size(); i++) {
+            filesystem::path input = ".\\json\\" + extraFiles[i].string();
+            filesystem::path output = ".\\Octopath_Traveler\\Content\\Event\\json\\" + extraFiles[i].string();
+            
+            filesystem::copy(input, output, filesystem::copy_options::none);
         }
         return 0;
     }

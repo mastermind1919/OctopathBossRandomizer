@@ -212,7 +212,7 @@
 ,"210":{"cmd":20,"target":2,"pos":"X=0.0,Y=0.0,Z=0.0","dir":3,"text":"","async":"1","opt":["200","1","-1","-1"]}
 ,"211":{"cmd":905,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["2"]}
 ,"212":{"cmd":71,"target":6133,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["1"]}
-,"213":{"cmd":600,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["EVM_BOS_Tre_001","SC_MS_ALI_000700","0","1"]}
+,"213":{"cmd":600,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["EVM_BOS_Tre_001","SC_MS_ALI_000700","0","0"]}
 ,"214":{"cmd":9980,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
 ,"215":{"cmd":10000,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
 }
