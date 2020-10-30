@@ -7,7 +7,7 @@ using namespace std;
 // function for checking if a value is in the vectorvector
 bool matrixChecker(vectorvector input, int ranboss, int endRange) {
 	bool match = false;
-	for (int i = 0; i < endRange; i++) {
+	for (int i = 0; i <= endRange; i++) {
 		if (!input[i].empty() && !std::none_of(input[i].begin(), input[i].end(), compare(ranboss))) {
 			match = true;
 			break;
