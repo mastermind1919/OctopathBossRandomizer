@@ -1,6 +1,8 @@
 #include "Octopath.h"
 
-void spoiler(deque<int> input) {
+using namespace std;
+
+void spoiler(std::deque<int> input) {
 
     // Boss names
     map<int, string> bosses;
@@ -61,7 +63,7 @@ void spoiler(deque<int> input) {
 
     // Create Spolier Log
     // Todo: make readable output
-    ofstream spoilers("spolier.txt");
+    ofstream spoilers("Boss Randomizer Spoilers.txt");
     spoilers << "Octopath Bosses Randomizer Spoilers\n";
     for (unsigned int i = 0; i < input.size(); i++) {
         if (bosses[i] == "Winnehild" || bosses[i] == "Dreisang" || bosses[i] == "Balogar" || bosses[i] == "Steorra") {

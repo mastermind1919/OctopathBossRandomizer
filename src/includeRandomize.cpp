@@ -1,5 +1,7 @@
 #include "Octopath.h"
 
+using namespace std;
+
 // Randomizer for none mixed include options
 
 // function for checking if a value is in the vectorvector

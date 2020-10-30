@@ -1,11 +1,12 @@
 #include "Octopath.h"
 
+using namespace std;
 // mixed chapter 1-4 and chapter 2-4 bosses
 // also takes into account the duplicates
 
 // Uses the functions excludeChecker and matrixChecker from includeRandomize
 
-vectorvector mixRandomize(mt19937 rng, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
+vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
 	// All potions of the vector can change now
 
 	// note: vector starts from 0, so chapter 1 is 0, chapter 2 is 1, etc...

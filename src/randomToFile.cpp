@@ -1,6 +1,8 @@
 #include "Octopath.h"
 #include <filesystem>
 
+using namespace std;
+
 // Function for converting the random values into strings, and writing them into the files
 int randomToFile(vectorvector inputVector) {
 

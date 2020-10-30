@@ -1,8 +1,8 @@
 #include "Octopath.h"
 
-
+using namespace std;
 // function for no option base randomization
-vectorvector baseRandomize(mt19937 rng, bool randomizeShrineBosses, bool randomizeGateBosses, bool includeDuplicate) {
+vectorvector baseRandomize(std::mt19937 rng, bool randomizeShrineBosses, bool randomizeGateBosses, bool includeDuplicate) {
 	// Since we are only randomizing the bosses among themselves, create a vector with 4 indexes to hold the boss integers
 	// note: vector starts from 0, so chapter 1 is 0, chapter 2 is 1, etc...
 	vectorvector chapterbosses(7);

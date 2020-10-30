@@ -1,6 +1,8 @@
 src/.vs
 src/x64
 src/Engine
+src/Debug
+src/log.txt
 src/Octopath_Traveler/Content/Event/json/*
-src/spolier.txt
+src/Boss Randomizer Spoilers.txt
 src/RandomizedBosses_P.pak

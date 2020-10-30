@@ -1,8 +1,9 @@
 #include "Octopath.h"
 
+using namespace std;
 // True Chaos option, no bars randomization
 
-vectorvector trueRandom(mt19937 rng) {
+vectorvector trueRandomFunction(std::mt19937 rng) {
 	// Have no check on the randomization
 	vectorvector chapterbosses(7);
 	int ranboss;

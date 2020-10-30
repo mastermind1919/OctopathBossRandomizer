@@ -1,2 +1,0 @@
-C:\Users\Mastermind\source\repos\OctopathBossRandomizer\src\Debug\OctopathBossRandomizer.exe
-C:\Users\Mastermind\source\repos\OctopathBossRandomizer\src\Debug\OctopathBossRandomizer.pdb
