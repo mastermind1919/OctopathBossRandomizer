@@ -20,7 +20,6 @@ Than this is the option for you. The Boss randomizer changes the story boss enco
 
 - Option for entering seeds to generate the same random options and verification
 - Better formating for Spoiler file
-- Better GUI
 - Hover over text boxes for option descriptions
 
 ### Usage
