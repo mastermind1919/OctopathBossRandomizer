@@ -1,24 +1,23 @@
 // enable syslink in dialogs
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' "\
 "version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-#include "Octopath.h"
 // use Unicode
 #ifndef UNICODE
 #define UNICODE
 #endif
 
-
-
 // use resources
 #include "resource.h"
 
+// Required Headers
+#include "Octopath.h"
 #include <windows.h>
 #include <stdlib.h>
 #include <tchar.h>
 #include <strsafe.h>
 #include <ShObjIdl.h>
 #include <winbase.h>
-#include <filesystem>
+#include <processthreadsapi.h>
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lparam);
 
@@ -114,18 +113,21 @@ BOOL CALLBACK UsageDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
 	return TRUE;
 }
 
+// Display error message for errors in randomization
 void DisplayErrorMessageBox() {
 	MessageBox(NULL, L"Something has gone wrong.\nCheck log.txt for details.", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
+}
+
+// Setting fonts
+bool CALLBACK SetFont(HWND child, LPARAM font) {
+	SendMessage(child, WM_SETFONT, font, true);
+	return true;
 }
 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	PAINTSTRUCT ps;
 	HDC hdc;
-	TCHAR fileString[] = _T("Octopath Traveler Pak Dir:");
-	TCHAR OptionString[] = _T("Boss Randomizer Options:");
-	TCHAR SpecialString[] = _T("Special Options");
-	HWND trueRandom;
 	switch (uMsg) {
 	case WM_CREATE:
 	{
@@ -139,7 +141,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			20,
 			40,
 			477,
-			23,
+			21,
 			hwnd,
 			(HMENU)IDE_EDIT,
 			NULL,
@@ -154,7 +156,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			500,
 			40,
 			60,
-			23,
+			21,
 			hwnd,
 			(HMENU)MAKEINTRESOURCE(IDB_FILE_BUTTON),
 			(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
@@ -203,6 +205,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		// Apply Pak Path from Config File
 		SendDlgItemMessage(hwnd, IDE_EDIT, WM_SETTEXT, 0, (LPARAM)pakPath.c_str());
 
+		// Set font for child windows
+		EnumChildWindows(hwnd, (WNDENUMPROC)SetFont, (LPARAM)GetStockObject(DEFAULT_GUI_FONT));
+
 	}
 	break;
 	case WM_DESTROY:
@@ -221,7 +226,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		configs[8] = IsDlgButtonChecked(hwnd, IDB_TRUERANDOM);
 		// Retrieve path for later use
 		std::wstring pakPath;
-		int len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
+		LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
 		WCHAR* buffer = new WCHAR[len];
 		SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
 
@@ -233,16 +238,41 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		return 0;
 		break;
 	case WM_PAINT:
+	{
+		RECT rect;
+		HFONT hFont;
 		hdc = BeginPaint(hwnd, &ps);
 		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-		// Text strings
-		TextOut(hdc, 20, 20, fileString, _tcslen(fileString));
-		TextOut(hdc, 20, 66, OptionString, _tcslen(OptionString));
-		TextOut(hdc, 300, 66, SpecialString, _tcslen(SpecialString));
+		// Set fonts to Tahoma, make pak text bigger
+		hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
+		SelectObject(hdc, hFont);
+		SetRect(&rect, 20, 20, 477, 37);
+		SetTextColor(hdc, RGB(0, 0, 0));
+		DrawText(hdc, TEXT("Octopath Traveler Pak Dir:"), -1, &rect, DT_NOCLIP);
+		// Set font size to 15 Tahoma
+		hFont = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
+		SelectObject(hdc, hFont);
+		// Boss randomizer options string
+		SetRect(&rect, 20, 71, 86, 270);
+		DrawText(hdc, TEXT("Boss Randomizer Options:"), -1, &rect, DT_NOCLIP);
+		// Special options string
+		SetRect(&rect, 300, 71, 86, 470);
+		DrawText(hdc, TEXT("Special Options"), -1, &rect, DT_NOCLIP);
 
+		DeleteObject(hFont);
 		EndPaint(hwnd, &ps);
+	}
 		break;
-	// Dialog Box
+	case WM_CTLCOLORSTATIC:
+	case WM_CTLCOLORBTN:
+	{
+		// Make button background same color as window
+		HBRUSH hBrushBtn = (HBRUSH)(COLOR_WINDOW + 1);
+		return ((LRESULT)hBrushBtn);
+	}
+		break;
+
+	// Window Commands
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case ID_FILE_HELP:
@@ -294,14 +324,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		{
 			// Check pak path first
 			// Retrieve pak path from edit control
-			int len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
+			LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
 			WCHAR* buffer = new WCHAR[len];
 			SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
 
 			// Verify that the pak path does indeed contain the Octopath pak
-			std::filesystem::path pakPath = std::wstring(buffer) + L"\\Octopath_Traveler-WindowsNoEditor.pak";
-			if (std::filesystem::exists(pakPath) == false) {
-				MessageBox(hwnd, L"Pak Path not valid\nCheck Help for details.", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
+			DWORD pakAttrib = GetFileAttributes((std::wstring(buffer) + L"\\Octopath_Traveler-WindowsNoEditor.pak").c_str());
+			if (pakAttrib == INVALID_FILE_ATTRIBUTES){
+				MessageBox(hwnd, L"Octopath Pak file not found in pak path.\nView Usage for more details", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
 			}
 			else {
 				// Setup Random Number Generator
@@ -313,7 +343,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				logFile.open(L"log.txt");
 
 				// Check for pak exe in bin folder, return error if not found
-				if (std::filesystem::exists("./v4/2/3/UnrealPak.exe") == true) {
+				DWORD unrealAttrib = GetFileAttributes(L".\\v4\\2\\3\\UnrealPak.exe");
+				if (unrealAttrib != INVALID_FILE_ATTRIBUTES) {
 					logFile << L"Found Unreal pak tool" << std::endl;
 				}
 				else {
@@ -367,25 +398,33 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 
-				// Get current path as an absolute, since unrealpak can't use relative paths
-				std::string absolutepath = std::filesystem::absolute("./randomizeboss.txt").string();
 
-				// try to prevent buffer overflows by erroring out if the path size is too big
-				if (absolutepath.size() > 900) {
-					logFile << "Path size too large, try moving this program's files closer to the root of the drive" << std::endl;
-					DisplayErrorMessageBox();
-					logFile.close();
-					SendMessage(hwnd, WM_DESTROY, 0, 0);
-				}
-
-				// try-catch statement for the execution, again to prevent buffer overflows
+				// try-catch statement for the execution, again to prevent errors
 				try {
 					logFile << "*********************************************" << std::endl;
 					logFile << "Pak tool" << std::endl;
 					logFile << "*********************************************" << std::endl;
-					char command[1024];
-					sprintf_s(command, " .\\v4\\2\\3\\UnrealPak.exe \"..\\..\\..\\RandomizedBosses_P.pak\" -Create=\"%s\" -compress", absolutepath.c_str());
-					system(command);
+					WCHAR fullFilename[MAX_PATH];
+					GetFullPathName(L"randomizeboss.txt", MAX_PATH, fullFilename, nullptr);
+					WCHAR command[MAX_PATH + 100];
+					// Copy to char the path name
+					swprintf_s(command, L".\\v4\\2\\3\\UnrealPak.exe ..\\..\\..\\RandomizedBosses_P.pak -Create=\"%s\" -compress", fullFilename);
+					// for CreateProccess
+					STARTUPINFO si;
+					PROCESS_INFORMATION pi;
+ 					ZeroMemory(&si, sizeof(si));
+					si.cb = sizeof(si);
+					ZeroMemory(&pi, sizeof(pi));
+
+					// try using CreateProccess, without window created
+					CreateProcess(NULL, command, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+					
+					// Wait for the pak tool to complete
+					WaitForSingleObject(pi.hProcess, INFINITE);
+
+					// Close process and thread handles.
+					CloseHandle(pi.hProcess);
+					CloseHandle(pi.hThread);
 				}
 				catch (const std::exception& e) {
 					std::cerr << e.what();
@@ -394,21 +433,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				}
 
 				// Check if pak file was created, should always pass
-				if (std::filesystem::exists("./RandomizedBosses_P.pak") == false) {
+				
+				if (GetFileAttributes(L".\\RandomizedBosses_P.pak") == INVALID_FILE_ATTRIBUTES) {
 					logFile << "Pak file not created, This shouldn't happen" << std::endl;
 					logFile.close();
 					DisplayErrorMessageBox();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 
-				//// Retrieve pak path from edit control
-				//int len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
-				//WCHAR* buffer = new WCHAR[len];
-				//SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
-				//// Verify that the pak path does indeed contain the Octopath pak
-				//std::filesystem::path pakPath = std::wstring(buffer) + L"\\Octopath_Traveler-WindowsNoEditor.pak";
 				// now that we verified the pak path, move patch to pak dir
-
 				try {
 					std::wstring pakPathLPC = std::wstring(buffer) + L"\\RandomizedBosses_P.pak";
 					std::wstring spoilerPathLPC = std::wstring(buffer) + L"\\Boss Randomizer Spoilers.txt";
@@ -416,19 +449,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					CopyFile(L".\\Boss Randomizer Spoilers.txt", spoilerPathLPC.c_str(), FALSE);
 					logFile << "Patch File copied successfully" << std::endl;
 				}
-				catch (std::filesystem::filesystem_error& e) {
+				catch (std::exception& e) {
 					logFile << "Error Copying Patch File: " << e.what() << "\n";
 					logFile.close();
 					DisplayErrorMessageBox();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
-				hdc = BeginPaint(hwnd, &ps);
 
 				// Output prompt
 				MessageBox(hwnd, L"Randomization Complete, enjoy!", L"Randomizing Done",  MB_OK);
-
 			}
-
 		}
 		break;
 		
