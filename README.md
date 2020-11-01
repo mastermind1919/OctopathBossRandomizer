@@ -5,6 +5,9 @@ Boss Randomizer for Octopath Traveler (Steam)
 Tired of fighting the same bosses over and over? Wondered what it would be like to fight Galdera instead of the Orge Eagle? 
 Than this is the option for you. The Boss randomizer changes the story boss encounters with a few configurable options. 
 
+### Requirements
+Requires the [Visual Studio Redistributable 2019](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads).
+
 ### Features
 - Mix Chapter 2-4 Bosses: Allows the randomizer to randomize betwen chapter 2 - 4 bosses, and with included options
 - Mix Chapter 1-4 Bosses: Same as above, but with chapter 1 bosses as well
