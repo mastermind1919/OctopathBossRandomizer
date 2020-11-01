@@ -21,6 +21,17 @@
 #define IDB_INCLUDEGALDERA              113
 #define IDB_INCLUDEDUPLICATE            114
 #define IDB_TRUERANDOM                  115
+#define IDV_VERSION                     116
+#define IDS_MIXCHAPTER24                117
+#define IDS_MIXCHAPTER14                118
+#define IDS_RANDOMIZESHRINE             119
+#define IDS_INCLUDESHRINE               120
+#define IDS_RANDOMIZEGATE               121
+#define IDS_INCLUDEGATE                 122
+#define IDS_INCLUDEGALDERA              123
+#define IDS_INCLUDEDUPLICATE            124
+#define IDS_TRUERANDOM                  125
+#define IDP_RANDOMIZEBAR                126
 #define ID_FILE_HELP                    40001
 #define ID_HELP_ABOUT                   40002
 #define ID_HELP                         40003
@@ -30,7 +41,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40004
 #define _APS_NEXT_CONTROL_VALUE         1006
 #define _APS_NEXT_SYMED_VALUE           101

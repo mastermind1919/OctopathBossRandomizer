@@ -121,11 +121,11 @@ CAPTION "About"
 FONT 8, "Segoe UI", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,97,78,50,14
-    LTEXT           "Octopath Traveler Boss Randomizer V1.0",IDC_STATIC,56,12,132,8
+    LTEXT           "Octopath Traveler Boss Randomizer",IDC_STATIC,61,12,122,8
     LTEXT           "Created By: Mastermind1919:",IDC_STATIC,73,24,100,8
     LTEXT           "Also check out the Randomize by Marvin_XLII:",IDC_STATIC,45,48,156,8
-    LTEXT           "https://github.com/mastermind1919/OctopathBossRandomizer",IDC_STATIC,22,36,201,8
-    LTEXT           "https://github.com/MarvinXLII/OctopathTravelerJobRandomizer",IDC_STATIC,20,60,206,8
+    LTEXT           "https://github.com/mastermind1919/OctopathBossRandomizer",IDC_STATIC,15,36,216,8
+    LTEXT           "https://github.com/MarvinXLII/OctopathTravelerJobRandomizer",IDC_STATIC,15,60,216,8
 END
 
 
@@ -170,6 +170,17 @@ BEGIN
     IDB_INCLUDEGALDERA      "Include Galdera"
     IDB_INCLUDEDUPLICATE    "Enable Duplicates"
     IDB_TRUERANDOM          "True Random"
+    IDV_VERSION             "V1.2"
+    IDS_MIXCHAPTER24        "Allows for Story Chapter 2 and 3 Bosses to be mixed with Chapter 4 Bosses"
+    IDS_MIXCHAPTER14        "Allows chapter 1 bosses to be mixed as well. Requires Mix Chapter 2 - 4"
+    IDS_RANDOMIZESHRINE     "Randomize the Shrine Bosses among themselves."
+    IDS_INCLUDESHRINE       "Include the Shrine Bosses with the Story Chapter 4 Bosses."
+    IDS_RANDOMIZEGATE       "Randomizes the Gate of Finis Bosses among themselves"
+    IDS_INCLUDEGATE         "Include the Gate of Finis Bosses with the Story Chapter 4 Bosses. "
+    IDS_INCLUDEGALDERA      "Randomizes and Includes Galdera with the Story Chapter 4 Bosses."
+    IDS_INCLUDEDUPLICATE    "Allows for bosses to show up multiple times instead of being unique."
+    IDS_TRUERANDOM          "Gives each boss a equal chance of being in an encounter. Disables other options."
+    IDP_RANDOMIZEBAR        "Progress bar for Randomization"
 END
 
 #endif    // English (United States) resources

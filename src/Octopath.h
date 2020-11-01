@@ -29,7 +29,7 @@ vectorvector baseRandomize(std::mt19937 rng, bool randomizeShrineBosses, bool ra
 vectorvector includeRandomize(std::mt19937 rng, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate);
 vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate);
 vectorvector trueRandomFunction(std::mt19937 rng);
-int randomToFile(vectorvector input);
+int randomToFile(vectorvector inputVector);
 void spoiler(std::deque<int> input);
 std::vector<bool> configParser(std::string input, std::wstring* pakPathPointer);
 bool configWriter(std::string input, bool mixChapter24Bosses, bool mixChapter14Bosses, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool enableDuplicate, bool trueRandom, std::wstring pakPathPointer);

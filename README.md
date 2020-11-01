@@ -19,8 +19,10 @@ Than this is the option for you. The Boss randomizer changes the story boss enco
 ### Future Plans
 
 - Option for entering seeds to generate the same random options and verification
-- Better formating for Spoiler file
-- Hover over text boxes for option descriptions
+
+## Known Issues
+
+- Certain combinations of bosses will cause the music that plays during the boss fight to be battle 1.
 
 ### Usage
 Head over to the releases section and download the latest version of the randomizer. Extract its contents somewhere, and run the executable inside.  
@@ -28,6 +30,7 @@ Find the pak dir of your Octopath Traveler installation, usually located under
 ```
 C:\Program Files (x86)\Steam\Steamapps\Common\OCTOPATH TRAVELER\Octopath_Traveler\Content\Paks
 ```
-Pick the options you want, and click randomize. The program will randomize the bosses, and place a patch pak file and a spoiler log in the pak dir.
+Pick the options you want, and click randomize. The program will randomize the bosses, and place a patch pak file and a spoiler log in a subdir
+named "BossRandomizer" in the pak dir.
 Don't forget to check out [MarvinXLII's](https://github.com/MarvinXLII/OctopathTravelerJobRandomizer) randomizer 
 while you're at it! It should be compatable!

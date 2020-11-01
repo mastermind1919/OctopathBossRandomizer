@@ -19,13 +19,15 @@
 #include <winbase.h>
 #include <processthreadsapi.h>
 
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lparam);
 
+// Create check buttons
 HWND createCheckButton(LPCWSTR name, int startx, int starty, int sizex, int sizey, HWND hwnd, LPWSTR id) {
 	HWND checkButton = CreateWindow(
 		L"Button",
 		name,
-		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | BS_LEFT | BS_FLAT | WS_TABSTOP,
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | BS_LEFT | BS_FLAT,
 		startx,
 		starty,
 		sizex,
@@ -38,14 +40,65 @@ HWND createCheckButton(LPCWSTR name, int startx, int starty, int sizex, int size
 	return checkButton;
 };
 
+// Create tooltips
+HWND createTooltips(int toolID, HWND hwnd, PTSTR pszText) {
+	if (!toolID || !hwnd || !pszText) {
+		return FALSE;
+	}
+	// Get the window of the tool
+	HWND hwndTool = GetDlgItem(hwnd, toolID);
+
+	// Create the tooltip
+	HWND hwndTip = CreateWindowEx(
+		NULL,
+		TOOLTIPS_CLASS,
+		NULL,
+		WS_POPUP | TTS_ALWAYSTIP,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		hwnd,
+		NULL,
+		(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+		NULL
+	);
+	if (!hwndTool || !hwndTip){
+		return (HWND)NULL;
+	}
+
+	// Associate the tooltip with the tool
+	TOOLINFO toolInfo = { 0 };
+	toolInfo.cbSize = sizeof(toolInfo);
+	toolInfo.hwnd = hwnd;
+	toolInfo.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+	toolInfo.uId = (UINT_PTR)hwndTool;
+	toolInfo.lpszText = pszText;
+	SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo);
+	// set hovertime to 1 second
+	SendMessage(hwndTip, TTM_SETDELAYTIME, TTDT_INITIAL, LOWORD(1000));
+	// Set autotimeout to 16 seconds, essentially making it readable
+	SendMessage(hwndTip, TTM_SETDELAYTIME, TTDT_AUTOPOP, LOWORD(16000));
+	// Set tooltip length
+	SendMessage(hwndTip, TTM_SETMAXTIPWIDTH, 0, 450);
+
+	return hwndTip;
+};
+
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR pCmdLine, _In_ int nCmdShow) {
 	const size_t MAX_LOADSTRING = 256;
 	const int bufferSize = 256;
 
-	TCHAR className[MAX_LOADSTRING];
-	TCHAR title[MAX_LOADSTRING];
+	WCHAR className[MAX_LOADSTRING - 18];
+	WCHAR title[MAX_LOADSTRING];
+	WCHAR version[10]; // Version should not be longer than 6 bytes
 	LoadString(hInstance, IDS_MYAPP_NAME, title, bufferSize);
-	LoadString(hInstance, IDS_MYAPP_CLASS, className, bufferSize);
+	LoadString(hInstance, IDS_MYAPP_CLASS, className, (bufferSize - 18));
+	LoadString(hInstance, IDV_VERSION, version, 10);
+
+	// Combine the version and class name to show both in title
+	WCHAR classVersion[MAX_LOADSTRING];
+	swprintf_s(classVersion, L"%s %s", className, version);
 
 	HICON icon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL_ICON));
 
@@ -64,7 +117,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR pCm
 	HWND hwnd = CreateWindowEx(
 		WS_EX_WINDOWEDGE,
 		title,
-		className,
+		classVersion,
 		WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -124,7 +177,6 @@ bool CALLBACK SetFont(HWND child, LPARAM font) {
 	return true;
 }
 
-
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	PAINTSTRUCT ps;
 	HDC hdc;
@@ -152,7 +204,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND fileButton = CreateWindow(
 			L"Button",
 			L"Browse",
-			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER | WS_TABSTOP,
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER,
 			500,
 			40,
 			60,
@@ -166,7 +218,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND randomizeButton = CreateWindow(
 			L"Button",
 			L"Randomize",
-			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER | WS_TABSTOP,
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER,
 			255,
 			337,
 			90,
@@ -176,17 +228,46 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
 			NULL
 		);
+		// Progress bar for randomization
+		HWND randomizeBar = CreateWindowEx(
+			NULL,
+			PROGRESS_CLASS,
+			NULL,
+			WS_CHILD | WS_VISIBLE,
+			40,
+			307,
+			500,
+			25,
+			hwnd,
+			(HMENU)MAKEINTRESOURCE(IDP_RANDOMIZEBAR),
+			(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+			NULL
+		);
+		// Hide progress bar untill needed
+		ShowWindow(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), SW_HIDE);
+
 
 		// Check Boxes for options
 		HWND mixChapter24Bosses = createCheckButton(L"Mix Chapter 2-4 Bosses", 20, 89, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MIXCHAPTER24));
-		HWND mixChapter14Bosses = createCheckButton(L"Mix Chapter 1-4 Bosses", 20, 112, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MIXCHAPTER14));
+		HWND mixChapter14Bosses = createCheckButton(L"Mix Chapter 1-4 Bosses", 30, 112, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MIXCHAPTER14));
 		HWND randomizeShrineBosses = createCheckButton(L"Randomize Shrine Bosses", 20, 135, 250, 23, hwnd, MAKEINTRESOURCE(IDB_RANDOMIZESHRINE));
-		HWND includeShrineBosses = createCheckButton(L"Include Shrine Bosses", 20, 158, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDESHRINE));
+		HWND includeShrineBosses = createCheckButton(L"Include Shrine Bosses", 30, 158, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDESHRINE));
 		HWND randomizeGateBosses = createCheckButton(L"Randomize Gate Bosses", 20, 181, 250, 23, hwnd, MAKEINTRESOURCE(IDB_RANDOMIZEGATE));
-		HWND includeGateBosses = createCheckButton(L"Include Gate Bosses", 20, 204, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEGATE));
+		HWND includeGateBosses = createCheckButton(L"Include Gate Bosses", 30, 204, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEGATE));
 		HWND includeGaldera = createCheckButton(L"Include Galdera", 20, 227, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEGALDERA));
 		HWND includeDuplicate = createCheckButton(L"Allow Duplicates", 20, 250, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEDUPLICATE));
 		HWND trueRandom = createCheckButton(L"True Random", 300, 89, 250, 23, hwnd, MAKEINTRESOURCE(IDB_TRUERANDOM));
+
+		// Tooltips for check boxes
+		HWND mixChapter24BossesTooltip = createTooltips(IDB_MIXCHAPTER24, hwnd, MAKEINTRESOURCE(IDS_MIXCHAPTER24));
+		HWND mixChapter14BossesTooltip = createTooltips(IDB_MIXCHAPTER14, hwnd, MAKEINTRESOURCE(IDS_MIXCHAPTER14));
+		HWND randomizeShrineBossesTooltip = createTooltips(IDB_RANDOMIZESHRINE, hwnd, MAKEINTRESOURCE(IDS_RANDOMIZESHRINE));
+		HWND includeShineBossesTooltip = createTooltips(IDB_INCLUDESHRINE, hwnd, MAKEINTRESOURCE(IDS_INCLUDESHRINE));
+		HWND randomizeGateBossesTooltip = createTooltips(IDB_RANDOMIZEGATE, hwnd, MAKEINTRESOURCE(IDS_RANDOMIZEGATE));
+		HWND includeGateBossesTooltip = createTooltips(IDB_INCLUDEGATE, hwnd, MAKEINTRESOURCE(IDS_INCLUDEGATE));
+		HWND includeGalderaTooltip = createTooltips(IDB_INCLUDEGALDERA, hwnd, MAKEINTRESOURCE(IDS_INCLUDEGALDERA));
+		HWND includeDuplicateTooltip = createTooltips(IDB_INCLUDEDUPLICATE, hwnd, MAKEINTRESOURCE(IDS_INCLUDEDUPLICATE));
+		HWND trueRandomTooltip = createTooltips(IDB_TRUERANDOM, hwnd, MAKEINTRESOURCE(IDS_TRUERANDOM));
 	}
 	{
 		// Read from config
@@ -202,14 +283,44 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		configs[6] == true ? CheckDlgButton(hwnd, IDB_INCLUDEGALDERA, BST_CHECKED) : CheckDlgButton(hwnd, IDB_INCLUDEGALDERA, BST_UNCHECKED);
 		configs[7] == true ? CheckDlgButton(hwnd, IDB_INCLUDEDUPLICATE, BST_CHECKED) : CheckDlgButton(hwnd, IDB_INCLUDEDUPLICATE, BST_UNCHECKED);
 		configs[8] == true ? CheckDlgButton(hwnd, IDB_TRUERANDOM, BST_CHECKED) : CheckDlgButton(hwnd, IDB_TRUERANDOM, BST_UNCHECKED);
+		// Set button state from config
+		// Appy tree layout disablement first
+		if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24) == false) {
+			EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), FALSE);
+			CheckDlgButton(hwnd, IDB_MIXCHAPTER14, BST_UNCHECKED);
+		}
+		if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZESHRINE) == false) {
+			EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), FALSE);
+			CheckDlgButton(hwnd, IDB_INCLUDESHRINE, BST_UNCHECKED);
+		}
+		if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE) == false) {
+			EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), FALSE);
+			CheckDlgButton(hwnd, IDB_INCLUDEGATE, BST_UNCHECKED);
+		}
+		// Disable all buttons if true random is checked, enable if unchecked
+		EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER24), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		EnableWindow(GetDlgItem(hwnd, IDB_RANDOMIZESHRINE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		EnableWindow(GetDlgItem(hwnd, IDB_RANDOMIZEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGALDERA), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEDUPLICATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		// Check if disabled already
+		if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24)) {
+			EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		}
+		if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZESHRINE)) {
+			EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		}
+		if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE)) {
+			EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+		}
 		// Apply Pak Path from Config File
 		SendDlgItemMessage(hwnd, IDE_EDIT, WM_SETTEXT, 0, (LPARAM)pakPath.c_str());
-
 		// Set font for child windows
 		EnumChildWindows(hwnd, (WNDENUMPROC)SetFont, (LPARAM)GetStockObject(DEFAULT_GUI_FONT));
 
 	}
 	break;
+
 	case WM_DESTROY:
 	{
 		// redefine variables, as they will be different
@@ -239,6 +350,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		break;
 	case WM_PAINT:
 	{
+		// check for update only once
+
+
 		RECT rect;
 		HFONT hFont;
 		hdc = BeginPaint(hwnd, &ps);
@@ -257,7 +371,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		DrawText(hdc, TEXT("Boss Randomizer Options:"), -1, &rect, DT_NOCLIP);
 		// Special options string
 		SetRect(&rect, 300, 71, 86, 470);
-		DrawText(hdc, TEXT("Special Options"), -1, &rect, DT_NOCLIP);
+		DrawText(hdc, TEXT("Special Options:"), -1, &rect, DT_NOCLIP);
 
 		DeleteObject(hFont);
 		EndPaint(hwnd, &ps);
@@ -281,7 +395,69 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		case ID_HELP_ABOUT:
 			DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), hwnd, (DLGPROC)UsageDlgProc);
 			break;
+		//Disable other buttons on true random selection
+		case IDB_TRUERANDOM:
+		{
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				// Disable all buttons if checked, enable when unchecked
+				EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER24), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				EnableWindow(GetDlgItem(hwnd, IDB_RANDOMIZESHRINE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				EnableWindow(GetDlgItem(hwnd, IDB_RANDOMIZEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGALDERA), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEDUPLICATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
 
+				// Check if disabled already
+				if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24)) {
+					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				}
+				if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZESHRINE)) {
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				}
+				if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE)) {
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
+				}
+				break;
+			}
+		}
+		break;
+		// follow tree structure for buttons
+		case IDB_MIXCHAPTER24:
+		{
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24) ? TRUE : FALSE);
+				if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24) == false) {
+					CheckDlgButton(hwnd, IDB_MIXCHAPTER14, BST_UNCHECKED);
+				}
+				break;
+			}
+		}
+		break;
+		case IDB_RANDOMIZESHRINE:
+		{
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), IsDlgButtonChecked(hwnd, IDB_RANDOMIZESHRINE) ? TRUE : FALSE);
+				if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZESHRINE) == false) {
+					CheckDlgButton(hwnd, IDB_INCLUDESHRINE, BST_UNCHECKED);
+				}
+				break;
+			}
+		}
+		break;
+		case IDB_RANDOMIZEGATE:
+		{
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE) ? TRUE : FALSE);
+				if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE) == false) {
+					CheckDlgButton(hwnd, IDB_INCLUDEGATE, BST_UNCHECKED);
+				}
+				break;
+			}
+		}
+		break;
 		// File Browser Button
 		case IDB_FILE_BUTTON:
 			HRESULT hr;
@@ -318,10 +494,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				}
 				CoUninitialize();
 			}
-			break;
+		break;
 		// Randomize Button
 		case IDB_RANDOMIZE_BUTTON:
 		{
+			// Show progress bar
+			ShowWindow(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), SW_SHOW);
 			// Check pak path first
 			// Retrieve pak path from edit control
 			LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
@@ -334,6 +512,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				MessageBox(hwnd, L"Octopath Pak file not found in pak path.\nView Usage for more details", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
 			}
 			else {
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 10, 0);
 				// Setup Random Number Generator
 				std::random_device dev;
 				std::mt19937 rng(dev());
@@ -371,6 +551,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				// Check which options are enabled, and choose an algorithm based on them
 				// the Actual Randomization occures in seperate files
 
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 20, 0);
+
 				vectorvector randomizedLists;
 				// True Chaos superseeds all options
 				if (configs[8] == true) {
@@ -388,6 +571,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				else {
 					randomizedLists = baseRandomize(rng, configs[2], configs[4], configs[7]);
 				}
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 30, 0);
 
 				int returnCheck = randomToFile(randomizedLists);
 				// check if the randomization was successfull
@@ -397,7 +582,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					logFile.close();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
-
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 40, 0);
 
 				// try-catch statement for the execution, again to prevent errors
 				try {
@@ -431,6 +617,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					logFile.close();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 60, 0);
 
 				// Check if pak file was created, should always pass
 				
@@ -441,10 +629,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 
-				// now that we verified the pak path, move patch to pak dir
+				// now that we verified the pak exists, move patch to sub directory in pak directory
 				try {
-					std::wstring pakPathLPC = std::wstring(buffer) + L"\\RandomizedBosses_P.pak";
-					std::wstring spoilerPathLPC = std::wstring(buffer) + L"\\Boss Randomizer Spoilers.txt";
+					if(GetFileAttributes((std::wstring(buffer) + L"\\BossRandomizer").c_str()) == INVALID_FILE_ATTRIBUTES){
+						CreateDirectory((std::wstring(buffer) + L"\\BossRandomizer").c_str(), NULL);
+					}
+					std::wstring pakPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\RandomizedBosses_P.pak";
+					std::wstring spoilerPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\Boss Randomizer Spoilers.txt";
 					CopyFile(L".\\RandomizedBosses_P.pak", pakPathLPC.c_str(), FALSE);
 					CopyFile(L".\\Boss Randomizer Spoilers.txt", spoilerPathLPC.c_str(), FALSE);
 					logFile << "Patch File copied successfully" << std::endl;
@@ -456,12 +647,19 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 
+				// Filler for future music selection
+
+				// Set progress
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 100, 0);
+
 				// Output prompt
 				MessageBox(hwnd, L"Randomization Complete, enjoy!", L"Randomizing Done",  MB_OK);
+
+				// Hide progress bar
+				ShowWindow(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), SW_HIDE);
 			}
 		}
 		break;
-		
 		}
 		return 0L;
 		break;
