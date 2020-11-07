@@ -17,7 +17,7 @@ bool matrixChecker(vectorvector input, int ranboss, int endRange) {
 }
 
 // function for checking if the variable should be excluded
-bool excludeChecker(int input, bool includeShrineBosses, bool includeGateBosses, bool includeGaldera) {
+bool excludeChecker(int input,  bool includeShrineBosses, bool includeGateBosses, bool includeGaldera) {
 	bool exclude = false;
 	// exclude 33 - 36 if excluding shrine bosses
 	if (includeShrineBosses == false && 33 <= input && input <= 36) {
@@ -34,7 +34,7 @@ bool excludeChecker(int input, bool includeShrineBosses, bool includeGateBosses,
 	return exclude;
 }
 
-vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
+vectorvector includeRandomize(mt19937 rng, vectorvector fixedVector, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
 	// First three chpater bosses are the same as base, only the chapter 4 potentially changes
 
 	// note: vector starts from 0, so chapter 1 is 0, chapter 2 is 1, etc...
@@ -61,7 +61,7 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 		}
 
 		// Chapter 4 bosses
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < (9 - fixedVector[3].size()); i++) {
 			int ranboss;
 			bool match;
 			bool exclude;
@@ -78,9 +78,9 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 			} while (match == true);
 			chapterbosses[3].push_back(ranboss);
 		}
-
+		chapterbosses[3] = insertRandom(rng, chapterbosses[3], fixedVector[3]);
 		// Shrine Bosses
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < (4 - fixedVector[4].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeShrineBosses == true) {
@@ -115,9 +115,10 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[4].push_back(i + 33);
 			}
 		}
+		chapterbosses[4] = insertRandom(rng, chapterbosses[4], fixedVector[4]);
 
 		// Gate Bosses
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < (8 - fixedVector[5].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeGateBosses == true) {
@@ -152,9 +153,10 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[5].push_back(i + 37);
 			}
 		}
+		chapterbosses[5] = insertRandom(rng, chapterbosses[5], fixedVector[5]);
 
 		// Galdera
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < (2 - fixedVector[6].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeGaldera == true) {
@@ -177,6 +179,7 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[6].push_back(i + 45);
 			}
 		}
+		chapterbosses[6] = insertRandom(rng, chapterbosses[6], fixedVector[6]);
 	
 	}
 
@@ -194,7 +197,7 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 		}
 
 		// Chapter 4 bosses
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < (9 - fixedVector[3].size()); i++) {
 			int ranboss;
 			bool exclude;
 			// Exclude checking
@@ -206,9 +209,10 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 			} while (exclude == true);
 			chapterbosses[3].push_back(ranboss);
 		}
+		chapterbosses[3] = insertRandom(rng, chapterbosses[3], fixedVector[3]);
 
 		// Shrine Bosses
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < (4 - fixedVector[4].size()); i++) {
 			int ranboss;
 			if (includeShrineBosses == true) {
 				bool exclude;
@@ -232,9 +236,10 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[4].push_back(i + 33);
 			}
 		}
+		chapterbosses[4] = insertRandom(rng, chapterbosses[4], fixedVector[4]);
 
 		// Gate Bosses
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < (8 - fixedVector[5].size()); i++) {
 			int ranboss;
 			if (includeGateBosses == true) {
 				bool exclude;
@@ -258,9 +263,10 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[5].push_back(i + 37);
 			}
 		}
+		chapterbosses[5] = insertRandom(rng, chapterbosses[5], fixedVector[5]);
 
 		// Galdera
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < (2 - fixedVector[6].size()); i++) {
 			int ranboss;
 			if (includeGaldera == true) {
 				bool exclude;
@@ -278,6 +284,7 @@ vectorvector includeRandomize(mt19937 rng, bool randomizeShrineBosses, bool incl
 				chapterbosses[6].push_back(i + 45);
 			}
 		}
+		chapterbosses[6] = insertRandom(rng, chapterbosses[6], fixedVector[6]);
 	}
 
 	return chapterbosses;

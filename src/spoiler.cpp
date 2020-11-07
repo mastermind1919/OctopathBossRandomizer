@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void spoiler(std::deque<int> input) {
+void spoiler(std::deque<int> input, unsigned int seedInput) {
 
     // Boss names
     map<int, string> bossesInitial;
@@ -117,4 +117,21 @@ void spoiler(std::deque<int> input) {
     }
     spoilers.close();
 
+    // Create Chapter 1 Spoilers (For more intense options)
+    ofstream chapter1Spoilers("Chapter 1 Boss Spoilers.txt");
+    chapter1Spoilers << "Chapter 1 Bosses Spoilers\n";
+    for (unsigned int i = 0; i < 8; i++) {
+        string bossDecoded = "For " + bossesInitial[i] + ": " + bossesReplaced[input.front()] + "\n";
+        chapter1Spoilers << bossDecoded;
+        int back = input.front();
+        input.pop_front();
+        input.push_back(back);
+
+    }
+    chapter1Spoilers.close();
+
+    // Create text file with seed information
+    ofstream seed("Seed.txt");
+    seed << "Seed: " << seedInput << std::endl;
+    seed.close();
 }

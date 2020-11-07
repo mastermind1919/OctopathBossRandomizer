@@ -19,6 +19,9 @@
 #include <winbase.h>
 #include <processthreadsapi.h>
 
+// Global variable for force bosses options
+std::vector<int> forceBossesOptions(6);
+bool forceGalderaBoss = false;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lparam);
 
@@ -28,6 +31,23 @@ HWND createCheckButton(LPCWSTR name, int startx, int starty, int sizex, int size
 		L"Button",
 		name,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX | BS_LEFT | BS_FLAT,
+		startx,
+		starty,
+		sizex,
+		sizey,
+		hwnd,
+		(HMENU)id,
+		(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+		NULL
+	);
+	return checkButton;
+};
+// Create Radial buttons
+HWND createRadioButton(LPCWSTR name, int startx, int starty, int sizex, int sizey, HWND hwnd, LPWSTR id) {
+	HWND checkButton = CreateWindow(
+		L"Button",
+		name,
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | BS_LEFT,
 		startx,
 		starty,
 		sizex,
@@ -166,6 +186,89 @@ BOOL CALLBACK UsageDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
 	return TRUE;
 }
 
+BOOL CALLBACK OptionDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	switch (Message) {
+	case WM_INITDIALOG:
+	{
+		// Set up combo boxes
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_SETCURSEL, forceBossesOptions[0], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_SETCURSEL, forceBossesOptions[1], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_SETCURSEL, forceBossesOptions[2], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"8"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_SETCURSEL, forceBossesOptions[3], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_SETCURSEL, forceBossesOptions[4], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_SETCURSEL, forceBossesOptions[5], 0);
+		forceGalderaBoss == true ? CheckDlgButton(hwnd, IDC_FORCEGALDERA, BST_CHECKED) : CheckDlgButton(hwnd, IDC_FORCEGALDERA, BST_UNCHECKED);
+	}
+		return true;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+			break;
+		case IDOK:
+		case IDCANCEL:
+			// Post changes to config
+			forceBossesOptions[0] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER10), CB_GETCURSEL, 0, 0);
+			forceBossesOptions[1] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_GETCURSEL, 0, 0);
+			forceBossesOptions[2] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_GETCURSEL, 0, 0);
+			forceBossesOptions[3] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_GETCURSEL, 0, 0);
+			forceBossesOptions[4] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_GETCURSEL, 0, 0);
+			forceBossesOptions[5] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_GETCURSEL, 0, 0);
+			forceGalderaBoss = IsDlgButtonChecked(hwnd, IDC_FORCEGALDERA);
+			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+
 // Display error message for errors in randomization
 void DisplayErrorMessageBox() {
 	MessageBox(NULL, L"Something has gone wrong.\nCheck log.txt for details.", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
@@ -183,7 +286,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	switch (uMsg) {
 	case WM_CREATE:
 	{
-
 		// File text box with input
 		HWND hwndEdit = CreateWindowEx(
 			WS_EX_CLIENTEDGE | WS_EX_ACCEPTFILES,
@@ -191,7 +293,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			TEXT(""),
 			WS_BORDER | WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | WS_TABSTOP,
 			20,
-			40,
+			30,
 			477,
 			21,
 			hwnd,
@@ -200,13 +302,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			NULL
 		);
 
-		// Randomize button
+		// File Browser Button
 		HWND fileButton = CreateWindow(
 			L"Button",
 			L"Browse",
 			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER,
 			500,
-			40,
+			30,
 			60,
 			21,
 			hwnd,
@@ -245,6 +347,35 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		);
 		// Hide progress bar untill needed
 		ShowWindow(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), SW_HIDE);
+		// Edit box for seeds
+		HWND hwndSeed = CreateWindowEx(
+			WS_EX_CLIENTEDGE | WS_EX_ACCEPTFILES,
+			L"Edit",
+			TEXT(""),
+			WS_BORDER | WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL,
+			300,
+			250,
+			250,
+			23,
+			hwnd,
+			(HMENU)IDE_SEED,
+			NULL,
+			NULL
+		);
+		// Force Bosses Options Button
+		HWND forceOptionButton = CreateWindow(
+			L"Button",
+			L"Options",
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER,
+			410,
+			135,
+			45,
+			23,
+			hwnd,
+			(HMENU)MAKEINTRESOURCE(IDB_FORCEBOSSESOPTIONS),
+			(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+			NULL
+		);
 
 
 		// Check Boxes for options
@@ -257,6 +388,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND includeGaldera = createCheckButton(L"Include Galdera", 20, 227, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEGALDERA));
 		HWND includeDuplicate = createCheckButton(L"Allow Duplicates", 20, 250, 250, 23, hwnd, MAKEINTRESOURCE(IDB_INCLUDEDUPLICATE));
 		HWND trueRandom = createCheckButton(L"True Random", 300, 89, 250, 23, hwnd, MAKEINTRESOURCE(IDB_TRUERANDOM));
+		//HWND soloRandom = createCheckButton(L"Random Solo Traveler", 300, 112, 150, 23, hwnd, MAKEINTRESOURCE(IDB_SOLORANDOM));
+		HWND forceBosses = createCheckButton(L"Force Tier Bosses", 300, 135, 100, 23, hwnd, MAKEINTRESOURCE(IDB_FORCEBOSSES));
+		// Initialize Force Bosses options
+		forceBossesOptions[0] = 0;
+		forceBossesOptions[1] = 0;
+		forceBossesOptions[2] = 0;
+		forceBossesOptions[3] = 0;
+		forceBossesOptions[4] = 0;
+		forceBossesOptions[5] = 0;
+
+		// Radio boxes for Music Options
+		//HWND baseMusic = createRadioButton(L"Base Boss Music", 300, 204, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MUSICBASE));
+		//HWND randomMusic = createRadioButton(L"Random Boss Music", 300, 227, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MUSICRANDOM));
+		//HWND customMusic = createRadioButton(L"Custom Music", 300, 250, 250, 23, hwnd, MAKEINTRESOURCE(IDB_MUSICCUSTOM));
 
 		// Tooltips for check boxes
 		HWND mixChapter24BossesTooltip = createTooltips(IDB_MIXCHAPTER24, hwnd, MAKEINTRESOURCE(IDS_MIXCHAPTER24));
@@ -268,11 +413,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND includeGalderaTooltip = createTooltips(IDB_INCLUDEGALDERA, hwnd, MAKEINTRESOURCE(IDS_INCLUDEGALDERA));
 		HWND includeDuplicateTooltip = createTooltips(IDB_INCLUDEDUPLICATE, hwnd, MAKEINTRESOURCE(IDS_INCLUDEDUPLICATE));
 		HWND trueRandomTooltip = createTooltips(IDB_TRUERANDOM, hwnd, MAKEINTRESOURCE(IDS_TRUERANDOM));
+		HWND soloRandomTooltip = createTooltips(IDB_SOLORANDOM, hwnd, MAKEINTRESOURCE(IDS_SOLORANDOM));
+		HWND forceBossesTooltip = createTooltips(IDB_FORCEBOSSES, hwnd, MAKEINTRESOURCE(IDS_FORCEBOSSES));
 	}
 	{
 		// Read from config
 		std::wstring pakPath;
-		std::vector<bool> configs = configParser("Config.cfg", &pakPath);
+		std::tuple<std::vector<bool>, std::vector<int>> configOptions = configParser("Config.cfg", &pakPath);
+		std::vector<bool> configs = std::get<0>(configOptions);
+		forceBossesOptions = std::get<1>(configOptions);
+		forceGalderaBoss = configs[10];
+
 		// Apply options from config file:
 		configs[0] == true ? CheckDlgButton(hwnd, IDB_MIXCHAPTER24, BST_CHECKED) : CheckDlgButton(hwnd, IDB_MIXCHAPTER24, BST_UNCHECKED);
 		configs[1] == true ? CheckDlgButton(hwnd, IDB_MIXCHAPTER14, BST_CHECKED) : CheckDlgButton(hwnd, IDB_MIXCHAPTER14, BST_UNCHECKED);
@@ -283,6 +434,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		configs[6] == true ? CheckDlgButton(hwnd, IDB_INCLUDEGALDERA, BST_CHECKED) : CheckDlgButton(hwnd, IDB_INCLUDEGALDERA, BST_UNCHECKED);
 		configs[7] == true ? CheckDlgButton(hwnd, IDB_INCLUDEDUPLICATE, BST_CHECKED) : CheckDlgButton(hwnd, IDB_INCLUDEDUPLICATE, BST_UNCHECKED);
 		configs[8] == true ? CheckDlgButton(hwnd, IDB_TRUERANDOM, BST_CHECKED) : CheckDlgButton(hwnd, IDB_TRUERANDOM, BST_UNCHECKED);
+		configs[9] == true ? CheckDlgButton(hwnd, IDB_FORCEBOSSES, BST_CHECKED) : CheckDlgButton(hwnd, IDB_FORCEBOSSES, BST_UNCHECKED);
 		// Set button state from config
 		// Appy tree layout disablement first
 		if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24) == false) {
@@ -313,8 +465,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		if (IsDlgButtonChecked(hwnd, IDB_RANDOMIZEGATE)) {
 			EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
 		}
+		// Disable Force Boss Options Button if Force Bosses is unchecked
+		EnableWindow(GetDlgItem(hwnd, IDB_FORCEBOSSESOPTIONS), IsDlgButtonChecked(hwnd, IDB_FORCEBOSSES) ? TRUE : FALSE);
 		// Apply Pak Path from Config File
 		SendDlgItemMessage(hwnd, IDE_EDIT, WM_SETTEXT, 0, (LPARAM)pakPath.c_str());
+
 		// Set font for child windows
 		EnumChildWindows(hwnd, (WNDENUMPROC)SetFont, (LPARAM)GetStockObject(DEFAULT_GUI_FONT));
 
@@ -324,7 +479,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	case WM_DESTROY:
 	{
 		// redefine variables, as they will be different
-		std::vector<bool> configs(9);
+		std::vector<bool> configs(10);
 		// Save config options
 		configs[0] = IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24);
 		configs[1] = IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER14);
@@ -335,6 +490,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		configs[6] = IsDlgButtonChecked(hwnd, IDB_INCLUDEGALDERA);
 		configs[7] = IsDlgButtonChecked(hwnd, IDB_INCLUDEDUPLICATE);
 		configs[8] = IsDlgButtonChecked(hwnd, IDB_TRUERANDOM);
+		configs[9] = IsDlgButtonChecked(hwnd, IDB_FORCEBOSSES);
 		// Retrieve path for later use
 		std::wstring pakPath;
 		LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
@@ -342,7 +498,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
 
 		// Write to config	
-		configWriter("Config.cfg", configs[0], configs[1], configs[2], configs[3], configs[4], configs[5], configs[6], configs[7], configs[8], buffer);
+		configWriter("Config.cfg", configs[0], configs[1], configs[2], configs[3], configs[4], configs[5], configs[6], configs[7], configs[8], buffer, configs[9], forceBossesOptions, forceGalderaBoss);
 
 	}
 		PostQuitMessage(0);
@@ -350,21 +506,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		break;
 	case WM_PAINT:
 	{
-		// check for update only once
-
 
 		RECT rect;
 		HFONT hFont;
 		hdc = BeginPaint(hwnd, &ps);
 		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-		// Set fonts to Tahoma, make pak text bigger
-		hFont = CreateFont(17, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
-		SelectObject(hdc, hFont);
-		SetRect(&rect, 20, 20, 477, 37);
-		SetTextColor(hdc, RGB(0, 0, 0));
-		DrawText(hdc, TEXT("Octopath Traveler Pak Dir:"), -1, &rect, DT_NOCLIP);
 		// Set font size to 15 Tahoma
 		hFont = CreateFont(15, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"));
+		SelectObject(hdc, hFont);
+		SetRect(&rect, 20, 12, 400, 27);
+		SetTextColor(hdc, RGB(0, 0, 0));
+		DrawText(hdc, TEXT("Octopath Traveler Pak Dir:"), -1, &rect, DT_NOCLIP);
 		SelectObject(hdc, hFont);
 		// Boss randomizer options string
 		SetRect(&rect, 20, 71, 86, 270);
@@ -372,6 +524,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		// Special options string
 		SetRect(&rect, 300, 71, 86, 470);
 		DrawText(hdc, TEXT("Special Options:"), -1, &rect, DT_NOCLIP);
+		// Seed options
+		SetRect(&rect, 300, 232, 400, 247);
+		DrawText(hdc, TEXT("Seed (Leave blank for none):"), -1, &rect, DT_NOCLIP);
+
+		// Music Options string
+		//SetRect(&rect, 300, 181, 86, 201);
+		//DrawText(hdc, TEXT("Boss Music Options:"), -1, &rect, DT_NOCLIP);
 
 		DeleteObject(hFont);
 		EndPaint(hwnd, &ps);
@@ -395,6 +554,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		case ID_HELP_ABOUT:
 			DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), hwnd, (DLGPROC)UsageDlgProc);
 			break;
+		case IDB_FORCEBOSSESOPTIONS:
+			DialogBox(NULL, MAKEINTRESOURCE(IDD_FORCEOPTIONS), hwnd, (DLGPROC)OptionDlgProc);
+			break;
 		//Disable other buttons on true random selection
 		case IDB_TRUERANDOM:
 		{
@@ -406,7 +568,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				EnableWindow(GetDlgItem(hwnd, IDB_RANDOMIZEGATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
 				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGALDERA), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
 				EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEDUPLICATE), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
-
 				// Check if disabled already
 				if (IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24)) {
 					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), IsDlgButtonChecked(hwnd, IDB_TRUERANDOM) ? FALSE : TRUE);
@@ -458,6 +619,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			}
 		}
 		break;
+		case IDB_FORCEBOSSES:
+		{
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				EnableWindow(GetDlgItem(hwnd, IDB_FORCEBOSSESOPTIONS), IsDlgButtonChecked(hwnd, IDB_FORCEBOSSES) ? TRUE : FALSE);
+			}
+			break;
+		}
+		break;
 		// File Browser Button
 		case IDB_FILE_BUTTON:
 			HRESULT hr;
@@ -507,35 +677,49 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
 
 			// Verify that the pak path does indeed contain the Octopath pak
+			// Also allow for not inputing anything, and place folder in exe directory
 			DWORD pakAttrib = GetFileAttributes((std::wstring(buffer) + L"\\Octopath_Traveler-WindowsNoEditor.pak").c_str());
-			if (pakAttrib == INVALID_FILE_ATTRIBUTES){
+			if (pakAttrib == INVALID_FILE_ATTRIBUTES && len != 0){
 				MessageBox(hwnd, L"Octopath Pak file not found in pak path.\nView Usage for more details", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
 			}
 			else {
 				// Set progress
 				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 10, 0);
 				// Setup Random Number Generator
-				std::random_device dev;
-				std::mt19937 rng(dev());
 
+				// Take input from seed edit box, use random one from device otherwise
+				LRESULT seedLen = SendMessage(GetDlgItem(hwnd, IDE_SEED), WM_GETTEXTLENGTH, 0, 0);
+				std::random_device dev;
+				std::mt19937 rng;
+				unsigned int seed;
+				if (seedLen != 0) {
+					WCHAR* seedBuffer = new WCHAR[seedLen];
+					SendMessage(GetDlgItem(hwnd, IDE_SEED), WM_GETTEXT, (WPARAM)seedLen + 1, (LPARAM)seedBuffer);
+					seed = std::stoi(seedBuffer);
+					rng.seed(seed);
+				}
+				else{
+					seed = dev();
+					rng.seed(seed);
+				}
 				// Open log file 	
 				std::wofstream logFile;
 				logFile.open(L"log.txt");
-
+				
 				// Check for pak exe in bin folder, return error if not found
 				DWORD unrealAttrib = GetFileAttributes(L".\\v4\\2\\3\\UnrealPak.exe");
 				if (unrealAttrib != INVALID_FILE_ATTRIBUTES) {
 					logFile << L"Found Unreal pak tool" << std::endl;
 				}
 				else {
-					logFile << L"Unreal pak tool not found, did you place the executable as per the readme?" << std::endl << L"Exiting" << std::endl;
+					logFile << L"Unreal pak tool not found, Existing" << std::endl;
 					DisplayErrorMessageBox();
 					logFile.close();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 
 
-				std::vector<bool> configs(9);
+				std::vector<bool> configs(10);
 				// Check the options, and save them
 				configs[0] = IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER24);
 				configs[1] = IsDlgButtonChecked(hwnd, IDB_MIXCHAPTER14);
@@ -554,18 +738,26 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				// Set progress
 				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 20, 0);
 
-				vectorvector randomizedLists;
+				// If checked, force same tier bosses in options
+				vectorvector fixedVector(7);
+				if (IsDlgButtonChecked(hwnd, IDB_FORCEBOSSES) == TRUE) {
+					fixedVector = fixedTeir(rng, fixedVector, forceBossesOptions, forceGalderaBoss, configs[7]);
+				}
+
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 30, 0);
+
 				// True Chaos superseeds all options
+				vectorvector randomizedLists(7);
 				if (configs[8] == true) {
-					randomizedLists = trueRandomFunction(rng);
+					randomizedLists = trueRandomFunction(rng, fixedVector);
 				}
 				// Next check for mix chapter options
 				else if (configs[0] == true || configs[1] == true) {
-					randomizedLists = mixRandomize(rng, configs[0], configs[1], configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
+					randomizedLists = mixRandomize(rng, fixedVector, configs[0], configs[1], configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
 				}
 				// Next check for the include options
 				else if (configs[3] == true || configs[5] == true || configs[6] == true) {
-					randomizedLists = includeRandomize(rng, configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
+					randomizedLists = includeRandomize(rng, fixedVector, configs[2], configs[3], configs[4], configs[5], configs[6], configs[7]);
 				}
 				// last choice options, base options
 				else {
@@ -574,7 +766,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				// Set progress
 				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 30, 0);
 
-				int returnCheck = randomToFile(randomizedLists);
+				int returnCheck = randomToFile(randomizedLists, seed);
 				// check if the randomization was successfull
 				if (returnCheck == 1) {
 					logFile << L"Randomization not successful, check above message for details" << std::endl;
@@ -584,6 +776,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				}
 				// Set progress
 				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 40, 0);
+				// Music Selection Class
+
+
 
 				// try-catch statement for the execution, again to prevent errors
 				try {
@@ -602,7 +797,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					si.cb = sizeof(si);
 					ZeroMemory(&pi, sizeof(pi));
 
-					// try using CreateProccess, without window created
+					// try using CreateProccess for pak tool, without cmd window created
 					CreateProcess(NULL, command, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 					
 					// Wait for the pak tool to complete
@@ -618,7 +813,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
 				// Set progress
-				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 60, 0);
+				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 80, 0);
 
 				// Check if pak file was created, should always pass
 				
@@ -628,33 +823,101 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					DisplayErrorMessageBox();
 					SendMessage(hwnd, WM_DESTROY, 0, 0);
 				}
-
-				// now that we verified the pak exists, move patch to sub directory in pak directory
-				try {
-					if(GetFileAttributes((std::wstring(buffer) + L"\\BossRandomizer").c_str()) == INVALID_FILE_ATTRIBUTES){
-						CreateDirectory((std::wstring(buffer) + L"\\BossRandomizer").c_str(), NULL);
+				// If Pak dir input is empty, place pak folder in exe directory
+				if (len == 0) {
+					try {
+						if (GetFileAttributes(L".\\BossRandomizer") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\BossRandomizer", NULL);
+						}
+						if (GetFileAttributes(L".\\Spoilers") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\Spoilers", NULL);
+						}
+						if (GetFileAttributes(L".\\BossRandomizer\\Spoilers") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\BossRandomizer\\Spoilers", NULL);
+						}
+						CopyFile(L".\\RandomizedBosses_P.pak", L".\\BossRandomizer\\RandomizedBosses_P.pak", FALSE);
+						CopyFile(L".\\Boss Randomizer Spoilers.txt", L".\\BossRandomizer\\Spoilers\\Boss Randomizer Spoilers.txt", FALSE);
+						CopyFile(L".\\Boss Randomizer Spoilers.txt", L".\\Spoilers\\Boss Randomizer Spoilers.txt", FALSE);
+						CopyFile(L".\\Chapter 1 Boss Spoilers.txt", L".\\BossRandomizer\\Spoilers\\Chapter 1 Boss Spoilers.txt", FALSE);
+						CopyFile(L".\\Chapter 1 Boss Spoilers.txt", L".\\Spoilers\\Chapter 1 Boss Spoilers.txt", FALSE);
+						CopyFile(L".\\Seed.txt", L".\\BossRandomizer\\Spoilers\\Seed.txt", FALSE);
+						CopyFile(L".\\Seed.txt", L".\\Spoilers\\Seed.txt", FALSE);
+						// Clean up root directory
+						DeleteFile(L".\\RandomizedBosses_P.pak");
+						DeleteFile(L".\\Boss Randomizer Spoilers.txt");
+						DeleteFile(L"Chapter 1 Boss Spoilers.txt");
+						DeleteFile(L"Seed.txt");
+						logFile << "Patch Files Left in Program Directory" << std::endl;
 					}
-					std::wstring pakPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\RandomizedBosses_P.pak";
-					std::wstring spoilerPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\Boss Randomizer Spoilers.txt";
-					CopyFile(L".\\RandomizedBosses_P.pak", pakPathLPC.c_str(), FALSE);
-					CopyFile(L".\\Boss Randomizer Spoilers.txt", spoilerPathLPC.c_str(), FALSE);
-					logFile << "Patch File copied successfully" << std::endl;
+					catch (std::exception& e) {
+						logFile << "Error Copying Patch File: " << e.what() << "\n";
+						logFile.close();
+						DisplayErrorMessageBox();
+						SendMessage(hwnd, WM_DESTROY, 0, 0);
+					}
 				}
-				catch (std::exception& e) {
-					logFile << "Error Copying Patch File: " << e.what() << "\n";
-					logFile.close();
-					DisplayErrorMessageBox();
-					SendMessage(hwnd, WM_DESTROY, 0, 0);
+				else {
+					// now that we verified the pak exists, move patch to sub directory in pak directory
+					try {
+						if (GetFileAttributes((std::wstring(buffer) + L"\\BossRandomizer").c_str()) == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory((std::wstring(buffer) + L"\\BossRandomizer").c_str(), NULL);
+						}
+						if (GetFileAttributes((std::wstring(buffer) + L"\\BossRandomizer\\Spoilers").c_str()) == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory((std::wstring(buffer) + L"\\BossRandomizer\\Spoilers").c_str(), NULL);
+						}
+						if (GetFileAttributes(L".\\BossRandomizer") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\BossRandomizer", NULL);
+						}
+						if (GetFileAttributes(L".\\Spoilers") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\Spoilers", NULL);
+						}
+						if (GetFileAttributes(L".\\BossRandomizer\\Spoilers") == INVALID_FILE_ATTRIBUTES) {
+							CreateDirectory(L".\\BossRandomizer\\Spoilers", NULL);
+						}
+						std::wstring pakPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\RandomizedBosses_P.pak";
+						std::wstring spoilerPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\Spoilers\\Boss Randomizer Spoilers.txt";
+						std::wstring chapter1SpoilerPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\Spoilers\\Chapter 1 Boss Spoilers.txt";
+						std::wstring seedPathLPC = std::wstring(buffer) + L"\\BossRandomizer\\Spoilers\\Seed.txt";
+						// Copy to local directory first, as a backup
+						CopyFile(L".\\RandomizedBosses_P.pak", L".\\BossRandomizer\\RandomizedBosses_P.pak", FALSE);
+						CopyFile(L".\\Boss Randomizer Spoilers.txt", L".\\BossRandomizer\\Spoilers\\Boss Randomizer Spoilers.txt", FALSE);
+						CopyFile(L".\\Boss Randomizer Spoilers.txt", L".\\Spoilers\\Boss Randomizer Spoilers.txt", FALSE);
+						CopyFile(L".\\Chapter 1 Boss Spoilers.txt", L".\\BossRandomizer\\Spoilers\\Chapter 1 Boss Spoilers.txt", FALSE);
+						CopyFile(L".\\Chapter 1 Boss Spoilers.txt", L".\\Spoilers\\Chapter 1 Boss Spoilers Spoilers.txt", FALSE);
+						CopyFile(L".\\Seed.txt", L".\\BossRandomizer\\Spoilers\\Seed.txt", FALSE);
+						CopyFile(L".\\Seed.txt", L".\\Spoilers\\Seed.txt", FALSE);
+						// Copy to final destination
+						CopyFile(L".\\RandomizedBosses_P.pak", pakPathLPC.c_str(), FALSE);
+						CopyFile(L".\\Boss Randomizer Spoilers.txt", spoilerPathLPC.c_str(), FALSE);
+						CopyFile(L".\\Chapter 1 Boss Spoilers.txt", chapter1SpoilerPathLPC.c_str(), FALSE);
+						CopyFile(L".\\Seed.txt", seedPathLPC.c_str(), FALSE);
+						// Clean up root directory
+						DeleteFile(L".\\RandomizedBosses_P.pak");
+						DeleteFile(L".\\Boss Randomizer Spoilers.txt");
+						DeleteFile(L"Chapter 1 Boss Spoilers.txt");
+						DeleteFile(L"Seed.txt");
+						logFile << "Patch File copied successfully" << std::endl;
+					}
+					catch (std::exception& e) {
+						logFile << "Error Copying Patch File: " << e.what() << "\n";
+						logFile.close();
+						DisplayErrorMessageBox();
+						SendMessage(hwnd, WM_DESTROY, 0, 0);
+					}
 				}
 
-				// Filler for future music selection
 
 				// Set progress
 				SendMessage(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), PBM_SETPOS, 100, 0);
 
-				// Output prompt
-				MessageBox(hwnd, L"Randomization Complete, enjoy!", L"Randomizing Done",  MB_OK);
-
+				if (len == 0) {
+					// Special Output prompt for exe directory pak file
+					MessageBox(hwnd, L"Randomization Complete, Move \"BossRandomizer\"\nto the pak dir to enjoy the randomized bosses", L"Randomizing Done", MB_OK);
+				}
+				else {
+					// Normal Output prompt
+					MessageBox(hwnd, L"Randomization Complete, enjoy!", L"Randomizing Done", MB_OK);
+				}
 				// Hide progress bar
 				ShowWindow(GetDlgItem(hwnd, IDP_RANDOMIZEBAR), SW_HIDE);
 			}

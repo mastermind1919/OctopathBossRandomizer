@@ -6,7 +6,7 @@ using namespace std;
 
 // Uses the functions excludeChecker and matrixChecker from includeRandomize
 
-vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
+vectorvector mixRandomize(std::mt19937 rng, vectorvector fixedVector, bool mixChapter24, bool mixChapter14, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool includeDuplicate) {
 	// All potions of the vector can change now
 
 	// note: vector starts from 0, so chapter 1 is 0, chapter 2 is 1, etc...
@@ -17,26 +17,63 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 		// Check for mixing of chapter 1 - 4
 		if (mixChapter14 == true) {
 			// Have no bars on randomizing chapter 1 bosses
-			// Do the chapter 1 - 3 bosses in one loop
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 8; j++) {
-					int ranboss;
-					bool match;
-					bool exclude;
+			// Chapter 1
+			for (int j = 0; j < (8 - fixedVector[0].size()); j++) {
+				int ranboss;
+				bool match;
+				bool exclude;
+				do {
+					// Exclude checking
 					do {
-						// Exclude checking
-						do {
-							exclude = false;
-							uniform_int_distribution <mt19937::result_type> bosses(0, 46);
-							ranboss = bosses(rng);
-							exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
-						} while (exclude == true);
-						// check if returned value is not in matrix
-						match = matrixChecker(chapterbosses, ranboss, i);
-					} while (match == true);
-					chapterbosses[i].push_back(ranboss);
-				}
+						exclude = false;
+						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+						ranboss = bosses(rng);
+						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+					} while (exclude == true);
+					// check if returned value is not in matrix
+					match = matrixChecker(chapterbosses, ranboss, 0);
+				} while (match == true);
+				chapterbosses[0].push_back(ranboss);
 			}
+			chapterbosses[0] = insertRandom(rng, chapterbosses[0], fixedVector[0]);
+			// Chapter 2
+			for (int j = 0; j < (8 - fixedVector[1].size()); j++) {
+				int ranboss;
+				bool match;
+				bool exclude;
+				do {
+					// Exclude checking
+					do {
+						exclude = false;
+						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+						ranboss = bosses(rng);
+						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+					} while (exclude == true);
+					// check if returned value is not in matrix
+					match = matrixChecker(chapterbosses, ranboss, 1);
+				} while (match == true);
+				chapterbosses[1].push_back(ranboss);
+			}
+			chapterbosses[1] = insertRandom(rng, chapterbosses[1], fixedVector[1]);
+			// Chapter 3
+			for (int j = 0; j < (8 - fixedVector[2].size()); j++) {
+				int ranboss;
+				bool match;
+				bool exclude;
+				do {
+					// Exclude checking
+					do {
+						exclude = false;
+						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+						ranboss = bosses(rng);
+						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+					} while (exclude == true);
+					// check if returned value is not in matrix
+					match = matrixChecker(chapterbosses, ranboss, 2);
+				} while (match == true);
+				chapterbosses[2].push_back(ranboss);
+			}
+			chapterbosses[2] = insertRandom(rng, chapterbosses[2], fixedVector[2]);
 		}
 		else {
 			// Keep chapter 1 randomized with similar tier
@@ -54,30 +91,49 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				} while (match == true);
 				chapterbosses[0].push_back(ranboss);
 			}
-			// Chapters 2 - 3
-			for (int i = 1; i < 3; i++) {
-				for (int j = 0; j < 8; j++) {
-					int ranboss;
-					bool match;
-					bool exclude;
+			// Chapters 2
+			for (int j = 0; j < (8 - fixedVector[1].size()); j++) {
+				int ranboss;
+				bool match;
+				bool exclude;
+				do {
+					// Exclude checking
 					do {
-						// Exclude checking
-						do {
-							exclude = false;
-							uniform_int_distribution <mt19937::result_type> bosses(0, 46);
-							ranboss = bosses(rng);
-							exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
-						} while (exclude == true);
-						// check if returned value is not in matrix
-						match = matrixChecker(chapterbosses, ranboss, i);
-					} while (match == true);
-					chapterbosses[i].push_back(ranboss);
-				}
+						exclude = false;
+						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+						ranboss = bosses(rng);
+						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+					} while (exclude == true);
+					// check if returned value is not in matrix
+					match = matrixChecker(chapterbosses, ranboss, 1);
+				} while (match == true);
+				chapterbosses[1].push_back(ranboss);
 			}
+			chapterbosses[1] = insertRandom(rng, chapterbosses[1], fixedVector[1]);
+
+			// Chapter 3
+			for (int j = 0; j < (8 - fixedVector[2].size()); j++) {
+				int ranboss;
+				bool match;
+				bool exclude;
+				do {
+					// Exclude checking
+					do {
+						exclude = false;
+						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+						ranboss = bosses(rng);
+						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+					} while (exclude == true);
+					// check if returned value is not in matrix
+					match = matrixChecker(chapterbosses, ranboss, 2);
+				} while (match == true);
+				chapterbosses[2].push_back(ranboss);
+			}
+			chapterbosses[2] = insertRandom(rng, chapterbosses[2], fixedVector[2]);
 		}
 
 		// Chapter 4 bosses
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < (9 - fixedVector[3].size()); i++) {
 			int ranboss;
 			bool match;
 			bool exclude;
@@ -94,9 +150,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 			} while (match == true);
 			chapterbosses[3].push_back(ranboss);
 		}
+		chapterbosses[3] = insertRandom(rng, chapterbosses[3], fixedVector[3]);
 
 		// Shrine Bosses
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < (4 - fixedVector[4].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeShrineBosses == true) {
@@ -131,9 +188,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				chapterbosses[4].push_back(i + 33);
 			}
 		}
+		chapterbosses[4] = insertRandom(rng, chapterbosses[4], fixedVector[4]);
 
 		// Gate Bosses
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < (8 - fixedVector[5].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeGateBosses == true) {
@@ -168,9 +226,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				chapterbosses[5].push_back(i + 37);
 			}
 		}
+		chapterbosses[5] = insertRandom(rng, chapterbosses[5], fixedVector[5]);
 
 		// Galdera
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < (2 - fixedVector[6].size()); i++) {
 			int ranboss;
 			bool match;
 			if (includeGaldera == true) {
@@ -193,29 +252,57 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				chapterbosses[6].push_back(i + 45);
 			}
 		}
+		chapterbosses[6] = insertRandom(rng, chapterbosses[6], fixedVector[6]);
 	}
 	// Duplicates Allowed
 	else {
 		// Check for mixing of chapter 1 - 4
 		if (mixChapter14 == true) {
 			// Have no bars on randomizing chapter 1 bosses
-			// Do the chapter 1 - 3 bosses in one loop
-			for (int i = 0; i < 3; i++) {
-				for (int j = 0; j < 8; j++) {
-					int ranboss;
-					bool exclude;
-					// Exclude checking
-					do {
-						exclude = false;
-						uniform_int_distribution <mt19937::result_type> bosses(0, 46);
-						ranboss = bosses(rng);
-						exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
-					} while (exclude == true);
-					chapterbosses[i].push_back(ranboss);
-				}
+			// Chapter 1
+			for (int j = 0; j < (8 - fixedVector[0].size()); j++) {
+				int ranboss;
+				bool exclude;
+				// Exclude checking
+				do {
+					exclude = false;
+					uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+					ranboss = bosses(rng);
+					exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+				} while (exclude == true);
+				chapterbosses[0].push_back(ranboss);
 			}
+			chapterbosses[0] = insertRandom(rng, chapterbosses[0], fixedVector[0]);
+			// Chapter 2
+			for (int j = 0; j < (8 - fixedVector[1].size()); j++) {
+				int ranboss;
+				bool exclude;
+				// Exclude checking
+				do {
+					exclude = false;
+					uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+					ranboss = bosses(rng);
+					exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+				} while (exclude == true);
+				chapterbosses[1].push_back(ranboss);
+			}
+			chapterbosses[1] = insertRandom(rng, chapterbosses[1], fixedVector[1]);
+			// Chapter 3
+			for (int j = 0; j < (8 - fixedVector[2].size()); j++) {
+				int ranboss;
+				bool exclude;
+				// Exclude checking
+				do {
+					exclude = false;
+					uniform_int_distribution <mt19937::result_type> bosses(0, 46);
+					ranboss = bosses(rng);
+					exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+				} while (exclude == true);
+				chapterbosses[2].push_back(ranboss);
+			}
+			chapterbosses[2] = insertRandom(rng, chapterbosses[2], fixedVector[2]);
 			// Chapter 4 bosses
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < (9 - fixedVector[3].size()); i++) {
 				int ranboss;
 				bool exclude;
 				do {
@@ -226,9 +313,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				} while (exclude == true);
 				chapterbosses[3].push_back(ranboss);
 			}
+			chapterbosses[3] = insertRandom(rng, chapterbosses[3], fixedVector[3]);
 
 			// Shrine Bosses
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < (4 - fixedVector[4].size()); i++) {
 				int ranboss;
 				if (includeShrineBosses == true) {
 					bool exclude;
@@ -252,9 +340,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[4].push_back(i + 33);
 				}
 			}
+			chapterbosses[4] = insertRandom(rng, chapterbosses[4], fixedVector[4]);
 
 			// Gate Bosses
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < (8 - fixedVector[5].size()); i++) {
 				int ranboss;
 				if (includeGateBosses == true) {
 					bool exclude;
@@ -278,9 +367,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[5].push_back(i + 37);
 				}
 			}
+			chapterbosses[5] = insertRandom(rng, chapterbosses[5], fixedVector[5]);
 
 			// Galdera
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < (2 - fixedVector[6].size()); i++) {
 				int ranboss;
 				if (includeGaldera == true) {
 					bool exclude;
@@ -298,6 +388,7 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[6].push_back(i + 45);
 				}
 			}
+			chapterbosses[6] = insertRandom(rng, chapterbosses[6], fixedVector[6]);
 		}
 		else {
 			// Keep chapter 1 randomized with similar tier
@@ -308,22 +399,34 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				ranboss = bosses(rng);
 				chapterbosses[0].push_back(ranboss);
 			}
-			// Chapters 2 - 3
-			for (int i = 1; i < 3; i++) {
-				for (int j = 0; j < 8; j++) {
-					int ranboss;
-					bool exclude;
-						do {
-							exclude = false;
-							uniform_int_distribution <mt19937::result_type> bosses(8, 46);
-							ranboss = bosses(rng);
-							exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
-						} while (exclude == true);
-					chapterbosses[i].push_back(ranboss);
-				}
+			// Chapter 2
+			for (int j = 0; j < (8 - fixedVector[1].size()); j++) {
+				int ranboss;
+				bool exclude;
+				do {
+					exclude = false;
+					uniform_int_distribution <mt19937::result_type> bosses(8, 46);
+					ranboss = bosses(rng);
+					exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+				} while (exclude == true);
+				chapterbosses[1].push_back(ranboss);
 			}
+			chapterbosses[1] = insertRandom(rng, chapterbosses[1], fixedVector[1]);
+			// Chapter 3
+			for (int j = 0; j < (8 - fixedVector[2].size()); j++) {
+				int ranboss;
+				bool exclude;
+				do {
+					exclude = false;
+					uniform_int_distribution <mt19937::result_type> bosses(8, 46);
+					ranboss = bosses(rng);
+					exclude = excludeChecker(ranboss, includeShrineBosses, includeGateBosses, includeGaldera);
+				} while (exclude == true);
+				chapterbosses[2].push_back(ranboss);
+			}
+			chapterbosses[2] = insertRandom(rng, chapterbosses[2], fixedVector[2]);
 			// Chapter 4 bosses
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < (9 - fixedVector[3].size()); i++) {
 				int ranboss;
 				bool exclude;
 				do {
@@ -334,9 +437,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 				} while (exclude == true);
 				chapterbosses[3].push_back(ranboss);
 			}
+			chapterbosses[3] = insertRandom(rng, chapterbosses[3], fixedVector[3]);
 
 			// Shrine Bosses
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < (4 - fixedVector[4].size()); i++) {
 				int ranboss;
 				if (includeShrineBosses == true) {
 					bool exclude;
@@ -360,9 +464,9 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[4].push_back(i + 33);
 				}
 			}
-
+			chapterbosses[4] = insertRandom(rng, chapterbosses[4], fixedVector[4]);
 			// Gate Bosses
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < (8 - fixedVector[5].size()); i++) {
 				int ranboss;
 				if (includeGateBosses == true) {
 					bool exclude;
@@ -386,9 +490,10 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[5].push_back(i + 37);
 				}
 			}
+			chapterbosses[5] = insertRandom(rng, chapterbosses[5], fixedVector[5]);
 
 			// Galdera
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < (2 - fixedVector[6].size()); i++) {
 				int ranboss;
 				if (includeGaldera == true) {
 					bool exclude;
@@ -406,6 +511,7 @@ vectorvector mixRandomize(std::mt19937 rng, bool mixChapter24, bool mixChapter14
 					chapterbosses[6].push_back(i + 45);
 				}
 			}
+			chapterbosses[6] = insertRandom(rng, chapterbosses[6], fixedVector[6]);
 		}
 	}
 	return chapterbosses;

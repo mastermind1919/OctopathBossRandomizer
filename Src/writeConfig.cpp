@@ -6,7 +6,7 @@
 #define UNICODE
 #endif
 
-bool configWriter(std::string input, bool mixChapter24Bosses, bool mixChapter14Bosses, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool enableDuplicate, bool trueRandom, std::wstring pakPathPointer) {
+bool configWriter(std::string input, bool mixChapter24Bosses, bool mixChapter14Bosses, bool randomizeShrineBosses, bool includeShrineBosses, bool randomizeGateBosses, bool includeGateBosses, bool includeGaldera, bool enableDuplicate, bool trueRandom, std::wstring pakPathPointer, bool forceBossesOption, std::vector<int> forceBossesVector, bool forceGaldera) {
 	
 	std::wofstream configFile;
 	configFile.open(input);
@@ -37,7 +37,17 @@ bool configWriter(std::string input, bool mixChapter24Bosses, bool mixChapter14B
 	// Output Pak Path into file
 	configFile << L"// Path to Octopath Traveler Pak Dir" << std::endl;
 	configFile << L"\"pakPath\" = \"" + pakPathPointer + L"\"" << std::endl;
-
+	
+	// For force dialog box
+	configFile << L"// For force dialog box" << std::endl;
+	configFile << L"\"forceBossesOption\" = \"" << ((forceBossesOption == true) ? std::wstring(L"true") : std::wstring(L"false")) << L"\"" << std::endl;
+	configFile << L"\"forceBoss1\" = \"" << forceBossesVector[0] << L"\"" << std::endl;
+	configFile << L"\"forceBoss2\" = \"" << forceBossesVector[1] << L"\"" << std::endl;
+	configFile << L"\"forceBoss3\" = \"" << forceBossesVector[2] << L"\"" << std::endl;
+	configFile << L"\"forceBoss4\" = \"" << forceBossesVector[3] << L"\"" << std::endl;
+	configFile << L"\"forceBoss5\" = \"" << forceBossesVector[4] << L"\"" << std::endl;
+	configFile << L"\"forceBoss6\" = \"" << forceBossesVector[5] << L"\"" << std::endl;
+	configFile << L"\"forceGaldera\" = \"" + ((forceGaldera == true) ? std::wstring(L"true") : std::wstring(L"false")) + L"\"" << std::endl;
 
 	configFile.close();
 

@@ -21,7 +21,7 @@ Requires the [Visual Studio Redistributable 2019](https://support.microsoft.com/
 
 ### Future Plans
 
-- Option for entering seeds to generate the same random options and verification
+- Currently Secret (Will expand as new information is found)
 
 ## Known Issues
 

@@ -147,9 +147,11 @@
   <ItemGroup>
     <ClCompile Include="baseRandomize.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="fixedTier.cpp" />
     <ClCompile Include="includeRandomize.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mixRandomize.cpp" />
+    <ClCompile Include="musixFix.cpp" />
     <ClCompile Include="randomToFile.cpp" />
     <ClCompile Include="spoiler.cpp" />
     <ClCompile Include="trueRandom.cpp" />

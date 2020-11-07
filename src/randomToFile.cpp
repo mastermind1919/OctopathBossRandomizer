@@ -29,7 +29,7 @@
 //}
 
 // Function for converting the random values into strings, and writing them into the files
-int randomToFile(vectorvector inputVector) {
+int randomToFile(vectorvector inputVector, unsigned int seedInput) {
 
     // map for storing variables to names
     // Boss names
@@ -132,7 +132,7 @@ int randomToFile(vectorvector inputVector) {
     files[45] = L"SS_EX4_0137F0"; // Galdera Phase 1
     files[46] = L"SS_EX4_0137F1"; // Galdera Phase 2
 
-    // Extra files, currently not paked
+    // Extra files, currently not paked or needed
     std::map<int, std::wstring> extraFiles;
     extraFiles[0] = L"SC_OB_RID_3j0020"; // Warmaster job get
     extraFiles[1] = L"SC_OB_FOD_3j0020"; // Sorceror job get
@@ -190,7 +190,7 @@ int randomToFile(vectorvector inputVector) {
         }
 
         // Create spoilers
-        spoiler(randomBosses);
+        spoiler(randomBosses, seedInput);
 
         // For each file, read the file, search for the string to replace, and place the file in the proper location
         for (unsigned int i = 0; i < files.size(); i++) {
