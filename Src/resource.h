@@ -5,8 +5,10 @@
 #define IDD_HELP                        1
 #define IDI_SMALL_ICON                  9
 #define IDS_MYAPP_NAME                  102
+#define IDS_APP_NAME                    102
 #define IDS_MYAPP_CLASS                 103
 #define IDR_MAIN_MENU                   103
+#define IDS_APP_CLASS                   103
 #define ID_EDIT                         104
 #define IDE_EDIT                        104
 #define IDB_FILE_BUTTON                 105
@@ -48,7 +50,6 @@
 #define IDC_COMBOTIER3                  1012
 #define IDC_COMBOTIER4                  1013
 #define IDC_COMBOTIER5                  1014
-#define IDC_CHECK1                      1015
 #define IDC_FORCEGALDERA                1015
 #define ID_FILE_HELP                    40001
 #define ID_HELP_ABOUT                   40002

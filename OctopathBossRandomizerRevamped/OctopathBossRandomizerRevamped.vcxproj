@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{fbfa39e3-c16d-4cc6-ba95-d9749f1e6dfb}</ProjectGuid>
-    <RootNamespace>OctopathBossRandomizerGUI</RootNamespace>
+    <ProjectGuid>{205d535e-ab02-406f-9e48-ece1ecf2caf8}</ProjectGuid>
+    <RootNamespace>OctopathBossRandomizerRevamped</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,7 +104,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,7 +134,6 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,28 +143,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="baseRandomize.cpp" />
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="fixedTier.cpp" />
-    <ClCompile Include="includeRandomize.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mixRandomize.cpp" />
-    <ClCompile Include="musixFix.cpp" />
-    <ClCompile Include="randomToFile.cpp" />
-    <ClCompile Include="spoiler.cpp" />
-    <ClCompile Include="trueRandom.cpp" />
-    <ClCompile Include="writeConfig.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Octopath.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico" />
-    <Image Include="small_icon.ico" />
+    <ClCompile Include="config.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Randomize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="OctopathBossRandomizerGUI.rc" />
+    <ResourceCompile Include="OctopathBossRandomizerRevamped.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <Image Include="small_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

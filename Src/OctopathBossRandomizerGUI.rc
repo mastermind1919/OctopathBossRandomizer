@@ -196,8 +196,8 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_MYAPP_NAME          "Octopath Traveler Boss Randomizer"
-    IDS_MYAPP_CLASS         "Octopath Traveler Boss Randomizer"
+    IDS_APP_NAME            "Octopath Traveler Boss Randomizer"
+    IDS_APP_CLASS           "Octopath Traveler Boss Randomizer"
     IDE_EDIT                "Edit Control"
     IDB_FILE_BUTTON         "File Browser Button"
     IDB_RANDOMIZE_BUTTON    "Randomize Button"

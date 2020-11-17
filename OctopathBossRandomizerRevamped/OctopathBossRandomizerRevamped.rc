@@ -1,0 +1,162 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SMALL_ICON          ICON                    "C:\\Users\\Mastermind\\source\\repos\\OctopathBossRandomizerGUI\\OctopathBossRandomizerRevamped\\small_icon.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU
+BEGIN
+    MENUITEM "Help",                        0
+    MENUITEM "About",                       0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_NAME            "Octopath Traveler Boss Randomizer"
+    IDS_APP_CLASS           "Octopath Traveler Boss Randomizer"
+    IDV_VERSION             "V2.0"
+    IDE_EDIT                "Edit control for PAK Directory"
+    IDB_FILE_BUTTON         "Button for getting PAK Directory"
+    IDB_RANDOMIZE_BUTTON    "Button for randomizing the bosses"
+    IDE_SEED                "Edit control for seed input"
+    IDS_DEFAULTMIX          "String for no mix option"
+    IDS_MIXCHAPTER24        "String for mixchapter24"
+    IDS_MIXCHAPTER14        "String for mixchapter14"
+    IDS_DESCRIPTIONSTRING   "String for describing the description box"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NOSHRINE            "String for no shrine randomization"
+    IDS_RANDOMIZESHIRNE     "String for shrine randomization"
+    IDS_INCLUDESHRINE       "String for include shrines"
+    IDS_NOGATE              "String for no gate randomization"
+    IDS_RANDOMIZEGATE       "String for gate randomization"
+    IDS_INCLUDEGATE         "String for include gate"
+    IDS_INCLUDEGALDERA      "String for include galdera"
+    IDS_NOGALDERA           "String for no galdera randomization"
+    IDS_NODUPLICATE         "String for no duplicates"
+    IDS_INCLUDEDUPLICATE    "String for include duplicates"
+    IDS_NOFULLRANDOM        "String for no full random"
+    IDS_FULLRANDOM          "String for full random"
+    IDS_NOSOLORANDOM        "String for no solo random"
+    IDS_SOLORANDOM          "String for solo random"
+    IDS_NOFORCE             "String for no forcing boss"
+    IDS_FORCEBOSS           "String for forcing bosses"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NOFORCEPC           "String for no forcing PC"
+    IDS_FORCEPC             "String for forcing PC"
+    IDS_SPECIFICPC          "String for Specific PC"
+    IDS_PCWIN               "String for PC win condition"
+    IDS_GALDERAWIN          "String for Galdera win condition"
+    IDB_DEFAULTMIX          "Button for default mixing"
+    IDB_MIXCHAPTER24        "Button for mixing chapter 2-4"
+    IDB_MIXCHAPTER14        "Button for mixing chapter 1-4"
+    IDB_NOSHRINE            "Button for no shrine randomization"
+    IDB_RANDOMSHRINE        "Button for shrine randomization"
+    IDB_INCLUDESHRINE       "Button for include shrine"
+    IDB_NOGATE              "Button for no gate randomization"
+    IDB_RANDOMGATE          "Button for gate randomization"
+    IDB_INCLUDEGATE         "Button for include gate"
+    IDB_NOGALDERA           "Button for no Galdera randomization"
+    IDB_INCLUDEGALDERA      "Button for including galdera"
+END
+
+STRINGTABLE
+BEGIN
+    IDB_NODUPLICATE         "Button for no duplicates allowed"
+    IDB_INCLUDEDUPLICATE    "Button for including duplicates"
+    IDB_NOFULLRANDOM        "Button for no full random"
+    IDB_FULLRANDOM          "Button for full random"
+    IDB_NOSOLORANDOM        "Button for no solo randomization"
+    IDB_SOLORANDOM          "Button for solo randomization"
+    IDB_NOFORCE             "Button for no forcing PC"
+    IDB_FORCEPC             "Button for forcing PC"
+    IDB_SPECIFICPC          "Button for forcing specific PC"
+    IDB_SPECIFICPCOPTION    "Option box for forcing specific PC"
+    IDB_PCWIN               "Button for PC win condition"
+    IDB_GALDERAWIN          "Button for Galdera win condition"
+    IDB_FORCEBOSSOPTION     "Button for Force boss options"
+    IDB_FORCEBOSS           "Button for force bosses"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

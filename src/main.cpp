@@ -47,7 +47,7 @@ HWND createRadioButton(LPCWSTR name, int startx, int starty, int sizex, int size
 	HWND checkButton = CreateWindow(
 		L"Button",
 		name,
-		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | BS_LEFT,
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_LEFT,
 		startx,
 		starty,
 		sizex,
