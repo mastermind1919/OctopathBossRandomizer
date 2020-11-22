@@ -9,6 +9,9 @@
 // use resources
 #include "resource.h"
 
+// Prevent all the extra stuff in windows.h
+#define WIN32_LEAN_AND_MEAN
+
 // Required Headers
 #include "Octopath.h"
 #include <windows.h>
@@ -19,7 +22,27 @@
 #include <winbase.h>
 #include <processthreadsapi.h>
 
+// Global Variables for dialog boxes
+intvector configs(18);
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lparam);
+
+// For tristate radial buttons
+void triStateCheck(HWND hwnd, int checkedResource, int uncheckedResource1, int uncheckedResource2, HWND checkedString, HWND uncheckedString1, HWND uncheckedString2) {
+	CheckDlgButton(hwnd, checkedResource, BST_CHECKED);
+	CheckDlgButton(hwnd, uncheckedResource1, BST_UNCHECKED);
+	CheckDlgButton(hwnd, uncheckedResource2, BST_UNCHECKED);
+	ShowWindow(checkedString, SW_SHOW);
+	ShowWindow(uncheckedString1, SW_HIDE);
+	ShowWindow(uncheckedString2, SW_HIDE);
+}
+// For duostate radial buttons
+void duoStateCheck(HWND hwnd, int checkedResource, int uncheckedResource, HWND checkedString, HWND uncheckedString) {
+	CheckDlgButton(hwnd, checkedResource, BST_CHECKED);
+	CheckDlgButton(hwnd, uncheckedResource, BST_UNCHECKED);
+	ShowWindow(checkedString, SW_SHOW);
+	ShowWindow(uncheckedString, SW_HIDE);
+}
 
 // Create text strings
 HWND createTextString(LPCWSTR name, int startx, int starty, int sizex, int sizey, HWND hwnd, LPWSTR id) {
@@ -202,6 +225,353 @@ BOOL CALLBACK UsageDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
 	return TRUE;
 }
 
+// Dialog callback for config syncronizer
+INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	switch (Message) {
+	case WM_INITDIALOG:
+	{
+		// string for storing config
+		std::wstring configout;
+		// String for hashing for config
+		std::wstring hashing = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		std::wstring digits = L"0123456789";
+		// Set config string based on current config;
+		// Mixing Options
+		switch (configs[0]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(17)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(15)));
+			break;
+		case 2:
+			configout.append(std::wstring(1, hashing.at(14)));
+			break;
+		}
+		// Randomize Shrine Options
+		switch (configs[1]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(1)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(7)));
+			break;
+		case 2:
+			configout.append(std::wstring(1, hashing.at(4)));
+			break;
+		}
+
+		// Randomize Gate Options
+		switch (configs[2]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(7)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(20)));
+			break;
+		case 2:
+			configout.append(std::wstring(1, hashing.at(23)));
+			break;
+		}
+
+		// Galdera Options
+		switch (configs[3]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(21)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(6)));
+			break;
+		}
+
+		// PC win condition 
+		switch (configs[4]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(3)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(0)));
+			break;
+		}
+
+		// Full Random
+		configout.append(std::wstring(1, digits.at(configs[5])));
+
+		// Solo Random
+		configout.append(std::wstring(1, digits.at(configs[6])));
+
+		// Force Bosses 
+		configout.append(std::wstring(1, digits.at(configs[7])));
+
+		// Include Duplicates
+		switch (configs[8]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(12)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(4)));
+			break;
+		}
+
+		// Forcing PC option
+		switch (configs[9]) {
+		case 0:
+			configout.append(std::wstring(1, hashing.at(8)));
+			break;
+		case 1:
+			configout.append(std::wstring(1, hashing.at(13)));
+			break;
+		case 2:
+			configout.append(std::wstring(1, hashing.at(19)));
+			break;
+		}
+		// Force PC and Force Boss Options
+		configout.append(std::wstring(1, digits.at(configs[10])));
+		configout.append(std::wstring(1, digits.at(configs[11])));
+		configout.append(std::wstring(1, digits.at(configs[12])));
+		configout.append(std::wstring(1, digits.at(configs[13])));
+		configout.append(std::wstring(1, digits.at(configs[14])));
+		configout.append(std::wstring(1, digits.at(configs[15])));
+		configout.append(std::wstring(1, digits.at(configs[16])));
+		configout.append(std::wstring(1, digits.at(configs[17])));
+
+		// Set the edit control in window using the pseudohashing of the config
+		SendMessage(GetDlgItem(hwnd, IDE_CONFIGEDIT), WM_SETTEXT, 0, (LPARAM)configout.c_str());
+	}
+		break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+			std::wstring hashing = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			// Set the config based on the input, with default on unspecified character
+			// Get string from the edit control
+			LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_CONFIGEDIT), WM_GETTEXTLENGTH, 0, 0);
+			WCHAR* buffer = new WCHAR[len];
+			SendMessage(GetDlgItem(hwnd, IDE_CONFIGEDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
+			// Get size of buffer, if less than 18, set defaults
+			// Give allowance for spaces as long as they are at the end
+			if (len >= 18) {
+				// Mixing Options
+				if (buffer[0] == hashing.at(17)) {
+					configs[0] = 0;
+				}
+				else if (buffer[0] == hashing.at(15)) {
+					configs[0] = 1;
+				}
+				else if (buffer[0] == hashing.at(14)) {
+					configs[0] = 2;
+				}
+				else {
+					configs[0] = 0;
+				}
+
+				// Randomize Shrine Options
+				if (buffer[1] == hashing.at(1)) {
+					configs[1] = 0;
+				}
+				else if (buffer[1] == hashing.at(7)) {
+					configs[1] = 1;
+				}
+				else if (buffer[1] == hashing.at(4)) {
+					configs[1] = 2;
+				}
+				else {
+					configs[1] = 1;
+				}
+
+				// Randomize Gate Options
+				if (buffer[2] == hashing.at(7)) {
+					configs[2] = 0;
+				}
+				else if (buffer[2] == hashing.at(20)) {
+					configs[2] = 1;
+				}
+				else if (buffer[2] == hashing.at(23)) {
+					configs[2] = 2;
+				}
+				else {
+					configs[2] = 1;
+				}
+
+				// Galdera Options
+				if (buffer[3] == hashing.at(21)) {
+					configs[3] = 0;
+				}
+				else if (buffer[3] == hashing.at(6)) {
+					configs[3] = 1;
+				}
+				else {
+					configs[3] = 0;
+				}
+
+				// PC win condition 
+				if (buffer[4] == hashing.at(3)) {
+					configs[4] = 0;
+				}
+				else if (buffer[4] == hashing.at(0)) {
+					configs[4] = 1;
+				}
+				else {
+					configs[4] = 0;
+				}
+
+				// Full Random
+				configs[5] = _wtoi(std::wstring(1, buffer[5]).c_str());
+
+				// Solo Random
+				configs[6] = _wtoi(std::wstring(1, buffer[6]).c_str());
+
+				// Force Bosses 
+				configs[7] = _wtoi(std::wstring(1, buffer[7]).c_str());
+
+				// Include Duplicates
+				if (buffer[8] == hashing.at(12)) {
+					configs[8] = 0;
+				}
+				else if (buffer[8] == hashing.at(4)) {
+					configs[8] = 1;
+				}
+				else {
+					configs[8] = 0;
+				}
+
+				// Forcing PC option
+				if (buffer[9] == hashing.at(8)) {
+					configs[9] = 0;
+				}
+				else if (buffer[9] == hashing.at(13)) {
+					configs[9] = 1;
+				}
+				else if (buffer[9] == hashing.at(19)) {
+					configs[9] = 2;
+				}
+				else {
+					configs[9] = 1;
+				}
+
+				// Force PC character
+				configs[10] = _wtoi(std::wstring(1, buffer[10]).c_str());
+
+				// Force Boss Options
+				configs[11] = _wtoi(std::wstring(1, buffer[11]).c_str());
+				configs[12] = _wtoi(std::wstring(1, buffer[12]).c_str());
+				configs[13] = _wtoi(std::wstring(1, buffer[13]).c_str());
+				configs[14] = _wtoi(std::wstring(1, buffer[14]).c_str());
+				configs[15] = _wtoi(std::wstring(1, buffer[15]).c_str());
+				configs[16] = _wtoi(std::wstring(1, buffer[16]).c_str());
+				configs[17] = _wtoi(std::wstring(1, buffer[17]).c_str());
+			}
+			else {
+				configs[0] = 0;
+				configs[1] = 1;
+				configs[2] = 1;
+				configs[3] = 0;
+				configs[4] = 0;
+				configs[5] = 0;
+				configs[6] = 0;
+				configs[7] = 0;
+				configs[8] = 0;
+				configs[9] = 1;
+				configs[10] = 0;
+				configs[11] = 0;
+				configs[12] = 0;
+				configs[13] = 0;
+				configs[14] = 0;
+				configs[15] = 0;
+				configs[16] = 0;
+				configs[17] = 0;
+			}
+			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	}
+	return DefWindowProc(hwnd, Message, wParam, lParam);
+}
+
+// Dialog box for Force Boss Options
+BOOL CALLBACK OptionDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	switch (Message) {
+	case WM_INITDIALOG:
+	{
+		// Set up combo boxes
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_SETCURSEL, configs[11], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_SETCURSEL, configs[12], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_SETCURSEL, configs[13], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_ADDSTRING, 0, LPARAM(L"8"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_SETCURSEL, configs[14], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_SETCURSEL, configs[15], 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"No"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"1"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"2"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"3"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"4"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"5"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"6"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_ADDSTRING, 0, LPARAM(L"7"));
+		SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_SETCURSEL, configs[16], 0);
+		configs[17] == 1 ? CheckDlgButton(hwnd, IDC_FORCEGALDERA, BST_CHECKED) : CheckDlgButton(hwnd, IDC_FORCEGALDERA, BST_UNCHECKED);
+	}
+	break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+			// Post changes to config
+			configs[11] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER1), CB_GETCURSEL, 0, 0);
+			configs[12] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER2), CB_GETCURSEL, 0, 0);
+			configs[13] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER3), CB_GETCURSEL, 0, 0);
+			configs[14] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER4), CB_GETCURSEL, 0, 0);
+			configs[15] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER5), CB_GETCURSEL, 0, 0);
+			configs[16] = (int)SendMessage(GetDlgItem(hwnd, IDC_COMBOTIER6), CB_GETCURSEL, 0, 0);
+			(bool)IsDlgButtonChecked(hwnd, IDC_FORCEGALDERA) == true ? configs[17] = 1 : configs[17] = 0;
+			EndDialog(hwnd, IDCANCEL);
+			break;
+		}
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
 // Display error message for errors in randomization
 void DisplayErrorMessageBox() {
 	MessageBox(NULL, L"Something has gone wrong.\nCheck log.txt for details.", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
@@ -307,6 +677,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			NULL,
 			NULL
 		);
+		// Config Sync Button
+		HWND configSync = CreateWindow(
+			L"Button",
+			L"Config Sync",
+			WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER,
+			660,
+			447,
+			90,
+			33,
+			hwnd,
+			(HMENU)MAKEINTRESOURCE(IDB_CONFIGSYNC),
+			(HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+			NULL
+		);
 
 		// Buttons and text for the options
 		HWND MixText = createTextString(L"Chapter Mixing Options:", 395, 65, 150, 15, hwnd, NULL);
@@ -324,14 +708,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND GalderaText = createTextString(L"Galdera Options:", 395, 290, 170, 15, hwnd, NULL);
 		HWND noGalderaRandomization = createRadioButton(L"No Galdera Randomization", 400, 308, 170, 15, hwnd, MAKEINTRESOURCE(IDB_NOGALDERA));
 		HWND includeGaldera = createRadioButton(L"Include Galdera", 400, 326, 170, 15, hwnd, MAKEINTRESOURCE(IDB_INCLUDEGALDERA));
-		HWND WinText = createTextString(L"Win condition:", 395, 347, 170, 15, hwnd, NULL);
-		HWND PCWin = createRadioButton(L"Main PC Completion", 400, 365, 170, 15, hwnd, MAKEINTRESOURCE(IDB_PCWIN));
-		HWND GalderaWin = createRadioButton(L"Gate of Finis Completion", 400, 383, 170, 15, hwnd, MAKEINTRESOURCE(IDB_GALDERAWIN));
-		HWND SpecialOptionsText = createTextString(L"Special Options:", 590, 65, 150, 15, hwnd, NULL);
-		HWND fullRandom = createCheckButton(L"Full Random", 595, 83, 170, 15, hwnd, MAKEINTRESOURCE(IDB_FULLRANDOM));
-		HWND soloRandom = createCheckButton(L"Solo Traveler Randomizer", 595, 101, 170, 15, hwnd, MAKEINTRESOURCE(IDB_SOLORANDOM));
-		HWND forceBoss = createCheckButton(L"Force Boss Tier", 595, 119, 100, 15, hwnd, MAKEINTRESOURCE(IDB_FORCEBOSS));
-		HWND forceBossOptions = CreateWindow(L"Button", L"Options", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER, 695, 117, 50, 19, hwnd, (HMENU)MAKEINTRESOURCE(IDB_FORCEBOSSOPTION), (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+		HWND DuplicateText = createTextString(L"Duplicate Boss Options:", 395, 347, 170, 15, hwnd, NULL);
+		HWND noDupliates = createRadioButton(L"No Duplicates", 400, 365, 170, 15, hwnd, MAKEINTRESOURCE(IDB_NODUPLICATE));
+		HWND includeDupliates = createRadioButton(L"Allow Duplicates", 400, 383, 170, 15, hwnd, MAKEINTRESOURCE(IDB_INCLUDEDUPLICATE));
+		HWND WinText = createTextString(L"Win condition:", 590, 65, 150, 15, hwnd, NULL);
+		HWND PCWin = createRadioButton(L"Main PC Completion", 595, 83, 170, 15, hwnd, MAKEINTRESOURCE(IDB_PCWIN));
+		HWND GalderaWin = createRadioButton(L"Gate of Finis Completion", 595, 101, 170, 15, hwnd, MAKEINTRESOURCE(IDB_GALDERAWIN));
+		HWND SpecialOptionsText = createTextString(L"Special Options:", 590, 132, 150, 15, hwnd, NULL);
+		HWND fullRandom = createCheckButton(L"Full Random", 595, 150, 170, 15, hwnd, MAKEINTRESOURCE(IDB_FULLRANDOM));
+		HWND soloRandom = createCheckButton(L"Solo Traveler Randomizer", 595, 168, 170, 15, hwnd, MAKEINTRESOURCE(IDB_SOLORANDOM));
+		HWND forceBoss = createCheckButton(L"Force Boss Tier", 595, 186, 100, 15, hwnd, MAKEINTRESOURCE(IDB_FORCEBOSS));
+		HWND forceBossOptions = CreateWindow(L"Button", L"Options", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHLIKE | BS_CENTER, 695, 186, 50, 19, hwnd, (HMENU)MAKEINTRESOURCE(IDB_FORCEBOSSOPTION), (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 		HWND ForcingOptionsText = createTextString(L"PC Forcing Options:", 590, 215, 170, 15, hwnd, NULL);
 		HWND noForcingPC = createRadioButton(L"No PC Forcing", 595, 233, 170, 15, hwnd, MAKEINTRESOURCE(IDB_NOFORCE));
 		HWND forcingPC = createRadioButton(L"Force Random PC", 595, 251, 170, 15, hwnd, MAKEINTRESOURCE(IDB_FORCEPC));
@@ -350,7 +737,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_SETCURSEL, 0, 0);
 
 		// Text strings for description box
-		HWND descriptionString = createTextString(L"These are descriptions of the currently selected options, hover over a new option to see it's difference.", 15, 67, 350, 30, hwnd, MAKEINTRESOURCE(IDS_DESCRIPTIONSTRING));
+		HWND descriptionString = createTextString(L"These are descriptions of the currently selected options, hover over a new option to see its difference.", 15, 67, 350, 30, hwnd, MAKEINTRESOURCE(IDS_DESCRIPTIONSTRING));
 		HWND dashString1 = createTextString(L"*", 15, 103, 4, 15, hwnd, NULL);
 		HWND dashString2 = createTextString(L"*", 15, 151, 4, 15, hwnd, NULL);
 		HWND dashString3 = createTextString(L"*", 15, 169, 4, 15, hwnd, NULL);
@@ -377,13 +764,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND NoFullRandomString = createTextString(L"Full Random is Disabled", 20, 220, 350, 30, hwnd, MAKEINTRESOURCE(IDS_NOFULLRANDOM));
 		HWND FullRandomString = createTextString(L"Ignores all randomization options and make each boss have an equal change of showing up. Obeys forcing rules.", 20, 220, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FULLRANDOM));
 		HWND NoSoloRandomString = createTextString(L"Solo Traveler Randomization is Disabled", 20, 253, 350, 30, hwnd, MAKEINTRESOURCE(IDS_NOSOLORANDOM));
-		HWND SoloRandomString = createTextString(L"Forces a random Solo Traveler to fight a certain boss. This traveler doesn't have to be in the party.", 20, 253, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SOLORANDOM));
+		HWND SoloRandomString = createTextString(L"Forces a random Solo Traveler to fight any one boss. It is recommended you get all travelers before continuing past chapter 2.", 20, 253, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SOLORANDOM));
 		HWND NoForcingString = createTextString(L"No boss forcing is done.", 20, 286, 345, 15, hwnd, MAKEINTRESOURCE(IDS_NOFORCE));
 		HWND ForcingString = createTextString(L"Boss forcing is enabled, Check options for details.", 20, 286, 345, 15, hwnd, MAKEINTRESOURCE(IDS_FORCEBOSS));
 		HWND NoForcingPCString = createTextString(L"Do not force a random PC", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_NOFORCEPC));
 		HWND ForcingPCString = createTextString(L"Forces a random PC for a new game. This PC will always\nhave a Chapter 1 boss", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FORCEPC));
 		HWND SpecificPCString = createTextString(L"Forces the specified PC for a new game. This PC will always have a Chapter 1 boss", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SPECIFICPC));
-		HWND PCWinConditionString = createTextString(L"Credits roll upon completion of the main PC.", 20, 338, 345, 15, hwnd, MAKEINTRESOURCE(IDS_PCWIN));
+		HWND PCWinConditionString = createTextString(L"Credits roll upon completion of the main PC Story.", 20, 338, 345, 15, hwnd, MAKEINTRESOURCE(IDS_PCWIN));
 		HWND GalderaWinConditionString = createTextString(L"Credits roll upon completing the Gate of Finis and defeating Galdera.", 20, 338, 345, 15, hwnd, MAKEINTRESOURCE(IDS_GALDERAWIN));
 	
 		// Disable all the strings
@@ -415,7 +802,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 		// With all options and windows created, load from config
 		std::wstring pakDir;
-		intvector configs(16);
 		configs = configParser(".\\working\\config.txt", &pakDir);
 		// Set the options and the respective text entry
 		// Mixing Options
@@ -528,10 +914,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			ShowWindow(SpecificPCString, SW_SHOW);
 			break;
 		}
+		// Force PC character options
+		SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_SETCURSEL, configs[10], 0);
+		// Forcing bosses is done in the dialog
 
-		// Force bosses dialog combo boxes
+		// Enforce option box greying out if certain items are selected
 
-		// Enforce option box greying out if not selected
 
 		SendDlgItemMessage(hwnd, IDE_EDIT, WM_SETTEXT, 0, (LPARAM)pakDir.c_str());
 	}
@@ -540,7 +928,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 		break;
 	case WM_DESTROY:
+	{
+		// Get current selection from force specific PC
+		configs[10] = (int)SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_GETCURSEL, 0, 0);
+		// Save configs to file
+		LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
+		WCHAR* buffer = new WCHAR[len];
+		SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
+		configWriter(".\\working\\config.txt", configs, buffer);
+
 		PostQuitMessage(0);
+	}
 		return 0;
 		break;
 	case WM_PAINT:
@@ -575,10 +973,224 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	// Window Commands
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
+			// Main button, does all the randomization
 		case IDB_RANDOMIZE_BUTTON:
+		{
+			// Check the pak path first
+			// Retrieve pak path from edit control
+			LRESULT len = SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXTLENGTH, 0, 0);
+			WCHAR* buffer = new WCHAR[len];
+			SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
+			// Verify that the pak path does indeed contain the Octopath pak
+			// Also allow for not inputing anything, and place folder in exe direcotry
+			DWORD pakAttrib = GetFileAttributes((std::wstring(buffer) + L"\\Octopath_Traveler-WindowsNoEditor.pak").c_str());
+			if (pakAttrib == INVALID_FILE_ATTRIBUTES && len != 0) {
+				MessageBox(hwnd, L"Octopath Pak file not found in pak path.\nView usage for more details", L"Error Randomizing", MB_ICONEXCLAMATION | MB_OK);
+			}
+			else {
+				// Get on with the randomization
+				// Setup random number generator
 
+				// Take input from seed edit box, use random one from device otherwise
+				LRESULT seedLen = SendMessage(GetDlgItem(hwnd, IDE_SEED), WM_GETTEXTLENGTH, 0, 0);
+				std::random_device dev;
+				std::mt19937 rng;
+				unsigned int seed;
+				if (seedLen != 0) {
+					WCHAR* seedBuffer = new WCHAR[seedLen];
+					SendMessage(GetDlgItem(hwnd, IDE_SEED), WM_GETTEXT, (WPARAM)seedLen + 1, (LPARAM)seedBuffer);
+					seed = std::stoi(seedBuffer);
+					rng.seed(seed);
+				}
+				else {
+					seed = dev();
+					rng.seed(seed);
+				}
+				// Open log file
+				std::wofstream logFile;
+				logFile.open(L".\\working\\log.txt");
+					
+				// Check for pak exe in bin folder, return error if not found
+				DWORD unrealAttrib = GetFileAttributes(L".\\working\\v4\\2\\3\\UnrealPak.exe");
+				if (unrealAttrib != INVALID_FILE_ATTRIBUTES) {
+					logFile << L"Found Unreal pak tool" << std::endl;
+				}
+				else {
+					logFile << L"Unreal Pak tool not found, Exiting" << std::endl;
+					DisplayErrorMessageBox();
+					logFile.close();
+					SendMessage(hwnd, WM_DESTROY, 0, 0);
+				}
+
+				// Get the Character from the Specific Character Box
+				configs[10] = (int)SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_GETCURSEL, 0, 0);
+				// Add one to the config for specific character, 0 if specific character is disabled
+				int specificCharacter = 0;
+				if (configs[9] == 2) {
+					specificCharacter = configs[10] + 1;
+				}
+				else if (configs[9] == 1) {
+					// Generate Random Character for forcing
+					std::uniform_int_distribution <std::mt19937::result_type> characters(1, 9);
+					specificCharacter = characters(rng);
+				}
+				else {
+					specificCharacter = 0;
+				}
+
+				// If checked, start with force randomization first
+				vectorvector fixedBosses(7);
+				if (configs[7] == 1) {
+					fixedBosses = fixedTier(rng, configs);
+				}
+				// Randomize the bosses
+				vectorvector randomizedLists(7);
+				// Set bool options based on config
+				bool mixChapter24;
+				bool mixChapter14;
+				bool randomizeShrine;
+				bool includeShrine;
+				bool randomizeGate;
+				bool includeGate;
+				bool includeGaldera;
+				bool includeDuplicate;
+				bool fullRandom;
+				configs[0] == 1 ? mixChapter24 = true : mixChapter24 = false;
+				configs[0] == 2 ? mixChapter14 = true : mixChapter14 = false;
+				configs[1] == 1 ? randomizeShrine = true : randomizeShrine = false;
+				configs[1] == 2 ? includeShrine = true : includeShrine = false;
+				configs[2] == 1 ? randomizeGate = true : randomizeGate = false;
+				configs[2] == 2 ? includeGate = true : includeGate = false;
+				configs[3] == 1 ? includeGaldera = true : includeGaldera = false;
+				configs[8] == 1 ? includeDuplicate = true : includeDuplicate = false;
+				configs[5] == 1 ? fullRandom = true : fullRandom = false;
+				randomizedLists = randomizeBosses(rng, fixedBosses, specificCharacter, mixChapter14, mixChapter24, randomizeShrine, includeShrine, randomizeGate, includeGate, includeGaldera, includeDuplicate, fullRandom);
+
+				// Now that bosses are randomized, put them into the files
+
+			}
+		}
 			break;
+		case IDM_ABOUT:
+			DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUT), hwnd, (DLGPROC)UsageDlgProc);
+			break;
+		case IDM_HELP:
+			DialogBox(NULL, MAKEINTRESOURCE(IDD_HELP), hwnd, (DLGPROC)UsageDlgProc);
+			break;
+		// Force Boss Options
+		case IDB_FORCEBOSSOPTION:
+			DialogBox(NULL, MAKEINTRESOURCE(IDD_FORCEOPTIONS), hwnd, (DLGPROC)OptionDlgProc);
+			break;
+		// Config Sync Button
+		case IDB_CONFIGSYNC:
+			// Draw config option from Specific PC combo box
+			configs[10] = (int)SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_GETCURSEL, 0, 0);
+			// Use a modal dialog box to prevent execution of the next lines until after closing
+			DialogBox(NULL, MAKEINTRESOURCE(IDD_CONFIG), hwnd, (DLGPROC)ConfigDlgProc);
+			// Make the UI reflect the config changes
+			// Mixing Options
+			switch (configs[0]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_DEFAULTMIX, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_MIXCHAPTER24, BN_CLICKED), 0);
+				break;
+			case 2:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_MIXCHAPTER14, BN_CLICKED), 0);
+				break;
+			}
+			// Randomize Shrine Options
+			switch (configs[1]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_NOSHRINE, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_RANDOMSHRINE, BN_CLICKED), 0);
+				break;
+			case 2:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_INCLUDESHRINE, BN_CLICKED), 0);
+				break;
+			}
 
+			// Randomize Gate Options
+			switch (configs[2]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_NOGATE, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_RANDOMGATE, BN_CLICKED), 0);
+				break;
+			case 2:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_INCLUDEGATE, BN_CLICKED), 0);
+				break;
+			}
+
+			// Galdera Options
+			switch (configs[3]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_NOGALDERA, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_INCLUDEGALDERA, BN_CLICKED), 0);
+				break;
+			}
+
+			// PC win condition 
+			switch (configs[4]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_PCWIN, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_GALDERAWIN, BN_CLICKED), 0);
+				break;
+			}
+
+			// Full Random
+			ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_HIDE);
+			ShowWindow(GetDlgItem(hwnd, IDS_NOFULLRANDOM), SW_HIDE);
+			configs[5] == 1 ? CheckDlgButton(hwnd, IDB_FULLRANDOM, BST_CHECKED) : CheckDlgButton(hwnd, IDB_FULLRANDOM, BST_UNCHECKED);
+			configs[5] == 1 ? ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_SHOW) : ShowWindow(GetDlgItem(hwnd, IDS_NOFULLRANDOM), SW_SHOW);
+
+			// Solo Random
+			ShowWindow(GetDlgItem(hwnd, IDS_SOLORANDOM), SW_HIDE);
+			ShowWindow(GetDlgItem(hwnd, IDS_NOSOLORANDOM), SW_HIDE);
+			configs[6] == 1 ? CheckDlgButton(hwnd, IDB_SOLORANDOM, BST_CHECKED) : CheckDlgButton(hwnd, IDB_SOLORANDOM, BST_UNCHECKED);
+			configs[6] == 1 ? ShowWindow(GetDlgItem(hwnd, IDS_SOLORANDOM), SW_SHOW) : ShowWindow(GetDlgItem(hwnd, IDS_NOSOLORANDOM), SW_SHOW);
+
+			// Force Bosses 
+			ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_HIDE);
+			ShowWindow(GetDlgItem(hwnd, IDS_NOFORCE), SW_HIDE);
+			configs[7] == 1 ? CheckDlgButton(hwnd, IDB_FORCEBOSS, BST_CHECKED) : CheckDlgButton(hwnd, IDB_FORCEBOSS, BST_UNCHECKED);
+			configs[7] == 1 ? ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_SHOW) : ShowWindow(GetDlgItem(hwnd, IDS_NOFORCE), SW_SHOW);
+
+			// Duplicates 
+			switch (configs[8]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_NODUPLICATE, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_INCLUDEDUPLICATE, BN_CLICKED), 0);
+				break;
+			}
+
+			// Forcing PC option
+			switch (configs[9]) {
+			case 0:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_NOFORCE, BN_CLICKED), 0);
+				break;
+			case 1:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_FORCEPC, BN_CLICKED), 0);
+				break;
+			case 2:
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDB_SPECIFICPC, BN_CLICKED), 0);
+				break;
+			}
+			// Force PC character options
+			SendMessage(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), CB_SETCURSEL, configs[10], 0);
+			// Forcing bosses is done in the dialog
+			break;
+		// File Browser Button
 		case IDB_FILE_BUTTON:
 		{
 			HRESULT hr;
@@ -615,9 +1227,218 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			}
 			break;
 		}
+		// Radial button switching
+		// Chapter Mixing
+		case IDB_DEFAULTMIX:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_DEFAULTMIX, IDB_MIXCHAPTER24, IDB_MIXCHAPTER14, GetDlgItem(hwnd, IDS_DEFAULTMIX), GetDlgItem(hwnd, IDS_MIXCHAPTER24), GetDlgItem(hwnd, IDS_MIXCHAPTER14));
+				configs[0] = 0;
+				break;
+			}
+			break;
+		case IDB_MIXCHAPTER24:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_MIXCHAPTER24, IDB_DEFAULTMIX, IDB_MIXCHAPTER14, GetDlgItem(hwnd, IDS_MIXCHAPTER24), GetDlgItem(hwnd, IDS_DEFAULTMIX), GetDlgItem(hwnd, IDS_MIXCHAPTER14));
+				configs[0] = 1;
+				break;
+			}
+			break;
+		case IDB_MIXCHAPTER14:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_MIXCHAPTER14, IDB_MIXCHAPTER24, IDB_DEFAULTMIX, GetDlgItem(hwnd, IDS_MIXCHAPTER14), GetDlgItem(hwnd, IDS_MIXCHAPTER24), GetDlgItem(hwnd, IDS_DEFAULTMIX));
+				configs[0] = 2;
+				break;
+			}
+			break;
+		// Shrine Boss Randomization
+		case IDB_NOSHRINE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_NOSHRINE, IDB_RANDOMSHRINE, IDB_INCLUDESHRINE, GetDlgItem(hwnd, IDS_NOSHRINE), GetDlgItem(hwnd, IDS_RANDOMIZESHIRNE), GetDlgItem(hwnd, IDS_INCLUDESHRINE));
+				configs[1] = 0;
+				break;
+			}
+			break;
+		case IDB_RANDOMSHRINE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_RANDOMSHRINE, IDB_NOSHRINE, IDB_INCLUDESHRINE, GetDlgItem(hwnd, IDS_RANDOMIZESHIRNE), GetDlgItem(hwnd, IDS_NOSHRINE), GetDlgItem(hwnd, IDS_INCLUDESHRINE));
+				configs[1] = 1;
+				break;
+			}
+			break;
+		case IDB_INCLUDESHRINE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_INCLUDESHRINE, IDB_RANDOMSHRINE, IDB_NOSHRINE, GetDlgItem(hwnd, IDS_INCLUDESHRINE), GetDlgItem(hwnd, IDS_RANDOMIZESHIRNE), GetDlgItem(hwnd, IDS_NOSHRINE));
+				configs[1] = 2;
+				break;
+			}
+			break;
+		// Gate Boss Randomization
+		case IDB_NOGATE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_NOGATE, IDB_RANDOMGATE, IDB_INCLUDEGATE, GetDlgItem(hwnd, IDS_NOGATE), GetDlgItem(hwnd, IDS_RANDOMIZEGATE), GetDlgItem(hwnd, IDS_INCLUDEGATE));
+				configs[2] = 0;
+				break;
+			}
+			break;
+		case IDB_RANDOMGATE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_RANDOMGATE, IDB_NOGATE, IDB_INCLUDEGATE, GetDlgItem(hwnd, IDS_RANDOMIZEGATE), GetDlgItem(hwnd, IDS_NOGATE), GetDlgItem(hwnd, IDS_INCLUDEGATE));
+				configs[2] = 1;
+				break;
+			}
+			break;
+		case IDB_INCLUDEGATE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_INCLUDEGATE, IDB_RANDOMGATE, IDB_NOGATE, GetDlgItem(hwnd, IDS_INCLUDEGATE), GetDlgItem(hwnd, IDS_RANDOMIZEGATE), GetDlgItem(hwnd, IDS_NOGATE));
+				configs[2] = 2;
+				break;
+			}
+			break;
+		// Galdera Randomization
+		case IDB_NOGALDERA:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_NOGALDERA, IDB_INCLUDEGALDERA, GetDlgItem(hwnd, IDS_NOGALDERA), GetDlgItem(hwnd, IDS_INCLUDEGALDERA));
+				configs[3] = 0;
+				break;
+			}
+			break;
+		case IDB_INCLUDEGALDERA:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_INCLUDEGALDERA, IDB_NOGALDERA, GetDlgItem(hwnd, IDS_INCLUDEGALDERA), GetDlgItem(hwnd, IDS_NOGALDERA));
+				configs[3] = 0;
+				break;
+			}
+			break;
+		// Duplicate Options
+		case IDB_NODUPLICATE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_NODUPLICATE, IDB_INCLUDEDUPLICATE, GetDlgItem(hwnd, IDS_NODUPLICATE), GetDlgItem(hwnd, IDS_INCLUDEDUPLICATE));
+				configs[8] = 0;
+				break;
+			}
+			break;
+		case IDB_INCLUDEDUPLICATE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_INCLUDEDUPLICATE, IDB_NODUPLICATE, GetDlgItem(hwnd, IDS_INCLUDEDUPLICATE), GetDlgItem(hwnd, IDS_NODUPLICATE));
+				configs[8] = 1;
+				break;
+			}
+			break;
+		// PC Win Conditions
+		case IDB_PCWIN:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_PCWIN, IDB_GALDERAWIN, GetDlgItem(hwnd, IDS_PCWIN), GetDlgItem(hwnd, IDS_GALDERAWIN));
+				configs[4] = 0;
+				break;
+			}
+			break;
+		case IDB_GALDERAWIN:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				duoStateCheck(hwnd, IDB_GALDERAWIN, IDB_PCWIN, GetDlgItem(hwnd, IDS_GALDERAWIN), GetDlgItem(hwnd, IDS_PCWIN));
+				configs[4] = 1;
+				break;
+			}
+			break;
+		// Full Random
+		case IDB_FULLRANDOM:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				if ((bool)IsDlgButtonChecked(hwnd, IDB_FULLRANDOM) == true) {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOFULLRANDOM), SW_HIDE);
+					ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_SHOW);
+					configs[5] = 1;
+					// Grey out other options
+					
+				}
+				else {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOFULLRANDOM), SW_SHOW);
+					ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_HIDE);
+					configs[5] = 0;
+					// Undo Greying out
+
+				}
+				break;
+			}
+			break;
+		// Solo Traveler Randomization
+		case IDB_SOLORANDOM:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				if ((bool)IsDlgButtonChecked(hwnd, IDB_SOLORANDOM) == true) {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOSOLORANDOM), SW_HIDE);
+					ShowWindow(GetDlgItem(hwnd, IDS_SOLORANDOM), SW_SHOW);
+					configs[6] = 1;
+				}
+				else {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOSOLORANDOM), SW_SHOW);
+					ShowWindow(GetDlgItem(hwnd, IDS_SOLORANDOM), SW_HIDE);
+					configs[6] = 0;
+				}
+				break;
+			}
+			break;
+		// Boss Forcing
+		case IDB_FORCEBOSS:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				if ((bool)IsDlgButtonChecked(hwnd, IDB_FORCEBOSS) == true) {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOFORCE), SW_HIDE);
+					ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_SHOW);
+					configs[7] = 1;
+
+				}
+				else {
+					ShowWindow(GetDlgItem(hwnd, IDS_NOFORCE), SW_SHOW);
+					ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_HIDE);
+					configs[7] = 0;
+				}
+				break;
+			}
+			break;
+		case IDB_NOFORCE:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_NOFORCE, IDB_FORCEPC, IDB_SPECIFICPC, GetDlgItem(hwnd, IDS_NOFORCEPC), GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_SPECIFICPC));
+				configs[9] = 0;
+				break;
+			}
+			break;
+		case IDB_FORCEPC:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_FORCEPC, IDB_NOFORCE, IDB_SPECIFICPC, GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_NOFORCEPC), GetDlgItem(hwnd, IDS_SPECIFICPC));
+				configs[9] = 1;
+				break;
+			}
+			break;
+		case IDB_SPECIFICPC:
+			switch (HIWORD(wParam)) {
+			case BN_CLICKED:
+				triStateCheck(hwnd, IDB_SPECIFICPC, IDB_FORCEPC, IDB_NOFORCE, GetDlgItem(hwnd, IDS_SPECIFICPC), GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_NOFORCEPC));
+				configs[9] = 2;
+				break;
+			}
+			break;
 		return 0;
 			
 		}
+
+
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

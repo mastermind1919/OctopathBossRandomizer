@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SMALL_ICON          ICON                    "C:\\Users\\Mastermind\\source\\repos\\OctopathBossRandomizerGUI\\OctopathBossRandomizerRevamped\\small_icon.ico"
+IDI_SMALL_ICON          ICON                    "C:\\Users\\Mastermind1919\\Desktop\\OctopathBossRandomizer\\OctopathBossRandomizerRevamped\\small_icon.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -62,8 +62,154 @@ IDI_SMALL_ICON          ICON                    "C:\\Users\\Mastermind\\source\\
 
 IDR_MAINMENU MENU
 BEGIN
-    MENUITEM "Help",                        0
-    MENUITEM "About",                       0
+    MENUITEM "Help",                        IDM_HELP
+    MENUITEM "About",                       IDM_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORCEOPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 404
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 130
+    END
+
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 370
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 118
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 106
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORCEOPTIONS DIALOGEX 0, 0, 411, 137
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Force Tier Settings"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,180,114,50,14
+    LTEXT           "Force Same Tier Bosses Settings",IDC_STATIC,151,6,108,8
+    LTEXT           "Forces a specified amount of bosses to stay on a tier. No mains that no forcing is done, and is completely random",IDC_STATIC,23,18,365,8
+    COMBOBOX        IDC_COMBOTIER1,36,40,30,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER2,36,58,30,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER3,36,76,30,12,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER4,36,94,30,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER5,246,40,30,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER6,246,58,30,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Force",IDC_STATIC,13,42,20,8
+    LTEXT           "Force",IDC_STATIC,13,60,20,8
+    LTEXT           "Force",IDC_STATIC,13,78,20,8
+    LTEXT           "Force",IDC_STATIC,13,96,20,8
+    LTEXT           "Force",IDC_STATIC,223,42,20,8
+    LTEXT           "Force",IDC_STATIC,223,60,20,8
+    LTEXT           "Chapter 1 Bosses in Chapter 1 areas",IDC_STATIC,69,42,120,8
+    LTEXT           "Chapter 2 Bosses in Chapter 2 areas",IDC_STATIC,69,60,120,8
+    LTEXT           "Chapter 3 Bosses in Chapter 3 areas",IDC_STATIC,69,78,120,8
+    LTEXT           "Chapter 4 Bosses in Chapter 4 areas",IDC_STATIC,69,96,120,8
+    LTEXT           "Shine Bosses at the Shrine Altars",IDC_STATIC,279,42,109,8
+    LTEXT           "Gate bosses in the Gate of Finis",IDC_STATIC,279,60,104,8
+    CONTROL         "Force at least one phase of Galdera in the final fight",IDC_FORCEGALDERA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,223,78,183,10
+END
+
+IDD_HELP DIALOGEX 0, 0, 377, 125
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Help"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,163,102,50,14
+    LTEXT           "Octopath Traveler Boss Randomizer Usage Guide:",IDC_STATIC,107,6,163,8
+    LTEXT           "Using the ""Browse"" button, find your Octopath Traveler Pak Dir, which will usually be located under:",IDC_STATIC,12,24,322,8
+    LTEXT           "C:\\Program Files (x86)\\Steam\\Steamapps\\Common\\OCTOPATH TRAVELER\\Octopath_Traveler\\Content\\paks",IDC_STATIC,12,36,359,8
+    LTEXT           "Check the options you want for the randomizer, and click ""Randomize""",IDC_STATIC,12,48,226,8
+    LTEXT           "Boot the game up, and enjoy the random bosses",IDC_STATIC,12,60,156,8
+    LTEXT           "Note: You will need to hit ""Randomize"" each time you want a new random run",IDC_STATIC,12,72,250,8
+    LTEXT           "Note: Leaving the ""Pak Dir"" field blank will place the patch pak folder in the same directory as this program",IDC_STATIC,12,84,340,8
+END
+
+IDD_ABOUT DIALOGEX 0, 0, 225, 95
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,87,72,50,14
+    LTEXT           "Octopath Traveler Boss Randomizer",IDC_STATIC,53,6,118,8
+    LTEXT           "Created By: Mastermind1919",IDC_STATIC,65,18,94,8
+    LTEXT           "https://github.com/mastermind1919/OctopathBossRandomizer",IDC_STATIC,13,30,198,8
+    LTEXT           "Also Check out the Skill/Item Randomizer by Marvin_XLII:",IDC_STATIC,22,42,181,8
+    LTEXT           "https://github.com/MarvinXLII/OctopathTravelerJobRandomizer",IDC_STATIC,12,54,200,8
+END
+
+IDD_CONFIG DIALOGEX 0, 0, 309, 113
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Config"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,90,50,14
+    LTEXT           "Config Syncronizer",IDC_STATIC,123,6,63,8
+    LTEXT           "Below is a string of character that represent the current config options.",IDC_STATIC,12,24,231,8
+    LTEXT           "To Distribute: Copy the string and distribute it to anyone who wants the same configs.",IDC_STATIC,12,36,276,8
+    LTEXT           "To Sync: Delete the below string, and paste the string from someone else's config.",IDC_STATIC,12,48,266,8
+    EDITTEXT        IDE_CONFIGEDIT,12,66,282,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_FORCEOPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_HELP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ABOUT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CONFIG AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 
@@ -143,6 +289,7 @@ BEGIN
     IDB_GALDERAWIN          "Button for Galdera win condition"
     IDB_FORCEBOSSOPTION     "Button for Force boss options"
     IDB_FORCEBOSS           "Button for force bosses"
+    IDB_CONFIGSYNC          "Button for Config Sync"
 END
 
 #endif    // English (United States) resources

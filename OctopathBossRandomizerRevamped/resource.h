@@ -10,13 +10,17 @@
 #define IDE_EDIT                        104
 #define IDB_FILE_BUTTON                 105
 #define IDB_RANDOMIZE_BUTTON            106
+#define IDD_FORCEOPTIONS                106
 #define IDE_SEED                        107
 #define IDS_DEFAULTMIX                  108
 #define IDS_MIXCHAPTER24                109
+#define IDD_HELP                        109
 #define IDS_MIXCHAPTER14                110
 #define IDS_DESCRIPTIONSTRING           111
+#define IDD_ABOUT                       111
 #define IDS_NOSHRINE                    112
 #define IDS_RANDOMIZESHIRNE             113
+#define IDD_CONFIG                      113
 #define IDS_INCLUDESHRINE               114
 #define IDS_NOGATE                      115
 #define IDS_RANDOMIZEGATE               116
@@ -61,14 +65,28 @@
 #define IDB_GALDERAWIN                  155
 #define IDB_FORCEBOSSOPTION             156
 #define IDB_FORCEBOSS                   157
+#define IDB_CONFIGSYNC                  158
+#define IDOK                            1001
+#define IDC_COMBOTIER1                  1004
+#define IDC_COMBOTIER2                  1005
+#define IDC_COMBOTIER3                  1006
+#define IDC_COMBOTIER4                  1007
+#define IDC_COMBOTIER5                  1008
+#define IDC_COMBOTIER6                  1009
+#define IDC_FORCEGALDERA                1010
+#define IDC_EDIT1                       1013
+#define IDE_CONFIGEDIT                  1013
+#define ID_HELP                         40001
+#define IDM_HELP                        40002
+#define IDM_ABOUT                       40003
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
-#define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_COMMAND_VALUE         40004
+#define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

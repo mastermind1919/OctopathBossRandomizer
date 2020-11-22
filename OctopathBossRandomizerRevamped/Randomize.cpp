@@ -34,7 +34,6 @@ std::vector<int> insertRandom(std::mt19937 rng, std::vector<int> randomInput, st
 }
 std::vector<int> insertRandomFixed(std::mt19937 rng, std::vector<int> randomInput, std::vector<int> fixedInput, int forcedCharacter) {
 	// Doesn't matter if fixedInput is empty, we need to force a chapter 1 boss anyway
-
 	int upperLimit = randomInput.size() + fixedInput.size();
 	std::vector pullFromVector = randomInput;
 	pullFromVector.insert(std::end(pullFromVector), std::begin(fixedInput), std::end(fixedInput));
@@ -129,11 +128,16 @@ std::vector<int> insertRandomFixed(std::mt19937 rng, std::vector<int> randomInpu
 	return pushToVector;
 }
 
-// function for checking if a value is in the vectorvector
-bool matrixChecker(vectorvector input, int ranboss, int endRange) {
+// function for checking if a value is in the matrix, including the fixed vector
+bool matrixChecker(vectorvector input, vectorvector fixedinput, int ranboss, int endRange) {
 	bool match = false;
 	for (int i = 0; i <= endRange; i++) {
 		if (!input[i].empty() && !std::none_of(input[i].begin(), input[i].end(), compare(ranboss))) {
+			match = true;
+			break;
+		}
+		// Check if boss is in fixed vector already
+		else if (!fixedinput[i].empty() && !std::none_of(fixedinput[i].begin(), fixedinput[i].end(), compare(ranboss))) {
 			match = true;
 			break;
 		}
@@ -161,7 +165,7 @@ bool excludeChecker(int input, bool includeShrineBosses, bool includeGateBosses,
 }
 
 // Function for randomizing the bosses
-int uniformBossRandom(mt19937 rng, vectorvector chapterBosses, int lowerLimit, int upperLimit, int tier, bool includeShrine, bool includeGate, bool includeGaldera, bool includeDuplicate) {
+int uniformBossRandom(mt19937 rng, vectorvector chapterBosses, vectorvector fixedInput, int lowerLimit, int upperLimit, int tier, bool includeShrine, bool includeGate, bool includeGaldera, bool includeDuplicate) {
 	int ranboss;
 	bool match;
 	bool exclude;
@@ -175,7 +179,7 @@ int uniformBossRandom(mt19937 rng, vectorvector chapterBosses, int lowerLimit, i
 		} while (exclude == true);
 		// if includeDuplicate is false, check if returned boss is not already included
 		if (includeDuplicate == false) {
-			match = matrixChecker(chapterBosses, ranboss, tier);
+			match = matrixChecker(chapterBosses, fixedInput, ranboss, tier);
 		}
 		else {
 			match = false;
@@ -198,75 +202,122 @@ vectorvector randomizeBosses(mt19937 rng, vectorvector fixedBosses, int forcedCh
 	*  8 - Ophilia
 	*  0 is no forcing for PC
 	*/
+	// Take input from config, and translate it to the proper boss order
+	int fixedForcedCharacter;
+	switch (forcedCharacter) {
+	case 0:
+		fixedForcedCharacter = 0;
+		break;
+	case 1:
+		fixedForcedCharacter = 8;
+		break;
+	case 2:
+		fixedForcedCharacter = 7;
+		break;
+	case 3:
+		fixedForcedCharacter = 1;
+		break;
+	case 4:
+		fixedForcedCharacter = 5;
+		break;
+	case 5:
+		fixedForcedCharacter = 6;
+		break;
+	case 6:
+		fixedForcedCharacter = 2;
+		break;
+	case 7:
+		fixedForcedCharacter = 3;
+		break;
+	case 8:
+		fixedForcedCharacter = 4;
+		break;
+	default:
+		break;
+	}
 	vectorvector chapterBosses(7);
 	// Chapter 1 is special, do it seperately
 	if (mixChapter14 == true || fullRandom == true) {
 		// Randomize as normal
 		for (int j = 0; j < (8 - fixedBosses[0].size()); j++) {
-			chapterBosses[0].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 0, includeShrine, includeGate, includeGaldera, includeDuplicate));
+			chapterBosses[0].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 0, includeShrine, includeGate, includeGaldera, includeDuplicate));
 		}
-		if (forcedCharacter == 0) {
+		if (fixedForcedCharacter == 0) {
 			// just randomize the inserts
 			chapterBosses[0] = insertRandom(rng, chapterBosses[0], fixedBosses[0]);
 		}
 		else {
 			// Use special function for PC boss
-			chapterBosses[0] = insertRandomFixed(rng, chapterBosses[0], fixedBosses[0], forcedCharacter);
+			chapterBosses[0] = insertRandomFixed(rng, chapterBosses[0], fixedBosses[0], fixedForcedCharacter);
 		}
 	}
 	else {
 		// Without those options, just randomize the chapter 1 bosses by themselves, no forcing is needed
 		for (int i = 0; i < 8; i++) {
-			chapterBosses[0].push_back(uniformBossRandom(rng, chapterBosses, 0, 7, 0, false, false, false, includeDuplicate));
+			chapterBosses[0].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 7, 0, false, false, false, includeDuplicate));
 		}
 	}
 	// With Chapter 1 bosses randomized, do chapters 2 and 3
 	if (mixChapter24 == true || fullRandom == true) {
-		// Do chapter 2 - 3 in a loop
-		for (int i = 1; i < 3; i++) {
-			if (fullRandom == true) {
-				for (int j = 0; j < 8; j++) {
-					chapterBosses[i].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, i, true, true, true, true));
-				}
+		if (fullRandom == true) {
+			for (int i = 0; i < (8 - fixedBosses[1].size()); i++) {
+				chapterBosses[1].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 1, true, true, true, true));
 			}
-			else {
-				for (int j = 0; j < 8; j++) {
-					chapterBosses[i].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, i, includeShrine, includeGate, includeGaldera, includeDuplicate));
-				}
+			for (int i = 0; i < (8 - fixedBosses[2].size()); i++) {
+				chapterBosses[2].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 2, true, true, true, true));
+			}
+		}
+		else {
+			for (int i = 0; i < 8; i++) {
+				chapterBosses[1].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 1, includeShrine, includeGate, includeGaldera, includeDuplicate));
+			}
+			for (int i = 0; i < 8; i++) {
+				chapterBosses[2].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 2, includeShrine, includeGate, includeGaldera, includeDuplicate));
 			}
 		}
 	}
 	else {
 		// Do chapters 2 - 3 seperately
 		// Chapter 2
-		for (int i = 0; i < 8; i++) {
-			chapterBosses[1].push_back(uniformBossRandom(rng, chapterBosses, 8, 15, 1, false, false, false, includeDuplicate));
+		for (int i = 0; i < (8 - fixedBosses[1].size()); i++) {
+			chapterBosses[1].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 8, 15, 1, false, false, false, includeDuplicate));
 		}
 		//Chapter 3
-		for (int i = 0; i < 8; i++) {
-			chapterBosses[2].push_back(uniformBossRandom(rng, chapterBosses, 16, 23, 2, false, false, false, includeDuplicate));
+		for (int i = 0; i < (8 - fixedBosses[2].size()); i++) {
+			chapterBosses[2].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 16, 23, 2, false, false, false, includeDuplicate));
 		}
 	}
+	chapterBosses[1] = insertRandom(rng, chapterBosses[1], fixedBosses[1]);
+	chapterBosses[2] = insertRandom(rng, chapterBosses[2], fixedBosses[2]);
 	// Chapter 4
 	if (fullRandom == true){
-		for (int i = 0; i < 9; i++) {
-			chapterBosses[3].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 3, true, true, true, true));
+		for (int i = 0; i < (9 - fixedBosses[3].size()); i++) {
+			chapterBosses[3].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 3, true, true, true, true));
 		}
 	}
 	else {
-		for (int i = 0; i < 9; i++) {
-			chapterBosses[3].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 3, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		for (int i = 0; i < (9 - fixedBosses[3].size()); i++) {
+			chapterBosses[3].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 3, includeShrine, includeGate, includeGaldera, includeDuplicate));
 		}
 	}
+	chapterBosses[3] = insertRandom(rng, chapterBosses[3], fixedBosses[3]);
 	// Shrine bosses
 	if (fullRandom == true) {
-		chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 4, true, true, true, true));
+		for (int i = 0; i < (4 - fixedBosses[4].size()); i++) {
+			chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 4, true, true, true, true));
+		}
+		chapterBosses[4] = insertRandom(rng, chapterBosses[4], fixedBosses[4]);
 	}
 	else if (includeShrine == true) {
-		chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 4, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		for (int i = 0; i < (4 - fixedBosses[4].size()); i++) {
+			chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 4, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		}
+		chapterBosses[4] = insertRandom(rng, chapterBosses[4], fixedBosses[4]);
 	}
 	else if (randomizeShrine == true) {
-		chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, 33, 36, 4, true, true, true, includeDuplicate));
+		for (int i = 0; i < 4; i++) {
+			chapterBosses[4].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 33, 36, 4, true, true, true, includeDuplicate));
+		}
 	}
 	else {
 		for (int i = 33; i < 37; i++) {
@@ -275,13 +326,21 @@ vectorvector randomizeBosses(mt19937 rng, vectorvector fixedBosses, int forcedCh
 	}
 	// Gate Bosses
 	if (fullRandom == true) {
-		chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 5, true, true, true, true));
+		for (int i = 0; i < (8 - fixedBosses[5].size()); i++){
+			chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 5, true, true, true, true));
+		}
+		chapterBosses[5] = insertRandom(rng, chapterBosses[5], fixedBosses[5]);
 	}
 	else if (includeGate == true) {
-		chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 5, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		for (int i = 0; i < (8 - fixedBosses[5].size()); i++) {
+			chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 5, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		}
+		chapterBosses[5] = insertRandom(rng, chapterBosses[5], fixedBosses[5]);
 	}
 	else if (randomizeGate == true) {
-		chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, 37, 44, 5, true, true, true, includeDuplicate));
+		for (int i = 0; i < 8; i++) {
+			chapterBosses[5].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 37, 44, 5, true, true, true, includeDuplicate));
+		}
 	}
 	else {
 		for (int i = 37; i < 45; i++) {
@@ -290,10 +349,16 @@ vectorvector randomizeBosses(mt19937 rng, vectorvector fixedBosses, int forcedCh
 	}
 	// Galdera
 	if (fullRandom == true) {
-		chapterBosses[6].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 6, true, true, true, true));
+		for (int i = 0; i < (2 - fixedBosses[6].size()); i++) {
+			chapterBosses[6].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 6, true, true, true, true));
+		}
+		chapterBosses[6] = insertRandom(rng, chapterBosses[6], fixedBosses[6]);
 	}
 	else if (includeGaldera == true) {
-		chapterBosses[6].push_back(uniformBossRandom(rng, chapterBosses, 0, 46, 6, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		for (int i = 0; i < (2 - fixedBosses[6].size()); i++) {
+			chapterBosses[6].push_back(uniformBossRandom(rng, chapterBosses, fixedBosses, 0, 46, 6, includeShrine, includeGate, includeGaldera, includeDuplicate));
+		}
+		chapterBosses[6] = insertRandom(rng, chapterBosses[6], fixedBosses[6]);
 	}
 	else {
 		for (int i = 45; i < 47; i++) {

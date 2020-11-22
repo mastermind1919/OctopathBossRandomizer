@@ -9,7 +9,7 @@
 intvector configParser(std::string input, std::wstring* pakPathPointer) {
 
 	// Use simpler config writer with a psuedohashing program
-	intvector configs(17);
+	intvector configs(18);
     std::wstring lines;
     std::wifstream configFile(input.c_str());
     if (configFile.is_open() == true) {
@@ -83,13 +83,13 @@ intvector configParser(std::string input, std::wstring* pakPathPointer) {
                 }
 
                 // Full Random
-                configs[5] = (int)lines.at(5);
+                configs[5] = _wtoi(std::wstring(1, lines.at(5)).c_str());
 
                 // Solo Random
-                configs[6] = (int)lines.at(6);
+                configs[6] = _wtoi(std::wstring(1, lines.at(6)).c_str());
 
                 // Force Bosses 
-                configs[7] == (int)lines.at(7);
+                configs[7] = _wtoi(std::wstring(1, lines.at(7)).c_str());
 
                 // Include Duplicates
                 if (lines.at(8) == hashing.at(12)) {
@@ -110,14 +110,17 @@ intvector configParser(std::string input, std::wstring* pakPathPointer) {
                     configs[9] = 2;
                 }
 
+                // Force PC character
+                configs[10] = _wtoi(std::wstring(1, lines.at(10)).c_str());
+
                 // Force Boss Options
-                configs[10] = (int)lines.at(10);
-                configs[11] = (int)lines.at(11);
-                configs[12] = (int)lines.at(12);
-                configs[13] = (int)lines.at(13);
-                configs[14] = (int)lines.at(14);
-                configs[15] = (int)lines.at(15);
-                configs[16] = (int)lines.at(16);
+                configs[11] = _wtoi(std::wstring(1, lines.at(11)).c_str());
+                configs[12] = _wtoi(std::wstring(1, lines.at(12)).c_str());
+                configs[13] = _wtoi(std::wstring(1, lines.at(13)).c_str());
+                configs[14] = _wtoi(std::wstring(1, lines.at(14)).c_str());
+                configs[15] = _wtoi(std::wstring(1, lines.at(15)).c_str());
+                configs[16] = _wtoi(std::wstring(1, lines.at(16)).c_str());
+                configs[17] = _wtoi(std::wstring(1, lines.at(17)).c_str());
 
                 // Pak dir
                 std::wstring pakDir = lines.substr(quotes[0], quotes[1]);
@@ -145,6 +148,8 @@ intvector configParser(std::string input, std::wstring* pakPathPointer) {
         configs[13] = 0;
         configs[14] = 0;
         configs[15] = 0;
+        configs[16] = 0;
+        configs[17] = 0;
         *pakPathPointer = L"C:\\Program Files (x86)\\Steam\\Steamapps\\Common\\OCTOPATH TRAVELER\\Octopath_Traveler\\Content\\Paks";
     }
 
@@ -153,13 +158,15 @@ intvector configParser(std::string input, std::wstring* pakPathPointer) {
 
 }
 
-void configWriter(std::string input, intvector configs) {
+void configWriter(std::string input, intvector configs, wchar_t *pakPath) {
 
 	// Write to config file using the same psuedohashing 
     std::wstring lines;
     std::wofstream configFile(input.c_str());
-
-     // The first portion of the line is the Alphabetic hash of the options
+    // Write a first line for explaining
+    configFile << "// Please do not modify this file" << std::endl;
+    
+    // The first portion of the line is the Alphabetic hash of the options
     std::wstring hashing = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // Mixing Options
     switch (configs[0]) {
@@ -250,4 +257,11 @@ void configWriter(std::string input, intvector configs) {
         configFile << hashing.at(19);
         break;
     }
+    // Force Boss Options
+    configFile << configs[10] << configs[11] << configs[12] << configs[13] << configs[14] << configs[15] << configs[16] << configs[17];
+
+    // Pak dir
+    configFile << "\"" << pakPath << "\"" << std::endl;;
+
+    configFile.close();
 }
