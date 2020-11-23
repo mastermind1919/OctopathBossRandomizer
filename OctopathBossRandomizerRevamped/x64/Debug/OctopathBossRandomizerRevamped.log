@@ -1,7 +1,0 @@
-﻿  ForceRandomization.cpp
-  RandomToFiles.cpp
-  Randomize.cpp
-C:\Users\Mastermind1919\Desktop\OctopathBossRandomizer\OctopathBossRandomizerRevamped\Randomize.cpp(12,58): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Mastermind1919\Desktop\OctopathBossRandomizer\OctopathBossRandomizerRevamped\Randomize.cpp(37,57): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
-  OctopathBossRandomizerRevamped.vcxproj -> C:\Users\Mastermind1919\Desktop\OctopathBossRandomizer\Src\x64\Debug\OctopathBossRandomizerRevamped.exe
