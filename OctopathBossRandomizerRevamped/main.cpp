@@ -936,10 +936,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		WCHAR* buffer = new WCHAR[len];
 		SendMessage(GetDlgItem(hwnd, IDE_EDIT), WM_GETTEXT, (WPARAM)len + 1, (LPARAM)buffer);
 		configWriter(".\\working\\config.txt", configs, buffer);
-
 		PostQuitMessage(0);
-	}
 		return 0;
+	}
 		break;
 	case WM_PAINT:
 	{
@@ -953,7 +952,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		DrawEdge(hdc, &rectange, EDGE_SUNKEN, BF_RECT | BF_FLAT);
 		EndPaint(hwnd, &ps);
 	}
-
 	break;
 	case WM_CTLCOLORSTATIC:
 		if ((HWND)lParam == GetDlgItem(hwnd, IDS_DESCRIPTIONSTRING)) {
@@ -973,7 +971,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	// Window Commands
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			// Main button, does all the randomization
+		// Main button, does all the randomization
 		case IDB_RANDOMIZE_BUTTON:
 		{
 			// Check the pak path first
@@ -1066,8 +1064,21 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				configs[5] == 1 ? fullRandom = true : fullRandom = false;
 				randomizedLists = randomizeBosses(rng, fixedBosses, specificCharacter, mixChapter14, mixChapter24, randomizeShrine, includeShrine, randomizeGate, includeGate, includeGaldera, includeDuplicate, fullRandom);
 
-				// Now that bosses are randomized, put them into the files
-
+				// Now that the bosses are randomized, put them into the files
+				// Write random bosses to files
+				bool soloTraveler;
+				configs[6] == 1 ? soloTraveler = true : soloTraveler = false;
+				int errorCheck = randomToFile(rng, randomizedLists, soloTraveler, seed);
+				if (errorCheck == 1) {
+					// Error out
+					logFile << L"Error in writing to file." << std::endl;
+					DisplayErrorMessageBox();
+					logFile.close();
+					SendMessage(hwnd, WM_DESTROY, 0, 0);
+				}
+				else {
+					// Continue
+				}
 			}
 		}
 			break;
@@ -1316,7 +1327,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 				duoStateCheck(hwnd, IDB_INCLUDEGALDERA, IDB_NOGALDERA, GetDlgItem(hwnd, IDS_INCLUDEGALDERA), GetDlgItem(hwnd, IDS_NOGALDERA));
-				configs[3] = 0;
+				configs[3] = 1;
 				break;
 			}
 			break;

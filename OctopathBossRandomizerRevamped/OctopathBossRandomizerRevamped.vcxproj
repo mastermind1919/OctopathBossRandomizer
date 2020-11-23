@@ -151,6 +151,8 @@
     <ClCompile Include="ForceRandomization.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Randomize.cpp" />
+    <ClCompile Include="RandomToFiles.cpp" />
+    <ClCompile Include="Spoilers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OctopathBossRandomizerRevamped.rc" />
