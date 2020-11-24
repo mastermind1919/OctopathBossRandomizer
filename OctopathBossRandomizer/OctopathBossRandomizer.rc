@@ -76,7 +76,7 @@ BEGIN
     LTEXT           "3. Boot the game up, and enjoy the random bosses.",IDC_STATIC,12,66,166,8
     LTEXT           "Note: You will need to hit ""Randomize"" each time you want a new random run",IDC_STATIC,12,78,250,8
     LTEXT           "Note: Leaving the ""Pak Dir"" field blank will place the patch pak folder in the same directory as this program",IDC_STATIC,12,90,340,8
-    LTEXT           "To unrandomize, either delete the ""BossRandomizer"" folder in the pak dir, or hit the ""Unrandomize"" Button.",IDC_STATIC,12,102,338,8
+    LTEXT           "To unrandomize, delete the ""BossRandomizer"" folder in the pak dir.",IDC_STATIC,12,102,214,8
 END
 
 IDD_FORCEOPTIONS DIALOGEX 0, 0, 417, 137
@@ -109,17 +109,18 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,222,72,183,10
 END
 
-IDD_CONFIG DIALOGEX 0, 0, 303, 113
+IDD_CONFIG DIALOGEX 0, 0, 303, 119
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Config"
 FONT 8, "Arial", 400, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,126,90,50,14
-    LTEXT           "Config Syncronizer:",IDC_STATIC,119,6,65,8
+    DEFPUSHBUTTON   "OK",IDOK,126,96,50,14
+    LTEXT           "Config Synchronizer:",IDC_STATIC,119,6,69,8
     LTEXT           "Below is a string of characters that represent the current config options.",IDC_STATIC,12,24,235,8
     LTEXT           "To Distribute: Copy the string and distribute it to anyone who wants the same configs.",IDC_STATIC,12,36,276,8
     LTEXT           "To Sync: Delete the below string, and paste the string from someone else's config.",IDC_STATIC,12,48,266,8
-    EDITTEXT        IDE_CONFIGEDIT,12,66,276,14,ES_AUTOHSCROLL
+    EDITTEXT        IDE_CONFIGEDIT,12,72,276,14,ES_AUTOHSCROLL
+    LTEXT           "Malformed Strings will cause the default options to be loaded.",IDC_STATIC,12,60,198,8
 END
 
 
@@ -160,7 +161,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 296
         TOPMARGIN, 7
-        BOTTOMMARGIN, 106
+        BOTTOMMARGIN, 112
     END
 END
 #endif    // APSTUDIO_INVOKED

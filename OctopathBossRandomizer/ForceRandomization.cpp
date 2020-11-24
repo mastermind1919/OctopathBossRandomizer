@@ -71,34 +71,44 @@ vectorvector fixedTier(mt19937 rng, intvector config) {
 	// Set bool for duplicate
 	bool includeDuplicate;
 	config[8] == 1 ? includeDuplicate = true : includeDuplicate = false;
+	// for refreshing the rng
+	int refresh;
+	uniform_int_distribution <mt19937::result_type> bosses(0, 46);
 	// Vector for storing fixed bosses
 	vectorvector fixedBosses(7);
 	// Chapter 1
 	for (int i = 0; i < internalConfig[0]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[0].push_back(uniformFixedRandom(rng, fixedBosses, 0, 7, 0, false, false, false, includeDuplicate));
 	}
 	// Chapter 2
 	for (int i = 0; i < internalConfig[1]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[1].push_back(uniformFixedRandom(rng, fixedBosses, 8, 15, 1, false, false, false, includeDuplicate));
 	}
 	// Chapter 3
 	for (int i = 0; i < internalConfig[2]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[2].push_back(uniformFixedRandom(rng, fixedBosses, 16, 23, 2, false, false, false, includeDuplicate));
 	}
 	// Chapter 4
 	for (int i = 0; i < internalConfig[3]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[3].push_back(uniformFixedRandom(rng, fixedBosses, 24, 32, 3, false, false, false, includeDuplicate));
 	}
 	// Shrine Bosses
 	for (int i = 0; i < internalConfig[4]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[4].push_back(uniformFixedRandom(rng, fixedBosses, 33, 36, 4, true, false, false, includeDuplicate));
 	}
 	// Gate Bosses
 	for (int i = 0; i < internalConfig[5]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[5].push_back(uniformFixedRandom(rng, fixedBosses, 37, 44, 5, false, true, false, includeDuplicate));
 	}
 	// Galdera
 	for (int i = 0; i < internalConfig[6]; i++) {
+		refresh = bosses(rng);
 		fixedBosses[6].push_back(uniformFixedRandom(rng, fixedBosses, 45, 46, 6, false, false, true, includeDuplicate));
 	}
 

@@ -749,8 +749,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND dashString6 = createTextString(L"*", 15, 223, 4, 15, hwnd, NULL);
 		HWND dashString7 = createTextString(L"*", 15, 256, 4, 15, hwnd, NULL);
 		HWND dashString8 = createTextString(L"*", 15, 289, 4, 15, hwnd, NULL);
-		HWND dashString9 = createTextString(L"*", 15, 308, 4, 15, hwnd, NULL);
-		HWND dashString10 = createTextString(L"*", 15, 341, 4, 15, hwnd, NULL);
+		HWND dashString9 = createTextString(L"*", 15, 326, 4, 15, hwnd, NULL);
+		HWND dashString10 = createTextString(L"*", 15, 359, 4, 15, hwnd, NULL);
 		HWND DefaultMixString = createTextString(L"Do not allow for Chapter 1 - 4 bosses pools to be mixed, so a Chapter 4 boss can never appear in a Chapter 2 area.", 20, 100, 350, 30, hwnd, MAKEINTRESOURCE(IDS_DEFAULTMIX));
 		HWND MixChapter24String = createTextString(L"Allows for any boss in the Chapter 4 pool and include options to be mixed with Chapter 2 and Chapter 3 bosses, so you can get a Chapter 4 boss for a Chapter 2 area.", 20, 100, 350, 45, hwnd, MAKEINTRESOURCE(IDS_MIXCHAPTER24));
 		HWND MixChapter14String = createTextString(L"Allows for any boss in the Chapter 4 pool and include options to be mixed with Chapters 1 - 3, so yes, you can get a Chapter 4 or nastier boss for a first character.", 20, 100, 350, 45, hwnd, MAKEINTRESOURCE(IDS_MIXCHAPTER14));
@@ -765,16 +765,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		HWND NoDuplicateString = createTextString(L"Do not allow for duplicate bosses, each one is unique.", 20, 202, 350, 15, hwnd, MAKEINTRESOURCE(IDS_NODUPLICATE));
 		HWND IncludeDuplicateString = createTextString(L"Allows for duplicate bosses, so a boss can show up multiple times.", 20, 202, 350, 15, hwnd, MAKEINTRESOURCE(IDS_INCLUDEDUPLICATE));
 		HWND NoFullRandomString = createTextString(L"Full Random is Disabled", 20, 220, 350, 30, hwnd, MAKEINTRESOURCE(IDS_NOFULLRANDOM));
-		HWND FullRandomString = createTextString(L"Ignores all randomization options and make each boss have an equal change of showing up. Obeys forcing rules.", 20, 220, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FULLRANDOM));
+		HWND FullRandomString = createTextString(L"Ignores all normal randomization options and make each boss have an equal chance of showing up. Obeys forcing rules.", 20, 220, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FULLRANDOM));
 		HWND NoSoloRandomString = createTextString(L"Solo Traveler Randomization is Disabled", 20, 253, 350, 30, hwnd, MAKEINTRESOURCE(IDS_NOSOLORANDOM));
 		HWND SoloRandomString = createTextString(L"Forces a random Solo Traveler to fight any one boss. It is recommended you get all travelers before continuing past chapter 2.", 20, 253, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SOLORANDOM));
 		HWND NoForcingString = createTextString(L"No boss forcing is done.", 20, 286, 345, 15, hwnd, MAKEINTRESOURCE(IDS_NOFORCEBOSS));
 		HWND ForcingString = createTextString(L"Boss forcing is enabled, Check options for details.", 20, 286, 345, 15, hwnd, MAKEINTRESOURCE(IDS_FORCEBOSS));
-		HWND NoForcingPCString = createTextString(L"Do not force a random PC", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_NOFORCEPC));
-		HWND ForcingPCString = createTextString(L"Forces a random PC for a new game. This PC will always\nhave a Chapter 1 boss", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FORCEPC));
-		HWND SpecificPCString = createTextString(L"Forces the specified PC for a new game. This PC will always have a Chapter 1 boss", 20, 305, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SPECIFICPC));
-		HWND PCWinConditionString = createTextString(L"Credits roll upon completion of the main PC Story.", 20, 338, 345, 15, hwnd, MAKEINTRESOURCE(IDS_PCWIN));
-		HWND GalderaWinConditionString = createTextString(L"Credits roll upon completing the Gate of Finis and defeating Galdera.", 20, 338, 345, 15, hwnd, MAKEINTRESOURCE(IDS_GALDERAWIN));
+		HWND NoForcingPCString = createTextString(L"Do not force a random PC", 20, 323, 345, 30, hwnd, MAKEINTRESOURCE(IDS_NOFORCEPC));
+		HWND ForcingPCString = createTextString(L"Forces a random PC for a new game. This PC will always\nhave a Chapter 1 boss", 20, 323, 345, 30, hwnd, MAKEINTRESOURCE(IDS_FORCEPC));
+		HWND SpecificPCString = createTextString(L"Forces the specified PC for a new game. This PC will always have a Chapter 1 boss", 20, 323, 345, 30, hwnd, MAKEINTRESOURCE(IDS_SPECIFICPC));
+		HWND PCWinConditionString = createTextString(L"Credits roll upon completion of the main PC Story.", 20, 356, 345, 15, hwnd, MAKEINTRESOURCE(IDS_PCWIN));
+		HWND GalderaWinConditionString = createTextString(L"Credits roll upon completing the Gate of Finis and defeating \"Galdera\".", 20, 356, 345, 15, hwnd, MAKEINTRESOURCE(IDS_GALDERAWIN));
 
 		// Disable all the strings
 		ShowWindow(DefaultMixString, SW_HIDE);
@@ -922,7 +922,42 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		// Forcing bosses is done in the dialog
 
 		// Enforce option box greying out if certain items are selected
-
+		// full random config
+		if (configs[5] == 1) {
+			EnableWindow(defaultMix, false);
+			EnableWindow(mixChapter24, false);
+			EnableWindow(mixChapter14, false);
+			EnableWindow(noShrineRandomization, false);
+			EnableWindow(randomizeShrine, false);
+			EnableWindow(includeShrine, false);
+			EnableWindow(noGateRandomization, false);
+			EnableWindow(randomizeGate, false);
+			EnableWindow(includeGate, false);
+			EnableWindow(noGalderaRandomization, false);
+			EnableWindow(includeGaldera, false);
+			EnableWindow(noDupliates, false);
+			EnableWindow(includeDupliates, false);
+			EnableWindow(DefaultMixString, false);
+			EnableWindow(MixChapter24String, false);
+			EnableWindow(MixChapter14String, false);
+			EnableWindow(NoShrineString, false);
+			EnableWindow(RandomizeShrineString, false);
+			EnableWindow(IncludeShrineString, false);
+			EnableWindow(NoGateString, false);
+			EnableWindow(RandomizeGateString, false);
+			EnableWindow(IncludeGateString, false);
+			EnableWindow(NoGalderaString, false);
+			EnableWindow(IncludeGalderaString, false);
+			EnableWindow(NoDuplicateString, false);
+			EnableWindow(IncludeDuplicateString, false);
+		}
+		// Force Boss Options
+		if (configs[7] != 1) {
+			EnableWindow(forceBossOptions, false);
+		}
+		if (configs[9] != 2) {
+			EnableWindow(specificPCOption, false);
+		}
 
 		SendDlgItemMessage(hwnd, IDE_EDIT, WM_SETTEXT, 0, (LPARAM)pakDir.c_str());
 	}
@@ -1564,6 +1599,32 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_SHOW);
 					configs[5] = 1;
 					// Grey out other options
+					EnableWindow(GetDlgItem(hwnd, IDB_DEFAULTMIX), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER24), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOSHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_RANDOMSHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_RANDOMGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOGALDERA), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGALDERA), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_NODUPLICATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEDUPLICATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_DEFAULTMIX), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_MIXCHAPTER24), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_MIXCHAPTER14), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOSHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_RANDOMIZESHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDESHRINE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_RANDOMIZEGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEGATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOGALDERA), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEGALDERA), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_NODUPLICATE), false);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEDUPLICATE), false);
 
 				}
 				else {
@@ -1571,7 +1632,32 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					ShowWindow(GetDlgItem(hwnd, IDS_FULLRANDOM), SW_HIDE);
 					configs[5] = 0;
 					// Undo Greying out
-
+					EnableWindow(GetDlgItem(hwnd, IDB_DEFAULTMIX), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER24), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_MIXCHAPTER14), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOSHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_RANDOMSHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDESHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_RANDOMGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_NOGALDERA), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEGALDERA), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_NODUPLICATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDB_INCLUDEDUPLICATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_DEFAULTMIX), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_MIXCHAPTER24), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_MIXCHAPTER14), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOSHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_RANDOMIZESHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDESHRINE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_RANDOMIZEGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEGATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_NOGALDERA), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEGALDERA), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_NODUPLICATE), true);
+					EnableWindow(GetDlgItem(hwnd, IDS_INCLUDEDUPLICATE), true);
 				}
 				break;
 			}
@@ -1600,12 +1686,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 				if ((bool)IsDlgButtonChecked(hwnd, IDB_FORCEBOSS) == true) {
 					ShowWindow(GetDlgItem(hwnd, IDS_NOFORCEBOSS), SW_HIDE);
 					ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_SHOW);
+					// Enable boss options
+					EnableWindow(GetDlgItem(hwnd, IDB_FORCEBOSSOPTION), true);
 					configs[7] = 1;
 
 				}
 				else {
 					ShowWindow(GetDlgItem(hwnd, IDS_NOFORCEBOSS), SW_SHOW);
 					ShowWindow(GetDlgItem(hwnd, IDS_FORCEBOSS), SW_HIDE);
+					// Disable boss options
+					EnableWindow(GetDlgItem(hwnd, IDB_FORCEBOSSOPTION), false);
 					configs[7] = 0;
 				}
 				break;
@@ -1615,6 +1705,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 				triStateCheck(hwnd, IDB_NOFORCEPC, IDB_FORCEPC, IDB_SPECIFICPC, GetDlgItem(hwnd, IDS_NOFORCEPC), GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_SPECIFICPC));
+				// Enable disable specific PC
+				EnableWindow(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), false);
 				configs[9] = 0;
 				break;
 			}
@@ -1623,6 +1715,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 				triStateCheck(hwnd, IDB_FORCEPC, IDB_NOFORCEPC, IDB_SPECIFICPC, GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_NOFORCEPC), GetDlgItem(hwnd, IDS_SPECIFICPC));
+				// Enable disable specific PC
+				EnableWindow(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), false);
 				configs[9] = 1;
 				break;
 			}
@@ -1631,6 +1725,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 				triStateCheck(hwnd, IDB_SPECIFICPC, IDB_FORCEPC, IDB_NOFORCEPC, GetDlgItem(hwnd, IDS_SPECIFICPC), GetDlgItem(hwnd, IDS_FORCEPC), GetDlgItem(hwnd, IDS_NOFORCEPC));
+				// Enable specific PC options
+				EnableWindow(GetDlgItem(hwnd, IDB_SPECIFICPCOPTION), true);
 				configs[9] = 2;
 				break;
 			}

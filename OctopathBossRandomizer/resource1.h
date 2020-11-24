@@ -76,6 +76,7 @@
 #define IDC_COMBOTIER6                  1006
 #define IDC_FORCEGALDERA                1007
 #define IDE_CONFIGEDIT                  1008
+#define IDC_EDIT1                       1009
 #define ID_TEST_ABOUT                   40001
 #define ID_TEST_HELP                    40002
 #define IDM_ABOUT                       40003
@@ -87,7 +88,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        143
 #define _APS_NEXT_COMMAND_VALUE         40005
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
