@@ -37,9 +37,5 @@ while you're at it! It should be compatable!
 ### Future Plans
 
 - Include Side story bosses
-- Fixes for music that plays during the boss encounters.
 
 ## Known Issues
-
-- Certain combinations of bosses will cause the music that plays during the boss fight to be battle 1.
-- Hitting the exit button on a dialog box will cause the program to hang, and require task manager to kill.

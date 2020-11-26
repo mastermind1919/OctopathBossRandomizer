@@ -148,6 +148,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Randomize.cpp" />
     <ClCompile Include="RandomToFile.cpp" />
+    <ClCompile Include="RandomToHexFile.cpp" />
     <ClCompile Include="Spoilers.cpp" />
   </ItemGroup>
   <ItemGroup>

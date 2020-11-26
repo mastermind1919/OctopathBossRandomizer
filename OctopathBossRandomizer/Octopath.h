@@ -34,3 +34,4 @@ vectorvector fixedTier(std::mt19937 rng, intvector config);
 void spoiler(std::deque<int> input, unsigned int seedInput);
 void soloSpoiler(std::deque<int> input, unsigned int seedInput, std::deque<int> characters);
 int randomToFile(std::mt19937 rng, vectorvector inputVector, bool soloTraveler, unsigned int seedInput, int winCondition);
+bool randomToHexFile(std::mt19937 rng, vectorvector inputVector);

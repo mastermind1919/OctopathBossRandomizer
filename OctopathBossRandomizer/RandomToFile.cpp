@@ -270,7 +270,8 @@ int randomToFile(std::mt19937 rng, vectorvector inputVector, bool soloTraveler, 
                 while (getline(in, line)) {
                     size_t pos = line.find(bosses[i]);
                     if (pos != std::wstring::npos) {
-                        line.replace(pos, len, bosses[randomBosses.front()]);
+                        //line.replace(pos, len, bosses[randomBosses.front()]);
+                        line.replace(pos, len, bosses[i]);
                         size_t solopos = line.find(L"\",\"0\"");
                         if (solopos != std::wstring::npos) {
                             std::wstring replaceSolo = L"\",\"" + std::wstring(1, digits.at(soloTravelers.front())) + L"\"";
@@ -285,6 +286,7 @@ int randomToFile(std::mt19937 rng, vectorvector inputVector, bool soloTraveler, 
                 out.close();
             }
         }
+        // Randomization is now done with EnemyGroupData, commented out
         else {
             // Create spoilers
             spoiler(randomBosses, seedInput);
@@ -302,7 +304,9 @@ int randomToFile(std::mt19937 rng, vectorvector inputVector, bool soloTraveler, 
                 while (getline(in, line)) {
                     size_t pos = line.find(bosses[i]);
                     if (pos != std::wstring::npos) {
-                        line.replace(pos, len, bosses[randomBosses.front()]);
+                        //line.replace(pos, len, bosses[randomBosses.front()]);
+                        // just replaces line with normal boss
+                        line.replace(pos, len, bosses[i]);
                         randomBosses.pop_front();
                     }
                     out << line << '\n';

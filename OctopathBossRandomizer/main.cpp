@@ -219,6 +219,9 @@ BOOL CALLBACK UsageDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
 			break;
 		}
 		break;
+	case WM_CLOSE:
+		EndDialog(hwnd, IDCANCEL);
+		break;
 	default:
 		return FALSE;
 	}
@@ -486,6 +489,9 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 			break;
 		}
 		break;
+	case WM_CLOSE:
+		EndDialog(hwnd, IDCANCEL);
+		break;
 	}
 	return DefWindowProc(hwnd, Message, wParam, lParam);
 }
@@ -565,6 +571,9 @@ BOOL CALLBACK OptionDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 			EndDialog(hwnd, IDCANCEL);
 			break;
 		}
+		break;
+	case WM_CLOSE:
+		EndDialog(hwnd, IDCANCEL);
 		break;
 	default:
 		return FALSE;
@@ -1009,7 +1018,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	// Window Commands
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			// Main button, does all the randomization
+		// Main button, does all the randomization
 		case IDB_RANDOMIZE_BUTTON:
 		{
 			// Check the pak path first
@@ -1117,10 +1126,28 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					}
 					CreateDirectory(L".\\working\\Octopath_Traveler\\Content\\Event\\json", NULL);
 				}
+				// Ensure the structure is there for the enemy group data
+				if (GetFileAttributes(L".\\working\\Octopath_Traveler\\Content\\Battle\\Database") == INVALID_FILE_ATTRIBUTES) {
+					if (GetFileAttributes(L".\\working\\Octopath_Traveler\\Content\\Battle") == INVALID_FILE_ATTRIBUTES) {
+						CreateDirectory(L".\\working\\Octopath_Traveler\\Content\\Battle", NULL);
+					}
+					CreateDirectory(L".\\working\\Octopath_Traveler\\Content\\Battle\\Database", NULL);
+				}
 				// Write random bosses to files
 				bool soloTraveler;
 				configs[6] == 1 ? soloTraveler = true : soloTraveler = false;
 				logFile << "Writing random bosses to files" << std::endl;
+				// write random bosses into the EnemyGroupData.uexp file
+				// Delete any EnemyGroupData.uexp that might be there
+				DeleteFile(L".\\working\\Octopath_Traveler\\Content\\Battle\\Database\\EnemyGroupData.uexp");
+				bool errorHexCheck = randomToHexFile(rng, randomizedLists);
+				if (errorHexCheck == false) {
+					// Show error message for hex files
+					logFile << L"Error in writting from hex files." << std::endl;
+					DisplayErrorMessageBox();
+					logFile.close();
+					SendMessage(hwnd, WM_DESTROY, 0, 0);
+				}
 				int errorCheck = randomToFile(rng, randomizedLists, soloTraveler, seed, configs[4]);
 				if (errorCheck == 1) {
 					// Error out
@@ -1303,7 +1330,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					// Normal output prompt
 					MessageBox(hwnd, L"Randomization Complete, enjoy!", L"Randomizing Done", MB_OK);
 				}
-
 			}
 		}
 		break;
