@@ -499,7 +499,7 @@ bool randomToHexFile(std::mt19937 rng, vectorvector inputVector) {
 	endroll[55] = 29; // normal Alfyn chapter 1
 	endroll[56] = 30; // Alfyn chapter 2
 	endroll[57] = 31; // Alfyn chapter 3
-	endroll[58] = 31; // Alfyn chapter 4
+	endroll[58] = 32; // Alfyn chapter 4
 	endroll[59] = 0; // Warmaster
 	endroll[60] = 0; // Sorceror
 	endroll[61] = 0; // Runelord
@@ -729,53 +729,53 @@ bool randomToHexFile(std::mt19937 rng, vectorvector inputVector) {
 	// put bosses into deque for easy iteration
 	std::deque<int> randomBosses;
 	// deque has to be in specific order, do it manually
-	randomBosses.push_back(inputVector[0][0]);
-	randomBosses.push_back(inputVector[1][0]);
-	randomBosses.push_back(inputVector[2][0]);
-	randomBosses.push_back(inputVector[3][0]);
-	randomBosses.push_back(inputVector[0][2]);
-	randomBosses.push_back(inputVector[1][2]);
-	randomBosses.push_back(inputVector[2][2]);
-	randomBosses.push_back(inputVector[3][2]);
-	randomBosses.push_back(inputVector[0][4]);
-	randomBosses.push_back(inputVector[1][4]);
-	randomBosses.push_back(inputVector[2][4]);
-	randomBosses.push_back(inputVector[3][4]);
-	randomBosses.push_back(inputVector[0][3]);
-	randomBosses.push_back(inputVector[1][3]);
-	randomBosses.push_back(inputVector[2][3]);
-	randomBosses.push_back(inputVector[3][3]);
-	randomBosses.push_back(inputVector[0][7]);
-	randomBosses.push_back(inputVector[1][7]);
-	randomBosses.push_back(inputVector[2][7]);
-	randomBosses.push_back(inputVector[3][8]);
-	randomBosses.push_back(inputVector[0][5]);
-	randomBosses.push_back(inputVector[1][5]);
-	randomBosses.push_back(inputVector[2][5]);
-	randomBosses.push_back(inputVector[3][5]);
-	randomBosses.push_back(inputVector[3][6]);
-	randomBosses.push_back(inputVector[0][6]);
-	randomBosses.push_back(inputVector[1][6]);
-	randomBosses.push_back(inputVector[2][6]);
-	randomBosses.push_back(inputVector[3][7]);
-	randomBosses.push_back(inputVector[0][1]);
-	randomBosses.push_back(inputVector[1][1]);
-	randomBosses.push_back(inputVector[2][1]);
-	randomBosses.push_back(inputVector[3][1]);
-	randomBosses.push_back(inputVector[4][0]);
-	randomBosses.push_back(inputVector[4][1]);
-	randomBosses.push_back(inputVector[4][2]);
-	randomBosses.push_back(inputVector[4][3]);
-	randomBosses.push_back(inputVector[6][1]);
-	randomBosses.push_back(inputVector[6][0]);
-	randomBosses.push_back(inputVector[5][0]);
-	randomBosses.push_back(inputVector[5][1]);
-	randomBosses.push_back(inputVector[5][2]);
-	randomBosses.push_back(inputVector[5][3]);
-	randomBosses.push_back(inputVector[5][4]);
-	randomBosses.push_back(inputVector[5][5]);
-	randomBosses.push_back(inputVector[5][6]);
-	randomBosses.push_back(inputVector[5][7]);
+	randomBosses.push_back(inputVector[0][0]); // Tressa chapter 1
+	randomBosses.push_back(inputVector[1][0]); // Tressa chapter 2
+	randomBosses.push_back(inputVector[2][0]); // Tressa chapter 3
+	randomBosses.push_back(inputVector[3][0]); // Tressa chapter 4
+	randomBosses.push_back(inputVector[0][2]); // Therion chapter 1
+	randomBosses.push_back(inputVector[1][2]); // Therion chapter 2
+	randomBosses.push_back(inputVector[2][2]); // Therion chapter 3
+	randomBosses.push_back(inputVector[3][2]); // Therion chapter 4
+	randomBosses.push_back(inputVector[0][4]); // Olberic chapter 1
+	randomBosses.push_back(inputVector[1][4]); // Olberic chapter 2
+	randomBosses.push_back(inputVector[2][4]); // Olberic chapter 3
+	randomBosses.push_back(inputVector[3][4]); // Olberic chapter 4
+	randomBosses.push_back(inputVector[0][3]); // Hannit chapter 1
+	randomBosses.push_back(inputVector[1][3]); // Hannit chapter 2
+	randomBosses.push_back(inputVector[2][3]); // Hannit chapter 3
+	randomBosses.push_back(inputVector[3][3]); // Hannit chapter 4
+	randomBosses.push_back(inputVector[0][7]); // Ophilia chapter 1
+	randomBosses.push_back(inputVector[1][7]); // Ophilia chapter 2
+	randomBosses.push_back(inputVector[2][7]); // Ophilia chapter 3
+	randomBosses.push_back(inputVector[3][8]); // Ophilia chapter 4
+	randomBosses.push_back(inputVector[0][5]); // Primrose chapter 1
+	randomBosses.push_back(inputVector[1][5]); // Primrose chapter 2
+	randomBosses.push_back(inputVector[2][5]); // Primrose chapter 3
+	randomBosses.push_back(inputVector[3][5]); // Primrose chapter 4 phase 1
+	randomBosses.push_back(inputVector[3][6]); // Primrose chapter 4 phase 2
+	randomBosses.push_back(inputVector[0][6]); // Cyrus chapter 1
+	randomBosses.push_back(inputVector[1][6]); // Cyrus chapter 2
+	randomBosses.push_back(inputVector[2][6]); // Cyrus chapter 3
+	randomBosses.push_back(inputVector[3][7]); // Cyrus chapter 4
+	randomBosses.push_back(inputVector[0][1]); // Alfyn chapter 1
+	randomBosses.push_back(inputVector[1][1]); // Alfyn chapter 2
+	randomBosses.push_back(inputVector[2][1]); // Alfyn chapter 3
+	randomBosses.push_back(inputVector[3][1]); // Alfyn chapter 4
+	randomBosses.push_back(inputVector[4][0]); // Warmaster shrine
+	randomBosses.push_back(inputVector[4][1]); // Sorceror shrine
+	randomBosses.push_back(inputVector[4][2]); // Runelord shrine
+	randomBosses.push_back(inputVector[4][3]); // Starseer shrine
+	randomBosses.push_back(inputVector[6][1]); // Galdera phase 2
+	randomBosses.push_back(inputVector[6][0]); // Galdera phase 1
+	randomBosses.push_back(inputVector[5][0]); // Tressa's gate
+	randomBosses.push_back(inputVector[5][1]); // Therion's gate
+	randomBosses.push_back(inputVector[5][2]); // Olberic's gate
+	randomBosses.push_back(inputVector[5][3]); // Hannit's gate
+	randomBosses.push_back(inputVector[5][4]); // Ophilia's gate
+	randomBosses.push_back(inputVector[5][5]); // Primrose's gate
+	randomBosses.push_back(inputVector[5][6]); // Cyrus' gate
+	randomBosses.push_back(inputVector[5][7]); // Alfyn's gate
 
 	// Check for files first
 	bool errorCheck = true;

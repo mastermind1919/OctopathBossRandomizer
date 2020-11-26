@@ -2,7 +2,7 @@
 Boss Randomizer for Octopath Traveler (Steam)
 
 ### About
-Tired of fighting the same bosses over and over? Wondered what it would be like to fight Galdera instead of the Orge Eagle? 
+Tired of fighting the bosses in the same order over and over? Wondered what it would be like to fight Galdera instead of the Orge Eagle? 
 Than this is the option for you. The Boss randomizer changes the story boss encounters with a few configurable options. 
 
 ### Requirements
@@ -37,5 +37,6 @@ while you're at it! It should be compatable!
 ### Future Plans
 
 - Include Side story bosses
+- Enemy Randomizer
 
 ## Known Issues
