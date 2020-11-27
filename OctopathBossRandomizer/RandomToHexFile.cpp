@@ -696,7 +696,7 @@ bool randomToHexFile(std::mt19937 rng, vectorvector inputVector) {
 	bossToFile[17] = 57; // Alfyn Chapter 3 Boss
 	bossToFile[18] = 13; // Therion Chapter 3 Boss
 	bossToFile[19] = 28; // H'annit Chapter 3 Boss
-	bossToFile[20] = 35; // Olberic Chapter 3 Boss
+	bossToFile[20] = 20; // Olberic Chapter 3 Boss
 	bossToFile[21] = 42; // Primrose Chapter 3 Boss
 	bossToFile[22] = 50; // Cyrus Chapter 3 Boss
 	bossToFile[23] = 35; // Ophilia Chapter 3 Boss

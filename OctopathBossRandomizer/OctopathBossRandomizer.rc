@@ -247,7 +247,7 @@ STRINGTABLE
 BEGIN
     IDS_APP_NAME            "Octopath Traveler Boss Randomizer"
     IDS_APP_CLASS           "Octopath Traveler Boss Randomizer"
-    IDV_VERSION             "V2.1"
+    IDV_VERSION             "V2.2"
     IDE_EDIT                "Edit control for PAK Directory"
     IDB_FILE_BUTTON         "Button for getting Pak Directory"
     IDB_RANDOMIZE_BUTTON    "Button for randomizing the bosses"
