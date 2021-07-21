@@ -1346,43 +1346,41 @@ bool randomStatsToAssets(std::mt19937 &rng, intvector configs) {
 	hexFiles[133] = 0x13E13C; // Azure-eyed Tiger EVE_SUB_002_101
 	hexFiles[134] = 0x9B1A; // Devourer of Dreams ENE_Mou_N_019
 	hexFiles[135] = 0x2B4C9; // Lord of the Sands ENE_Des_N_019
-	hexFiles[136] = 0x2E25A; // Desert Worm ENE_Des_N_024
-	hexFiles[137] = 0x42151; // Dreadwolf ENE_Sno_N_019
-	hexFiles[138] = 0x4BC3E; // War Wolf ENE_Sno_N_036
-	hexFiles[139] = 0x584BC; // Behemoth ENE_Pla_N_019
-	hexFiles[140] = 0x683E8; // Gigantes ENE_Riv_N_019
-	hexFiles[141] = 0x8CB28; // Heavenwing ENE_Cri_N_019
-	hexFiles[142] = 0x993A6; // Tyrannodrake ENE_Cav_N_015
-	hexFiles[143] = 0xAD29D; // Manymaws ENE_FoD_N_009
-	hexFiles[144] = 0xADBBA; // Monarch ENE_FoD_N_012
-	hexFiles[145] = 0x13CEA2; // Throne Guardian EVE_EXT_007_101
+	hexFiles[136] = 0x42151; // Dreadwolf ENE_Sno_N_019
+	hexFiles[137] = 0x584BC; // Behemoth ENE_Pla_N_019
+	hexFiles[138] = 0x683E8; // Gigantes ENE_Riv_N_019
+	hexFiles[139] = 0x8CB28; // Heavenwing ENE_Cri_N_019
+	hexFiles[140] = 0x993A6; // Tyrannodrake ENE_Cav_N_015
+	hexFiles[141] = 0xAD29D; // Manymaws ENE_FoD_N_009
+	hexFiles[142] = 0xADBBA; // Monarch ENE_FoD_N_012
+	hexFiles[143] = 0x13CEA2; // Throne Guardian EVE_EXT_007_101
 	// Gate of Finis
-	hexFiles[146] = 0x12A2E2; // Galdera phase 2 Main BOS_Lst_Upp_101
-	hexFiles[147] = 0x12ACB7; // Galdera phase 2 Maw BOS_Lst_Upp_102
-	hexFiles[148] = 0x12B68C; // Galdera phase 2 Lyblac BOS_Lst_Upp_103
-	hexFiles[149] = 0x12C061; // Galdera phase 2 Blade BOS_Lst_Upp_104
-	hexFiles[150] = 0x122311; // Galdera phase 1 Main BOS_Lst_Low_102
-	hexFiles[151] = 0x122CE6; // Galdera phase 1 Raging Soul BOS_Lst_Low_103
-	hexFiles[152] = 0x1236BB; // Galdera phase 1 Raging Soul BOS_Lst_Low_203
-	hexFiles[153] = 0x124090; // Galdera phase 1 Raging Soul BOS_Lst_Low_303
-	hexFiles[154] = 0x124A65; // Galdera phase 1 Raging Soul BOS_Lst_Low_403
-	hexFiles[155] = 0x12543A; // Galdera phase 1 Screaming Soul BOS_Lst_Low_104
-	hexFiles[156] = 0x125E0F; // Galdera phase 1 Screaming Soul BOS_Lst_Low_204
-	hexFiles[157] = 0x1267E4; // Galdera phase 1 Screaming Soul BOS_Lst_Low_304
-	hexFiles[158] = 0x1271B9; // Galdera phase 1 Screaming Soul BOS_Lst_Low_404
-	hexFiles[159] = 0x127B8E; // Galdera phase 1 Wailing Soul BOS_Lst_Low_105
-	hexFiles[160] = 0x128563; // Galdera phase 1 Wailing Soul BOS_Lst_Low_205
-	hexFiles[161] = 0x128F38; // Galdera phase 1 Wailing Soul BOS_Lst_Low_305
-	hexFiles[162] = 0x12990D; // Galdera phase 1 Wailing Soul BOS_Lst_Low_405
-	hexFiles[163] = 0x11C0BF; // Tressa Gate Venomtooth Tiger BOS_Ext_Rev_101
-	hexFiles[164] = 0x11CA94; // Therion Gate Darius BOS_Ext_Rev_102
-	hexFiles[165] = 0x11D469; // Olberic Gate Werner BOS_Ext_Rev_103
-	hexFiles[166] = 0x11DE3E; // Hannit Gate Dragon BOS_Ext_Rev_104
-	hexFiles[167] = 0x11E813; // Ophilia Gate Mattias BOS_Ext_Rev_105
-	hexFiles[168] = 0x11F1E8; // Primrose Gate Simeon BOS_Ext_Rev_106
-	hexFiles[169] = 0x11FBBD; // Cyrus Gate Yvon BOS_Ext_Rev_107
-	hexFiles[170] = 0x120592; // Cyrus Gate Scholarly Bones BOS_Ext_Rev_207
-	hexFiles[171] = 0x120F67; // Alfyn Gate Miguel BOS_Ext_Rev_108
+	hexFiles[144] = 0x12A2E2; // Galdera phase 2 Main BOS_Lst_Upp_101
+	hexFiles[145] = 0x12ACB7; // Galdera phase 2 Maw BOS_Lst_Upp_102
+	hexFiles[146] = 0x12B68C; // Galdera phase 2 Lyblac BOS_Lst_Upp_103
+	hexFiles[147] = 0x12C061; // Galdera phase 2 Blade BOS_Lst_Upp_104
+	hexFiles[148] = 0x122311; // Galdera phase 1 Main BOS_Lst_Low_102
+	hexFiles[149] = 0x122CE6; // Galdera phase 1 Raging Soul BOS_Lst_Low_103
+	hexFiles[150] = 0x1236BB; // Galdera phase 1 Raging Soul BOS_Lst_Low_203
+	hexFiles[151] = 0x124090; // Galdera phase 1 Raging Soul BOS_Lst_Low_303
+	hexFiles[152] = 0x124A65; // Galdera phase 1 Raging Soul BOS_Lst_Low_403
+	hexFiles[153] = 0x12543A; // Galdera phase 1 Screaming Soul BOS_Lst_Low_104
+	hexFiles[154] = 0x125E0F; // Galdera phase 1 Screaming Soul BOS_Lst_Low_204
+	hexFiles[155] = 0x1267E4; // Galdera phase 1 Screaming Soul BOS_Lst_Low_304
+	hexFiles[156] = 0x1271B9; // Galdera phase 1 Screaming Soul BOS_Lst_Low_404
+	hexFiles[157] = 0x127B8E; // Galdera phase 1 Wailing Soul BOS_Lst_Low_105
+	hexFiles[158] = 0x128563; // Galdera phase 1 Wailing Soul BOS_Lst_Low_205
+	hexFiles[159] = 0x128F38; // Galdera phase 1 Wailing Soul BOS_Lst_Low_305
+	hexFiles[160] = 0x12990D; // Galdera phase 1 Wailing Soul BOS_Lst_Low_405
+	hexFiles[161] = 0x11C0BF; // Tressa Gate Venomtooth Tiger BOS_Ext_Rev_101
+	hexFiles[162] = 0x11CA94; // Therion Gate Darius BOS_Ext_Rev_102
+	hexFiles[163] = 0x11D469; // Olberic Gate Werner BOS_Ext_Rev_103
+	hexFiles[164] = 0x11DE3E; // Hannit Gate Dragon BOS_Ext_Rev_104
+	hexFiles[165] = 0x11E813; // Ophilia Gate Mattias BOS_Ext_Rev_105
+	hexFiles[166] = 0x11F1E8; // Primrose Gate Simeon BOS_Ext_Rev_106
+	hexFiles[167] = 0x11FBBD; // Cyrus Gate Yvon BOS_Ext_Rev_107
+	hexFiles[168] = 0x120592; // Cyrus Gate Scholarly Bones BOS_Ext_Rev_207
+	hexFiles[169] = 0x120F67; // Alfyn Gate Miguel BOS_Ext_Rev_108
 
 	// Modify the stats based on input from configs
 
@@ -1438,7 +1436,7 @@ bool randomStatsToAssets(std::mt19937 &rng, intvector configs) {
 		// Open the output file
 		std::fstream input;
 		input.open(".\\working\\Octopath_Traveler\\Content\\Character\\Database\\EnemyDB.uexp", std::fstream::in | std::fstream::out | std::fstream::binary);
-		for (int i = 1; i <= 171; i++) {
+		for (int i = 1; i <= 169; i++) {
 			// HP
 			fourByteStatUpdate(input, hexFiles[i], HPoffset, range(rng));
 			// MP
@@ -1467,7 +1465,7 @@ bool randomStatsToAssets(std::mt19937 &rng, intvector configs) {
 		// Open the output file
 		std::fstream input;
 		input.open(".\\working\\Octopath_Traveler\\Content\\Character\\Database\\EnemyDB.uexp", std::fstream::in | std::fstream::out | std::fstream::binary);
-		for (int i = 1; i <= 171; i++) {
+		for (int i = 1; i <= 169; i++) {
 			fourByteRewardUpdate(input, hexFiles[i], EXPoffset, configs[24]);
 		}
 		input.close();
@@ -1477,7 +1475,7 @@ bool randomStatsToAssets(std::mt19937 &rng, intvector configs) {
 		// Open the output file
 		std::fstream input;
 		input.open(".\\working\\Octopath_Traveler\\Content\\Character\\Database\\EnemyDB.uexp", std::fstream::in | std::fstream::out | std::fstream::binary);
-		for (int i = 1; i <= 171; i++) {
+		for (int i = 1; i <= 169; i++) {
 			fourByteRewardUpdate(input, hexFiles[i], JPoffset, configs[25]);
 		}
 		input.close();
