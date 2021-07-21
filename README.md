@@ -28,15 +28,17 @@ while you're at it! It should be compatable!
 - Include Gate Bosses: Include the Gate of Finis Bosses with the chapter 4 boss pool randomization
 - Include Galdera: Include both phases of Galdera in the chapter 4 boss pool randomization
 - Allow Duplicates: Allows for bosses show up multiple times
-- Full Random: As the name suggests, each boss has an equal chance of showing up in any particular encounter
 - Win Condition: Choose between having the credits roll upon completion of the main PC story, or of the Gate of Finis.
 - Solo Traveler Randomizer: Forces any boss past Chapter 1 to be fought solo using a random traveler. It is highly recommended that you get all characters before going past chapter 1. Both phases of Galdera are still fought using the whole party.
 - Force Boss Tier: Forces a user specified amount of bosses in a pool to stay on that tier. For example, you can force 4 Chapter 1 bosses in the chapter 1 areas regardless of any other randomizer options.
 - Force PC: Either forces a random or user specified PC to be the only one that shows up on the new game screen. This PC will always have a chapter 1 boss.
+- Side Boss Randomization: Randomize the Side Bosses both among and with the Main Bosses.
+- Pre Boss Encounter Randomization: Randomize the encounters before the Main Bosses in the story.
+- Hardmode Scaling: Implements [Melodia's](https://www.nexusmods.com/octopathtraveler/mods/5) hardmode scaling for use with the randomizer.
+- Stat Randomization: Randomize the stats of the bosses by up to +/- 100%
+- EXP/JP Scaling: Scale the EXP/JP earned from bosses by up to 100 times.
 
 ### Future Plans
-
-- Include Side story bosses
 - Enemy Randomizer
 
 ## Known Issues
