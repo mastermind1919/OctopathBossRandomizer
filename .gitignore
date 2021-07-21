@@ -1,0 +1,16 @@
+.vs
+Debug
+x64
+OctopathBossRandomizer/BossRandomizer
+OctopathBossRandomizer/Debug
+OctopathBossRandomizer/Spoilers
+OctopathBossRandomizer/x64
+OctopathBossRandomizer/working/Engine
+OctopathBossRandomizer/working/BossRandomizer
+OctopathBossRandomizer/working/log.txt
+OctopathBossRandomizer/working/config.txt
+OctopathBossRandomizer/working/Octopath_Traveler/Content/Event/json/*
+OctopathBossRandomizer/working/Octopath_Traveler/Content/Character/Database/EnemyDB.uexp
+OctopathBossRandomizer/working/Octopath_Traveler/Content/UI/Title/BP/Scene/TitlePlayerSelect.uasset
+OctopathBossRandomizer/working/Octopath_Traveler/Content/UI/Title/BP/Scene/Parts/ItemPlayerSelect.uasset
+OctopathBossRandomizer/working/Octopath_Traveler/Content/Battle/Database/EnemyGroupData.uexp

@@ -1,0 +1,372 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SMALLICON           ICON                    "small_icon.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAIN MENU
+BEGIN
+    MENUITEM "About",                       IDR_ABOUT
+    MENUITEM "Help",                        IDR_HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FORCEBOSS DIALOGEX 0, 0, 477, 113
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,213,90,50,14
+    COMBOBOX        IDC_COMBOTIER1,66,12,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER2,66,30,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER3,66,48,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER4,66,66,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER5,300,12,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOTIER6,300,30,24,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Force at least one phase of Galdera in final fight",IDC_FORCEGALDERA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,246,50,216,10
+    LTEXT           "Force at least",IDC_STATIC,18,14,48,8
+    LTEXT           "Force at least",IDC_STATIC,18,50,48,8
+    LTEXT           "Force at least",IDC_STATIC,18,32,48,8
+    LTEXT           "Force at least",IDC_STATIC,18,68,48,8
+    LTEXT           "Force at least",IDC_STATIC,246,14,48,8
+    LTEXT           "Force at least",IDC_STATIC,246,32,48,8
+    LTEXT           "Chapter 1 Bosses in Chapter 1 areas.",IDC_STATIC,96,14,122,8
+    LTEXT           "Chapter 2 Bosses in Chapter 2 areas.",IDC_STATIC,96,32,122,8
+    LTEXT           "Chapter 3 Bosses in Chapter 3 areas.",IDC_STATIC,96,50,122,8
+    LTEXT           "Chapter 4 Bosses in Chapter 4 areas.",IDC_STATIC,96,68,122,8
+    LTEXT           "Shrine Bosses in Shrines Areas.",IDC_STATIC,330,14,106,8
+    LTEXT           "Gate of Finis Bosses in the Gate of Finis.",IDC_STATIC,330,32,132,8
+END
+
+IDD_CONFIGSYNC DIALOGEX 0, 0, 309, 119
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Config Sync"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,18,96,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,240,96,50,14
+    LTEXT           "This is for syncing configs across multiple boss randomizers",IDC_STATIC,56,12,196,8
+    LTEXT           "To Distribute: Copy the config sync string below and paste it somewhere for others",IDC_STATIC,20,24,269,8
+    LTEXT           "To Sync: Take the config sync string from another's randomizer, and paste it below",IDC_STATIC,21,36,267,8
+    EDITTEXT        IDC_CONFIGSYNCEDIT,18,66,270,14,ES_AUTOHSCROLL
+    LTEXT           "Config Sync:",IDC_STATIC,18,54,42,8
+    LTEXT           "Malformed Config Sync String, Please try again.",IDC_CONFIGERROR,77,84,154,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_FORCEBOSS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 470
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 106
+    END
+
+    IDD_CONFIGSYNC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 112
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_FORCEBOSS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CONFIGSYNC AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_FORCEBOSS DLGINIT
+BEGIN
+    IDC_COMBOTIER1, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_COMBOTIER1, 0x403, 3, 0
+0x3120, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    APP_NAME                "Octopath Boss Randomizer"
+    APP_CLASS               "Octopath Boss Randomizer"
+    VERSION                 "V3.0"
+    EDITBOX                 "Box for Editing Pak Dir"
+    FILEBUTTON              "Button for getting Pak Dir"
+    RANDOMIZEBUTTON         "Button for starting randomization"
+    SEEDBOX                 "Box for editing seed"
+    CONFIGSYNC              "Button for config sync"
+    MAINBOSSOPTIONS         "Boss Options"
+    SIDEBOSSOPTIONS         "Side Boss Options"
+    SCALINGOPTIONS          "Scaling Options"
+    TABMENU                 "Tab Menu "
+    DESCRIPTIONSTRING       "String for Description"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_MIXTEXT            "String for mix text"
+    MAIN_DEFAULTMIX         "Button for default mix"
+    MAIN_MIX24              "Button for mixing chapter 2-4"
+    MAIN_MIX14              "Button for mixing chapters 1-4"
+    MAIN_SHRINETEXT         "String for Shrine Randomization"
+    MAIN_NOSHRINE           "Button for no Shrine Randomization"
+    MAIN_RANDOMSHRINE       "Button for Shrine Randomization"
+    MAIN_INCLUDESHRINE      "Button for Include Shrine"
+    MAIN_GATETEXT           "String for Gate Randomization"
+    MAIN_NOGATE             "Button for no Gate Randomization"
+    MAIN_RANDOMGATE         "Button for Gate Randomization"
+    MAIN_INCLUDEGATE        "Button for Include Gate"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_GALDERATEXT        "String for Galdera Randomization"
+    MAIN_NOGALDERA          "Button for No Galdera Randomizaiton"
+    MAIN_INCLUDEGALDERA     "Button for Include Galdera"
+    MAIN_DUPLICATETEXT      "String for duplicate options"
+    MAIN_NODUPLICATE        "Button for No Duplicates"
+    MAIN_ALLOWDUPLICATE     "Button for Allow Duplicates"
+    MAIN_WINTEXT            "String for Win Condition"
+    MAIN_PCWIN              "Button for PC win"
+    MAIN_GALDERAWIN         "Button for Galdera win"
+    MAIN_SPECIALTEXT        "String for Special Options"
+    MAIN_FULLRANDOM         "Button for full random"
+    MAIN_SOLORANDOM         "Button for solo random"
+    MAIN_FORCEBOSS          "Button for force boss"
+    MAIN_FORCEBOSSOPTION    "Button for force boss options"
+    MAIN_FORCEPCTEXT        "String for force PC options"
+    MAIN_NOFORCEPC          "Button for no force PC"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_FORCEPC            "Button for force PC"
+    MAIN_SPECIFICPC         "Button for force specific PC"
+    MAIN_SPECIFICPCOPTION   "Button for force specific pc options"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_DEFAULTMIXSTRING   "String for default mix option"
+    MAIN_MIX24STRING        "String for Chapter 2-4"
+    MAIN_MIX14STRING        "String for Chapter 1-4 mix"
+    MAIN_NOSHRINESTRING     "String for no shrine randomizaiton"
+    MAIN_RANDOMSHRINESTRING "String for shrine randomization"
+    MAIN_INCLUDESHRINESTRING "String for include shrine"
+    MAIN_NOGATESTRING       "String for no gate randomization"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_RANDOMGATESTRING   "String for gate randomization"
+    MAIN_INCLUDEGATESTRING  "String for include gate"
+    MAIN_NOGALDERASTRING    "String for no galdera include"
+    MAIN_INCLUDEGALDERASTRING "String for galdera randomization"
+    MAIN_NODUPLICATESTRING  "String for no duplicate"
+    MAIN_ALLOWDUPLICATESTRING "String for allow duplicate"
+    MAIN_PCWINSTRING        "String for pc win"
+    MAIN_GALDERAWINSTRING   "String for galdera win"
+    MAIN_NOFULLRANDOMSTRING "String for no full random"
+    MAIN_FULLRANDOMSTRING   "String for full random"
+    MAIN_NOSOLORANDOMSTRING "String for no solo random"
+    MAIN_SOLORANDOMSTRING   "String for solo random"
+    MAIN_NOFORCESTRING      "String for no boss forcing"
+END
+
+STRINGTABLE
+BEGIN
+    MAIN_FORCESTRING        "String for boss forcing"
+    MAIN_NOFORCEPCSTRING    "String for no force pc"
+    MAIN_FORCERANDOMPCSTRING "String for force random pc"
+    MAIN_FORCESPECIFICPCSTRING "String for force specific pc"
+END
+
+STRINGTABLE
+BEGIN
+    SIDE_ENABLE             "Button for enable sideboss"
+    SIDE_RINGOPTIONS        "String for Sideboss Ring Options"
+    SIDE_NORING             "Button for no sideboss randomization"
+    SIDE_SAMERING           "Button for same sideboss rings"
+    SIDE_MIXRING            "Button for mixed sideboss rings"
+    SIDE_MIXBOSS            "Button for mixed sideboss/boss"
+    SIDE_PREBOSSOPTIONS     "String for preboss encounter options"
+END
+
+STRINGTABLE
+BEGIN
+    SIDE_NOPREBOSS          "Button for no preboss randomizaiton"
+    SIDE_PREBOSSRANDO       "Button for preboss randomization"
+    SIDE_PREBOSSMIX         "Button for preboss/boss mixing"
+    SIDE_BOSSCHANCETEXT     "String for sideboss replacement chance"
+    SIDE_BOSSCHANCE         "Slider for sideboss replacement chance"
+    SIDE_BOSSCHANCERANGE    "String for range of sideboss replacement chance"
+    SIDE_PREBOSSCHANCETEXT  "String for sideboss replacement chance"
+    SIDE_PREBOSSCHANCE      "Slider for preboss encounter replacment chance"
+    SIDE_PREBOSSCHANCERANGE "String for range of preboss replacement chance"
+END
+
+STRINGTABLE
+BEGIN
+    SIDE_NOENABLESTRING     "String for no sideboss randomization"
+    SIDE_ENABLESTRING       "String for sideboss randomization"
+    SIDE_NORINGSTRINg       "String for no sideboss randomization"
+    SIDE_SAMERINGSTRING     "String for same ring sideboss randomization"
+    SIDE_MIXRINGSTRING      "String for mix ring sideboss randomization"
+END
+
+STRINGTABLE
+BEGIN
+    SIDE_MIXBOSSSTRING      "String for mix sideboss/boss randomization"
+    SIDE_NOPREBOSSSTRING    "String for no preboss randomization"
+    SIDE_PREBOSSRANDOSTRING "String for preboss randomization"
+    SIDE_PREBOSSMIXSTRING   "String for preboss/boss mixing"
+    SIDE_BOSSCHANCESTRING   "String for sideboss replacment chance"
+    SIDE_PREBOSSCHANCESTRING "String for preboss replacement chance"
+END
+
+STRINGTABLE
+BEGIN
+    SCALE_ENABLE            "Button for Scaling options enablement"
+    SCALE_HARDMODE          "Button for Melodia's Hardmode Option"
+    SCALE_RANDOTEXT         "Text for boss stat scaling"
+END
+
+STRINGTABLE
+BEGIN
+    SCALE_RANDO             "Slider for scaling percent"
+    SCALE_RANDOBOX          "String Box for scaling percent"
+    SCALE_RANDORANGE        "String for range of boss stat randomization"
+    SCALE_EXPTEXT           "Text for EXP scaling Slider"
+    SCALE_EXP               "Slider for EXP scaling"
+    SCALE_EXPBOX            "String Box for EXP Scaling"
+    SCALE_EXPRANGE          "String for range of exp multiplication"
+    SCALE_JPTEXT            "Text for JP scaling slider"
+    SCALE_JP                "Slider for JP Scaling"
+    SCALE_JPBOX             "String Box for JP Scaling"
+    SCALE_JPRANGE           "String for range of jp multiplication"
+END
+
+STRINGTABLE
+BEGIN
+    SCALE_NOENABLESTRING    "String for no scaling "
+END
+
+STRINGTABLE
+BEGIN
+    SCALE_ENABLESTRING      "String for scaling"
+    SCALE_NOHARDMODESTRING  "String for no hardmode scaling"
+    SCALE_HARDMODESTRING    "String for hardmode scaling"
+    SCALE_RANDOSTRING       "String for stat randomization"
+    SCALE_EXPSTRING         "String for exp scaling option"
+    SCALE_JPSTRING          "String for jp scaling option"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

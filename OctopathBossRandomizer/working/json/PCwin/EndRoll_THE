@@ -1,0 +1,6 @@
+{
+"0":{"cmd":520,"target":3,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
+,"1":{"cmd":521,"target":3,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
+,"2":{"cmd":1000,"target":-1,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":["SC_MS_THE_030900"]}
+,"3":{"cmd":10000,"target":0,"pos":"X=0.0,Y=0.0,Z=0.0","dir":-1,"text":"","async":"0","opt":[""]}
+}
