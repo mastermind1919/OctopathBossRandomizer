@@ -183,7 +183,7 @@ STRINGTABLE
 BEGIN
     APP_NAME                "Octopath Boss Randomizer"
     APP_CLASS               "Octopath Boss Randomizer"
-    VERSION                 "V3.0"
+    VERSION                 "V3.1"
     EDITBOX                 "Box for Editing Pak Dir"
     FILEBUTTON              "Button for getting Pak Dir"
     RANDOMIZEBUTTON         "Button for starting randomization"
@@ -303,7 +303,7 @@ STRINGTABLE
 BEGIN
     SIDE_NOENABLESTRING     "String for no sideboss randomization"
     SIDE_ENABLESTRING       "String for sideboss randomization"
-    SIDE_NORINGSTRINg       "String for no sideboss randomization"
+    253                     "String for no sideboss randomization"
     SIDE_SAMERINGSTRING     "String for same ring sideboss randomization"
     SIDE_MIXRINGSTRING      "String for mix ring sideboss randomization"
 END

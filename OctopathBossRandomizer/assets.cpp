@@ -877,10 +877,10 @@ bool randomToAssetFile(vectorvector inputVector) {
 	bossToFile[62] = 74; // Jotunn
 	bossToFile[66] = 75; // Leviathan
 	bossToFile[67] = 76; // Giant Python
-	bossToFile[73] = 77; // Devourer of Men
+	bossToFile[74] = 77; // Devourer of Men
 	bossToFile[75] = 78; // Managarmr
 	bossToFile[69] = 80; // Azure-eyed Tiger
-	bossToFile[74] = 81; // Devourer of Dreams
+	bossToFile[73] = 81; // Devourer of Dreams
 	bossToFile[70] = 83; // Lord of the Sands
 	bossToFile[68] = 84; // Dreadwolf
 	bossToFile[65] = 85; // Behemoth
@@ -1344,7 +1344,7 @@ bool randomStatsToAssets(std::mt19937 &rng, intvector configs) {
 	hexFiles[131] = 0x13BC08; // Managarmr EVE_EXT_006_101
 	hexFiles[132] = 0x13C555; // Direwolf EVE_EXT_006_102
 	hexFiles[133] = 0x13E13C; // Azure-eyed Tiger EVE_SUB_002_101
-	hexFiles[134] = 0x9B1A; // Devourer of Dreams ENE_Mou_N_019
+	hexFiles[134] = 0x9B1A; // Devourer of Dream ENE_Mou_N_019
 	hexFiles[135] = 0x2B4C9; // Lord of the Sands ENE_Des_N_019
 	hexFiles[136] = 0x42151; // Dreadwolf ENE_Sno_N_019
 	hexFiles[137] = 0x584BC; // Behemoth ENE_Pla_N_019

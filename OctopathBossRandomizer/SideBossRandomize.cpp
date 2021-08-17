@@ -218,47 +218,41 @@ vectorvector uniformSideInsertRandomize(std::mt19937 &rng, intvector configs, ve
 			}
 		}
 		else {
+			intvector excludeCheck;
+			int ranboss;
 			for (int i = 0; i < 4; i++) {
 				std::uniform_int_distribution<std::mt19937::result_type> sideMix(sideBosses[0], sideBosses[3]);
-				intvector excludeCheck;
-				int ranboss;
 				do {
 					ranboss = sideMix(rng);
 				} while (!excludeCheck.empty() && !std::none_of(excludeCheck.begin(), excludeCheck.end(), compare(ranboss)));
-				SideBosses[0].push_back(sideMix(rng));
+				SideBosses[0].push_back(ranboss);
 				excludeCheck.push_back(ranboss);
 				excludeSide.push_back(ranboss);
 			}
 			for (int i = 4; i < 8; i++) {
 				std::uniform_int_distribution<std::mt19937::result_type> sideMix(sideBosses[4], sideBosses[7]);
-				intvector excludeCheck;
-				int ranboss;
 				do {
 					ranboss = sideMix(rng);
 				} while (!excludeCheck.empty() && !std::none_of(excludeCheck.begin(), excludeCheck.end(), compare(ranboss)));
-				SideBosses[1].push_back(sideMix(rng));
+				SideBosses[1].push_back(ranboss);
 				excludeCheck.push_back(ranboss);
 				excludeSide.push_back(ranboss);
 			}
 			for (int i = 8; i < 14; i++) {
 				std::uniform_int_distribution<std::mt19937::result_type> sideMix(sideBosses[8], sideBosses[13]);
-				intvector excludeCheck;
-				int ranboss;
 				do {
 					ranboss = sideMix(rng);
 				} while (!excludeCheck.empty() && !std::none_of(excludeCheck.begin(), excludeCheck.end(), compare(ranboss)));
-				SideBosses[2].push_back(sideMix(rng));
+				SideBosses[2].push_back(ranboss);
 				excludeCheck.push_back(ranboss);
 				excludeSide.push_back(ranboss);
 			}
 			for (int i = 14; i < 16; i++) {
 				std::uniform_int_distribution<std::mt19937::result_type> sideMix(sideBosses[14], sideBosses[15]);
-				intvector excludeCheck;
-				int ranboss;
 				do {
 					ranboss = sideMix(rng);
 				} while (!excludeCheck.empty() && !std::none_of(excludeCheck.begin(), excludeCheck.end(), compare(ranboss)));
-				SideBosses[3].push_back(sideMix(rng));
+				SideBosses[3].push_back(ranboss);
 				excludeCheck.push_back(ranboss);
 				excludeSide.push_back(ranboss);
 			}
