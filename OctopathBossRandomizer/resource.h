@@ -96,9 +96,6 @@
 #define SIDE_ENABLESTRING               252
 #define SIDE_NORINGSTRINg               253
 #define SIDE_NORINGSTRING               253
-#define SIDE_NORINGSTRINg               253
-#define SIDE_NORINGSTRING               253
-#define SIDE_NORINGSTRINg               253
 #define SIDE_SAMERINGSTRING             254
 #define SIDE_MIXRINGSTRING              255
 #define SIDE_MIXBOSSSTRING              256
@@ -121,6 +118,7 @@
 #define SCALE_JP                        312
 #define SCALE_JPBOX                     313
 #define SCALE_JPRANGE                   314
+#define SCALE_BOSSLOC                   315
 #define SCALE_NOENABLESTRING            351
 #define SCALE_ENABLESTRING              352
 #define SCALE_NOHARDMODESTRING          353
@@ -128,6 +126,8 @@
 #define SCALE_RANDOSTRING               355
 #define SCALE_EXPSTRING                 356
 #define SCALE_JPSTRING                  357
+#define SCALE_NOBOSSLOCSTRING           358
+#define SCALE_BOSSLOCSTRING             359
 #define IDC_COMBOTIER1                  1001
 #define IDC_COMBOTIER2                  1002
 #define IDC_COMBOTIER3                  1003
@@ -146,7 +146,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        141
+#define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         40005
 #define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           101

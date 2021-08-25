@@ -465,8 +465,8 @@ void startSolo(int soloCharacter, intvector configs);
 
 // Uniform randomizer for the bosses
 vectorvector uniformBossRandomize(mt19937 &rng, intvector configs) {
-	// Check that config input is 26 long
-	if (configs.size() <= 26) {
+	// Check that config input is 27 long
+	if (configs.size() <= 27) {
 		std::cerr << "UniformBossRandomize: Configs input is too short.";
 	}
 

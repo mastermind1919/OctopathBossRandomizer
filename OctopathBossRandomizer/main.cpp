@@ -28,7 +28,7 @@
 #include <sstream>
 
 // Global Variables for dialog boxes
-intvector configs(26);
+intvector configs(27);
 // Global variable for HWND 
 std::vector<HWND> OctoBoss;
 std::vector<HWND> MainBossContents(100);
@@ -403,7 +403,8 @@ void configParser(std::string input, std::wstring* pakPathPointer) {
 				maxValues[17] = 7;
 				maxValues[18] = 3;
 				maxValues[19] = 2;
-				maxValues[20] = 1;
+				maxValues[22] = 1;
+				maxValues[26] = 1;
 				for (int i = 0; i < 20; i++) {
 					if (_wtoi(std::wstring(1, lines.at(i)).c_str()) > maxValues[i]) {
 						// Set config to max value if input is over it
@@ -414,14 +415,23 @@ void configParser(std::string input, std::wstring* pakPathPointer) {
 						configs[i] = _wtoi(std::wstring(1, lines.at(i)).c_str());
 					}
 				}
-				// for lone hardmode scaling option
-				if (_wtoi(std::wstring(1, lines.at(29)).c_str()) > maxValues[20]) {
+				// for hardmode scaling option
+				if (_wtoi(std::wstring(1, lines.at(29)).c_str()) > maxValues[22]) {
 					// Set config to max value if input is over it
-					configs[22] = maxValues[20];
+					configs[22] = maxValues[22];
 				}
 				else {
 					// Set config to whatever the input value is
 					configs[22] = _wtoi(std::wstring(1, lines.at(29)).c_str());
+				}
+				// for lone hardmode scaling option
+				if (_wtoi(std::wstring(1, lines.at(41)).c_str()) > maxValues[26]) {
+					// Set config to max value if input is over it
+					configs[26] = maxValues[26];
+				}
+				else {
+					// Set config to whatever the input value is
+					configs[26] = _wtoi(std::wstring(1, lines.at(41)).c_str());
 				}
 				SendMessage(SideBossContents[SIDE_BOSSCHANCE - 200], WM_SETTEXT, 0, (LPARAM)unpadZero(lines.at(21), lines.at(22), lines.at(23)).c_str());
 				SendMessage(SideBossContents[SIDE_PREBOSSCHANCE - 200], WM_SETTEXT, 0, (LPARAM)unpadZero(lines.at(25), lines.at(26), lines.at(27)).c_str());
@@ -460,6 +470,7 @@ void configParser(std::string input, std::wstring* pakPathPointer) {
 		configs[18] = 0;
 		configs[19] = 0;
 		configs[22] = 0;
+		configs[26] = 0;
 
 		SendMessage(SideBossContents[SIDE_BOSSCHANCE - 200], WM_SETTEXT, 0, (LPARAM)L"20");
 		SendMessage(SideBossContents[SIDE_PREBOSSCHANCE - 200], WM_SETTEXT, 0, (LPARAM)L"20");
@@ -475,7 +486,7 @@ void configParser(std::string input, std::wstring* pakPathPointer) {
 
 void configWriter(std::string input, intvector configs, wchar_t* pakPath) {
 
-	// Write to config file using the same psuedohashing 
+	// Write to config file
 	std::wstring lines;
 	std::wofstream configFile(input.c_str());
 	// Write a first line for explaining
@@ -497,6 +508,8 @@ void configWriter(std::string input, intvector configs, wchar_t* pakPath) {
 	configFile << zeroPad(configs[24]);
 	configFile << L"|";
 	configFile << zeroPad(configs[25]);
+	configFile << L"|";
+	configFile << configs[26];
 
 	// Pak dir
 	configFile << "\"" << pakPath << "\"" << std::endl;;
@@ -511,127 +524,127 @@ void ApplyStringBox(int tabMenu) {
 		// Mixing Options
 		switch (configs[0]) {
 		case 0:
-			ShowWindow(MainBossContents[51], SW_SHOW);
-			ShowWindow(MainBossContents[52], SW_HIDE);
-			ShowWindow(MainBossContents[53], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_DEFAULTMIXSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_MIX24STRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_MIX14STRING - 100], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(MainBossContents[51], SW_HIDE);
-			ShowWindow(MainBossContents[52], SW_SHOW);
-			ShowWindow(MainBossContents[53], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_DEFAULTMIXSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_MIX24STRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_MIX14STRING - 100], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(MainBossContents[51], SW_HIDE);
-			ShowWindow(MainBossContents[52], SW_HIDE);
-			ShowWindow(MainBossContents[53], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_DEFAULTMIXSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_MIX24STRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_MIX14STRING - 100], SW_SHOW);
 			break;
 		}
 		// Shrine Boss Options
 		switch (configs[1]) {
 		case 0:
-			ShowWindow(MainBossContents[55], SW_SHOW);
-			ShowWindow(MainBossContents[56], SW_HIDE);
-			ShowWindow(MainBossContents[57], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOSHRINESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_RANDOMSHRINESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_INCLUDESHRINESTRING - 100], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(MainBossContents[55], SW_HIDE);
-			ShowWindow(MainBossContents[56], SW_SHOW);
-			ShowWindow(MainBossContents[57], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOSHRINESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_RANDOMSHRINESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_INCLUDESHRINESTRING - 100], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(MainBossContents[55], SW_HIDE);
-			ShowWindow(MainBossContents[56], SW_HIDE);
-			ShowWindow(MainBossContents[57], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOSHRINESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_RANDOMSHRINESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_INCLUDESHRINESTRING - 100], SW_SHOW);
 			break;
 		}
 		// Gate Boss Options
 		switch (configs[2]) {
 		case 0:
-			ShowWindow(MainBossContents[59], SW_SHOW);
-			ShowWindow(MainBossContents[60], SW_HIDE);
-			ShowWindow(MainBossContents[61], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOGATESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_RANDOMGATESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_INCLUDEGATESTRING - 100], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(MainBossContents[59], SW_HIDE);
-			ShowWindow(MainBossContents[60], SW_SHOW);
-			ShowWindow(MainBossContents[61], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOGATESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_RANDOMGATESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_INCLUDEGATESTRING - 100], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(MainBossContents[59], SW_HIDE);
-			ShowWindow(MainBossContents[60], SW_HIDE);
-			ShowWindow(MainBossContents[61], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOGATESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_RANDOMGATESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_INCLUDEGATESTRING - 100], SW_SHOW);
 			break;
 		}
 		// Galdera Options
 		if (configs[3] == 0) {
-			ShowWindow(MainBossContents[63], SW_SHOW);
-			ShowWindow(MainBossContents[64], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOGALDERASTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_INCLUDEGALDERASTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[63], SW_HIDE);
-			ShowWindow(MainBossContents[64], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOGALDERASTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_INCLUDEGALDERASTRING - 100], SW_SHOW);
 		}
 		// Duplicate Options
 		if (configs[4] == 0) {
-			ShowWindow(MainBossContents[66], SW_SHOW);
-			ShowWindow(MainBossContents[67], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NODUPLICATESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_ALLOWDUPLICATESTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[66], SW_HIDE);
-			ShowWindow(MainBossContents[67], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NODUPLICATESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_ALLOWDUPLICATESTRING - 100], SW_SHOW);
 		}
 		// Win Condition
 		if (configs[5] == 0) {
-			ShowWindow(MainBossContents[69], SW_SHOW);
-			ShowWindow(MainBossContents[70], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_PCWINSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_GALDERAWINSTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[69], SW_HIDE);
-			ShowWindow(MainBossContents[70], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_PCWINSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_GALDERAWINSTRING - 100], SW_SHOW);
 		}
 		// Full Random
 		if (configs[6] == 0) {
-			ShowWindow(MainBossContents[71], SW_SHOW);
-			ShowWindow(MainBossContents[72], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOFULLRANDOMSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_FULLRANDOMSTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[71], SW_HIDE);
-			ShowWindow(MainBossContents[72], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOFULLRANDOMSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FULLRANDOMSTRING - 100], SW_SHOW);
 		}
 		// Solo Random
 		if (configs[7] == 0) {
-			ShowWindow(MainBossContents[73], SW_SHOW);
-			ShowWindow(MainBossContents[74], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOSOLORANDOMSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_SOLORANDOMSTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[73], SW_HIDE);
-			ShowWindow(MainBossContents[74], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOSOLORANDOMSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_SOLORANDOMSTRING - 100], SW_SHOW);
 		}
 		// Force Boss Option
 		if (configs[8] == 0) {
-			ShowWindow(MainBossContents[75], SW_SHOW);
-			ShowWindow(MainBossContents[76], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOFORCESTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_FORCESTRING - 100], SW_HIDE);
 		}
 		else {
-			ShowWindow(MainBossContents[75], SW_HIDE);
-			ShowWindow(MainBossContents[76], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOFORCESTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FORCESTRING - 100], SW_SHOW);
 		}
 		// Character Forcing Option
 		switch (configs[9]) {
 		case 0:
-			ShowWindow(MainBossContents[77], SW_SHOW);
-			ShowWindow(MainBossContents[78], SW_HIDE);
-			ShowWindow(MainBossContents[79], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOFORCEPCSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_FORCERANDOMPCSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FORCESPECIFICPCSTRING - 100], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(MainBossContents[77], SW_HIDE);
-			ShowWindow(MainBossContents[78], SW_SHOW);
-			ShowWindow(MainBossContents[79], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_NOFORCEPCSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FORCERANDOMPCSTRING - 100], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_FORCESPECIFICPCSTRING - 100], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(MainBossContents[77], SW_HIDE);
-			ShowWindow(MainBossContents[78], SW_HIDE);
-			ShowWindow(MainBossContents[79], SW_SHOW);
+			ShowWindow(MainBossContents[MAIN_NOFORCEPCSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FORCERANDOMPCSTRING - 100], SW_HIDE);
+			ShowWindow(MainBossContents[MAIN_FORCESPECIFICPCSTRING - 100], SW_SHOW);
 			break;
 		}
 		break;
@@ -639,67 +652,76 @@ void ApplyStringBox(int tabMenu) {
 		// Side Boss Randomization Options
 		switch (configs[18]) {
 		case 0:
-			ShowWindow(SideBossContents[53], SW_SHOW);
-			ShowWindow(SideBossContents[54], SW_HIDE);
-			ShowWindow(SideBossContents[55], SW_HIDE);
-			ShowWindow(SideBossContents[56], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_NORINGSTRING - 200], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_SAMERINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXRINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXBOSSSTRING - 200], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(SideBossContents[53], SW_HIDE);
-			ShowWindow(SideBossContents[54], SW_SHOW);
-			ShowWindow(SideBossContents[55], SW_HIDE);
-			ShowWindow(SideBossContents[56], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_NORINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_SAMERINGSTRING - 200], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_MIXRINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXBOSSSTRING - 200], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(SideBossContents[53], SW_HIDE);
-			ShowWindow(SideBossContents[54], SW_HIDE);
-			ShowWindow(SideBossContents[55], SW_SHOW);
-			ShowWindow(SideBossContents[56], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_NORINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_SAMERINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXRINGSTRING - 200], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_MIXBOSSSTRING - 200], SW_HIDE);
 			break;
 		case 3:
-			ShowWindow(SideBossContents[53], SW_HIDE);
-			ShowWindow(SideBossContents[54], SW_HIDE);
-			ShowWindow(SideBossContents[55], SW_HIDE);
-			ShowWindow(SideBossContents[56], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_NORINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_SAMERINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXRINGSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_MIXBOSSSTRING - 200], SW_SHOW);
 			break;
 		}
 		// Pre Boss Encounters
 		switch (configs[19]) {
 		case 0:
-			ShowWindow(SideBossContents[57], SW_SHOW);
-			ShowWindow(SideBossContents[58], SW_HIDE);
-			ShowWindow(SideBossContents[59], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_NOPREBOSSSTRING - 200], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_PREBOSSRANDOSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_PREBOSSMIXSTRING - 200], SW_HIDE);
 			break;
 		case 1:
-			ShowWindow(SideBossContents[57], SW_HIDE);
-			ShowWindow(SideBossContents[58], SW_SHOW);
-			ShowWindow(SideBossContents[59], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_NOPREBOSSSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_PREBOSSRANDOSTRING - 200], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_PREBOSSMIXSTRING - 200], SW_HIDE);
 			break;
 		case 2:
-			ShowWindow(SideBossContents[57], SW_HIDE);
-			ShowWindow(SideBossContents[58], SW_HIDE);
-			ShowWindow(SideBossContents[59], SW_SHOW);
+			ShowWindow(SideBossContents[SIDE_NOPREBOSSSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_PREBOSSRANDOSTRING - 200], SW_HIDE);
+			ShowWindow(SideBossContents[SIDE_PREBOSSMIXSTRING - 200], SW_SHOW);
 			break;
 		}
 		// Just show the other strings
-		ShowWindow(SideBossContents[60], SW_SHOW);
-		ShowWindow(SideBossContents[61], SW_SHOW);
+		ShowWindow(SideBossContents[SIDE_BOSSCHANCESTRING - 200], SW_SHOW);
+		ShowWindow(SideBossContents[SIDE_PREBOSSCHANCESTRING - 200], SW_SHOW);
 		break;
 		// Scaling Options
 	case 2:
 		// Hardmode Enabler
 		if (configs[22] == 0) {
-			ShowWindow(ScalingContents[53], SW_SHOW);
-			ShowWindow(ScalingContents[54], SW_HIDE);
+			ShowWindow(ScalingContents[SCALE_NOHARDMODESTRING - 300], SW_SHOW);
+			ShowWindow(ScalingContents[SCALE_HARDMODESTRING - 300], SW_HIDE);
 		}
 		else {
-			ShowWindow(ScalingContents[53], SW_HIDE);
-			ShowWindow(ScalingContents[54], SW_SHOW);
+			ShowWindow(ScalingContents[SCALE_NOHARDMODESTRING - 300], SW_HIDE);
+			ShowWindow(ScalingContents[SCALE_HARDMODESTRING - 300], SW_SHOW);
+		}
+		// Boss scaling by location
+		if (configs[26] == 0) {
+			ShowWindow(ScalingContents[SCALE_NOBOSSLOCSTRING - 300], SW_SHOW);
+			ShowWindow(ScalingContents[SCALE_BOSSLOCSTRING - 300], SW_HIDE);
+		}
+		else {
+			ShowWindow(ScalingContents[SCALE_NOBOSSLOCSTRING - 300], SW_HIDE);
+			ShowWindow(ScalingContents[SCALE_BOSSLOCSTRING - 300], SW_SHOW);
 		}
 		// Just show the rest of the strings
-		ShowWindow(ScalingContents[55], SW_SHOW);
-		ShowWindow(ScalingContents[56], SW_SHOW);
-		ShowWindow(ScalingContents[57], SW_SHOW);
+		ShowWindow(ScalingContents[SCALE_RANDOSTRING - 300], SW_SHOW);
+		ShowWindow(ScalingContents[SCALE_JPSTRING - 300], SW_SHOW);
+		ShowWindow(ScalingContents[SCALE_EXPSTRING - 300], SW_SHOW);
 		break;
 		// Error catcher
 	default:
@@ -733,6 +755,8 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 		editConfigSString << zeroPad(configs[24]);
 		editConfigSString << L"/";
 		editConfigSString << zeroPad(configs[25]);
+		editConfigSString << L"/";
+		editConfigSString << configs[26];
 
 		// Make the edit box reflect the config options
 		std::wstring editConfigString = editConfigSString.str();
@@ -747,8 +771,8 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 			// Check if the input is formatted correctly
 			// First, check the length, which should always be the same
 			LRESULT len = SendMessage(GetDlgItem(hwnd, IDC_CONFIGSYNCEDIT), WM_GETTEXTLENGTH, 0, 0);
-			// If buffer is less than 41, notify user and allow ability to change string
-			if (len <= 41) {
+			// If buffer is less than 43, notify user and allow ability to change string
+			if (len <= 43) {
 				ShowWindow(GetDlgItem(hwnd, IDC_CONFIGERROR), SW_SHOW);
 				break;
 			}
@@ -778,7 +802,8 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 			maxValues[17] = 7;
 			maxValues[18] = 3;
 			maxValues[19] = 2;
-			maxValues[20] = 1;
+			maxValues[22] = 1;
+			maxValues[26] = 1;
 			for (int i = 0; i < 20; i++) {
 				if (_wtoi(std::wstring(1, editInput[i]).c_str()) > maxValues[i]) {
 					// Set config to max value if input is over it
@@ -789,14 +814,23 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 					configs[i] = _wtoi(std::wstring(1, editInput[i]).c_str());
 				}
 			}
-			// for lone hardmode scaling option
-			if (_wtoi(std::wstring(1, editInput[29]).c_str()) > maxValues[20]) {
+			// for hardmode scaling option
+			if (_wtoi(std::wstring(1, editInput[29]).c_str()) > maxValues[22]) {
 				// Set config to max value if input is over it
-				configs[22] = maxValues[20];
+				configs[22] = maxValues[22];
 			}
 			else {
 				// Set config to whatever the input value is
 				configs[22] = _wtoi(std::wstring(1, editInput[29]).c_str());
+			}
+			// for boss location scaling
+			if (_wtoi(std::wstring(1, editInput[43]).c_str()) > maxValues[26]) {
+				// Set config to max value if input is over it
+				configs[26] = maxValues[26];
+			}
+			else {
+				// Set config to whatever the input value is
+				configs[26] = _wtoi(std::wstring(1, editInput[43]).c_str());
 			}
 			// Update the config options by sending push button notifications
 			switch (configs[0]) {
@@ -884,6 +918,9 @@ INT_PTR CALLBACK ConfigDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lP
 			}
 			if ((bool)configs[22] != (bool)SendMessage(ScalingContents[SCALE_HARDMODE - 300], BM_GETCHECK, 0, 0)) {
 				SendMessage(ScalingContents[SCALE_HARDMODE - 300], BM_CLICK, 0, 0);
+			}
+			if ((bool)configs[26] != (bool)SendMessage(ScalingContents[SCALE_BOSSLOC - 300], BM_GETCHECK, 0, 0)) {
+				SendMessage(ScalingContents[SCALE_BOSSLOC - 300], BM_CLICK, 0, 0);
 			}
 			// set the percentage based inputs, WM_SETTEXT triggers bounding via functions
 			SendMessage(SideBossContents[SIDE_BOSSCHANCE - 200], WM_SETTEXT, 0, (LPARAM)unpadZero(editInput[21], editInput[22], editInput[23]).c_str());
@@ -1194,22 +1231,27 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 		// Right side
 		ScalingContents[SCALE_HARDMODE - 300] = createCheckButton(L"Enable Hardmode Scaling", (tabSize.left + 7), (tabSize.top + 27), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_HARDMODE));
-		ScalingContents[SCALE_RANDOTEXT - 300] = createTextString(L"Boss Stat Randomization", (tabSize.left + 7), (tabSize.top + 45), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_RANDOTEXT));
-		ScalingContents[SCALE_RANDOBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 63), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_RANDOBOX));
-		ScalingContents[SCALE_RANDORANGE - 300] = createTextString(L"Range: 0-100%", (tabSize.left + 65), (tabSize.top + 65), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_RANDORANGE));
-		ScalingContents[SCALE_EXPTEXT - 300] = createTextString(L"EXP Multiplier", (tabSize.left + 7), (tabSize.top + 83), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_EXPTEXT));
-		ScalingContents[SCALE_EXPBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 101), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_EXPBOX));
-		ScalingContents[SCALE_EXPRANGE - 300] = createTextString(L"Range: 1-100x", (tabSize.left + 65), (tabSize.top + 103), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_EXPRANGE));
-		ScalingContents[SCALE_JPTEXT - 300] = createTextString(L"JP Multipler", (tabSize.left + 7), (tabSize.top + 121), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_JPTEXT));
-		ScalingContents[SCALE_JPBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 139), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_JPBOX));
-		ScalingContents[SCALE_JPRANGE - 300] = createTextString(L"Range: 1-100x", (tabSize.left + 65), (tabSize.top + 141), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_JPRANGE));
+		ScalingContents[SCALE_BOSSLOC - 300] = createCheckButton(L"Stat Scaling by Location", (tabSize.left + 7), (tabSize.top + 45), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_BOSSLOC));
+		ScalingContents[SCALE_RANDOTEXT - 300] = createTextString(L"Boss Stat Randomization", (tabSize.left + 7), (tabSize.top + 63), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_RANDOTEXT));
+		ScalingContents[SCALE_RANDOBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 81), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_RANDOBOX));
+		ScalingContents[SCALE_RANDORANGE - 300] = createTextString(L"Range: 0-100%", (tabSize.left + 65), (tabSize.top + 81), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_RANDORANGE));
+		ScalingContents[SCALE_EXPTEXT - 300] = createTextString(L"EXP Multiplier", (tabSize.left + 7), (tabSize.top + 101), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_EXPTEXT));
+		ScalingContents[SCALE_EXPBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 119), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_EXPBOX));
+		ScalingContents[SCALE_EXPRANGE - 300] = createTextString(L"Range: 1-100x", (tabSize.left + 65), (tabSize.top + 121), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_EXPRANGE));
+		ScalingContents[SCALE_JPTEXT - 300] = createTextString(L"JP Multipler", (tabSize.left + 7), (tabSize.top + 139), 170, 15, hwnd, MAKEINTRESOURCE(SCALE_JPTEXT));
+		ScalingContents[SCALE_JPBOX - 300] = createEditBox(L"", (tabSize.left + 12), (tabSize.top + 157), 50, 17, hwnd, MAKEINTRESOURCE(SCALE_JPBOX));
+		ScalingContents[SCALE_JPRANGE - 300] = createTextString(L"Range: 1-100x", (tabSize.left + 65), (tabSize.top + 159), 100, 15, hwnd, MAKEINTRESOURCE(SCALE_JPRANGE));
+
 
 		// Description Box
 		ScalingContents[SCALE_NOHARDMODESTRING - 300] = createTextString(L"- Hardmode Boss Scaling is disabled.", (rectangle.left + 5), (rectangle.top + 23), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_NOHARDMODESTRING));
 		ScalingContents[SCALE_HARDMODESTRING - 300] = createTextString(L"- Applies Melodia's hardmode for compatibility reasons. \r  Adds a 1.35x multiplier to HP among other attributes.", (rectangle.left + 5), (rectangle.top + 23), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_HARDMODESTRING));
-		ScalingContents[SCALE_RANDOSTRING - 300] = createTextString(L"- Randomizes each boss stat by up to +/- X%.\r  Can result in some crazy boss fights", (rectangle.left + 5), (rectangle.top + 56), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_RANDOSTRING));
-		ScalingContents[SCALE_EXPSTRING - 300] = createTextString(L"- Multiply the EXP rewards from bosses by X amount.", (rectangle.left + 5), (rectangle.top + 89), ((rectangle.right - 5) - (rectangle.left + 5)), 15, hwnd, MAKEINTRESOURCE(SCALE_EXPSTRING));
-		ScalingContents[SCALE_JPSTRING - 300] = createTextString(L"- Multiply the JP rewards from bosses by X amount.", (rectangle.left + 5), (rectangle.top + 107), ((rectangle.right - 5) - (rectangle.left + 5)), 15, hwnd, MAKEINTRESOURCE(SCALE_JPSTRING));
+		ScalingContents[SCALE_NOBOSSLOCSTRING - 300] = createTextString(L"- Do not scale boss stats based on chapter location.", (rectangle.left + 5), (rectangle.top + 56), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_NOBOSSLOCSTRING));
+		ScalingContents[SCALE_BOSSLOCSTRING - 300] = createTextString(L"- Scale boss stats based on boss location. For example: a\r  Chapter 4 boss in a Chapter 1 area will have Chapter 1 stats.", (rectangle.left + 5), (rectangle.top + 56), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_BOSSLOCSTRING));
+		ScalingContents[SCALE_RANDOSTRING - 300] = createTextString(L"- Randomizes each boss stat by up to +/- X%.\r  Can result in some crazy boss fights", (rectangle.left + 5), (rectangle.top + 89), ((rectangle.right - 5) - (rectangle.left + 5)), 30, hwnd, MAKEINTRESOURCE(SCALE_RANDOSTRING));
+		ScalingContents[SCALE_EXPSTRING - 300] = createTextString(L"- Multiply the EXP rewards from bosses by X amount.", (rectangle.left + 5), (rectangle.top + 122), ((rectangle.right - 5) - (rectangle.left + 5)), 15, hwnd, MAKEINTRESOURCE(SCALE_EXPSTRING));
+		ScalingContents[SCALE_JPSTRING - 300] = createTextString(L"- Multiply the JP rewards from bosses by X amount.", (rectangle.left + 5), (rectangle.top + 140), ((rectangle.right - 5) - (rectangle.left + 5)), 15, hwnd, MAKEINTRESOURCE(SCALE_JPSTRING));
+
 
 		// Hide all scaling options
 		for (int i = 0; i < 100; i++) {
@@ -1307,6 +1349,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		}
 		if ((bool)configs[22] != (bool)SendMessage(ScalingContents[SCALE_HARDMODE - 300], BM_GETCHECK, 0, 0)) {
 			SendMessage(ScalingContents[SCALE_HARDMODE - 300], BM_CLICK, 0, 0);
+		}
+		if ((bool)configs[26] != (bool)SendMessage(ScalingContents[SCALE_BOSSLOC - 300], BM_GETCHECK, 0, 0)) {
+			SendMessage(ScalingContents[SCALE_BOSSLOC - 300], BM_CLICK, 0, 0);
+		}
+		// Hide options selected by previous statements
+		for (int i = 50; i < 100; i++) {
+			ShowWindow(SideBossContents[i], SW_HIDE);
+			ShowWindow(ScalingContents[i], SW_HIDE);
 		}
 		ApplyStringBox(0);
 
@@ -1974,6 +2024,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 					ShowWindow(ScalingContents[SCALE_NOHARDMODESTRING - 300], SW_HIDE);
 					ShowWindow(ScalingContents[SCALE_HARDMODESTRING - 300], SW_SHOW);
 					configs[22] = 1;
+				}
+			}
+			break;
+		case SCALE_BOSSLOC:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				if ((bool)IsDlgButtonChecked(hwnd, SCALE_BOSSLOC) == true) {
+					CheckDlgButton(hwnd, SCALE_BOSSLOC, BST_UNCHECKED);
+					ShowWindow(ScalingContents[SCALE_NOBOSSLOCSTRING - 300], SW_SHOW);
+					ShowWindow(ScalingContents[SCALE_BOSSLOCSTRING - 300], SW_HIDE);
+					configs[26] = 0;
+
+				}
+				else {
+					CheckDlgButton(hwnd, SCALE_BOSSLOC, BST_CHECKED);
+					ShowWindow(ScalingContents[SCALE_NOBOSSLOCSTRING - 300], SW_HIDE);
+					ShowWindow(ScalingContents[SCALE_BOSSLOCSTRING - 300], SW_SHOW);
+					configs[26] = 1;
 				}
 			}
 			break;

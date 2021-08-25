@@ -303,7 +303,6 @@ STRINGTABLE
 BEGIN
     SIDE_NOENABLESTRING     "String for no sideboss randomization"
     SIDE_ENABLESTRING       "String for sideboss randomization"
-    253                     "String for no sideboss randomization"
     SIDE_SAMERINGSTRING     "String for same ring sideboss randomization"
     SIDE_MIXRINGSTRING      "String for mix ring sideboss randomization"
 END
@@ -338,6 +337,7 @@ BEGIN
     SCALE_JP                "Slider for JP Scaling"
     SCALE_JPBOX             "String Box for JP Scaling"
     SCALE_JPRANGE           "String for range of jp multiplication"
+    SCALE_BOSSLOC           "Button for boss scaling by chapter"
 END
 
 STRINGTABLE
@@ -353,6 +353,8 @@ BEGIN
     SCALE_RANDOSTRING       "String for stat randomization"
     SCALE_EXPSTRING         "String for exp scaling option"
     SCALE_JPSTRING          "String for jp scaling option"
+    SCALE_NOBOSSLOCSTRING   "String for no boss scaling by chapter"
+    SCALE_BOSSLOCSTRING     "String for boss scaling by chapter"
 END
 
 #endif    // English (United States) resources
