@@ -42,3 +42,4 @@ while you're at it! It should be compatable!
 - Enemy Randomizer
 
 ## Known Issues
+- Phase 1 and 2 of Galdera are swapped in the spolier file.
